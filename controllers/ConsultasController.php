@@ -1,0 +1,175 @@
+<?php
+
+require_once './models/ConsultasModel.php';
+require_once './models/RecipeModel.php';
+require_once './models/MedicamentosModel.php';
+
+
+class ConsultasController {
+
+	#estableciendo las vistas
+	public function inicio() {
+
+        require_once('./views/includes/cabecera.php');
+        require_once('./views/paginas/consultas/inicio_consultas.php');
+        require_once('./views/includes/pie.php');
+ 
+        }
+
+
+
+
+public function listarConsultas()
+	{
+
+		// Database connection info 
+		$dbDetails = array(
+			'host' => 'localhost',
+			'user' => 'root',
+			'pass' => '',
+			'db'   => 'medicina'
+		);
+
+		// DB table to use 
+		$table = <<<EOT
+        (
+        SELECT c.id_consulta, c.id_tipo_consulta, c.id_persona, c.fecha_registro, c.edad, t.codigo, t.motivo,  CONCAT(p.tipo_documento, '-', p.n_documento) AS documento, CONCAT(p.nombres, ' ', p.apellidos) AS nombre_apellido  FROM consultas c INNER JOIN tipo_consulta t ON c.id_tipo_consulta = t.id_tipo_consulta INNER JOIN personas p ON c.id_persona = p.id_persona ORDER BY c.id_consulta DESC
+
+        ) temp
+        EOT;
+
+		// Table's primary key 
+		$primaryKey = 'id_consulta';
+
+		// Array of database columns which should be read and sent back to DataTables. 
+		// The `db` parameter represents the column name in the database.  
+		// The `dt` parameter represents the DataTables column identifier. 
+		$columns = array(
+			
+			array('db' => 'documento',      'dt' => 0),
+			array('db' => 'nombre_apellido','dt' => 1),
+			array('db' => 'motivo',  		'dt' => 2),
+			array('db' => 'edad',     		'dt' => 3),
+			array('db' => 'id_consulta', 	'dt' => 4)
+
+		);
+
+		// Include SQL query processing class 
+		require './config/ssp.class.php';
+
+		// Output data as json format 
+		echo json_encode(
+			SSP::simple($_GET, $dbDetails, $table, $primaryKey, $columns)
+		);
+	}
+
+	public function registrarConsulta()
+
+	{
+		session_start();
+
+		$fecha_registro    = date('Y-m-d');
+		$modelRecipe	   = new RecipeModel();
+		$modelMedicamentos = new MedicamentosModel();
+		$modelConsultas    = new ConsultasModel();
+
+		$datos = array(
+						/*datos del recipe*/
+			'instrucciones'       	=> $_POST['instrucciones'],
+			'fecha_registro'  		=> $fecha_registro,
+			'id_usuario'			=> $_SESSION['user_id'],
+		);
+
+		$registro_recipe = $modelRecipe->registrarRecipe($datos);
+
+		$id_recipe = $registro_recipe['ultimo_id'];
+						/*datos intermedia */
+		//REGISTRAR ESTUDIOS
+		$medicamentos = $modelMedicamentos->listarMedicamentosTemporales();
+		foreach($medicamentos as $medicamento)
+		{
+
+			$id_medicamento 	    = $medicamento['id_presentacion_medicamento'];
+			$dosis 	   				= $medicamento['dosis'];
+			$unidad_medida 	   	    = $medicamento['unidad_medida'];
+			$frecuencia 	   	    = $medicamento['frecuencia'];
+			$duracion 	   	    	= $medicamento['duracion'];
+			
+		$datos_intermedia= array(
+			'id_presentacion_medicamento' => $id_medicamento,
+			'id_recipe' 				  => $id_recipe,
+			'dosis' 			  		  => $dosis,
+			'unidad_medida' 			  => $unidad_medida,
+			'frecuencia' 			  	  => $frecuencia ,
+			'duracion' 			  		  => $duracion,
+			'fecha_registro'			  => $fecha_registro
+		);
+		$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);
+	
+		}
+						/*datos de la consulta*/
+		$datos_consulta = array(
+			'id_persona'         	=> $_POST['id_persona'],
+			'edad'    	  			=> $_POST['edad'],
+			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
+			'diagnostico'		    => $_POST['diagnostico'],
+			'fecha_registro'  		=> $fecha_registro,
+			'id_recipe'				=> $id_recipe,
+			'id_usuario'			=> $_SESSION['user_id']
+		);
+		
+		$resultado = $modelConsultas->registrarConsulta($datos_consulta);
+		
+		if ($resultado) {
+			$modelMedicamentos->eliminarMedicamentoTemp();
+			
+			$data = [
+				'data' => [
+					'success'            =>  true,
+					'message'            => 'Guardado exitosamente',
+					'info'               =>  'La consulta ha sido registrada con éxito'
+				],
+				'code' => 1,
+			];
+
+			echo json_encode($data);
+			exit();
+		} else {
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Ocurrió un error al registrar a la consulta',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+
+			echo json_encode($data);
+			exit();
+		}
+	}
+
+	public function selectTipoConsulta()
+	{
+		$modelConsultas = new ConsultasModel();
+		$estados = $modelConsultas->selectTipos();
+		return $estados;
+	}
+
+	public function datosReceta($id_consulta)
+	{
+		$modelRecipe = new RecipeModel();
+		$receta = $modelRecipe->consultarReceta($id_consulta);
+		return $receta;
+	}
+
+
+	#estableciendo la vista del reporte
+	public function imprimirRecipe() {
+
+		require_once('./views/paginas/reportes/recipe.php');
+	}
+
+
+
+}
