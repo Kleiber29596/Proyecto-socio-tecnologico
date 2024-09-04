@@ -121,20 +121,15 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
+
+                        
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step" id="step-2" style="display: none;">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="rango_edad">Especialidad</label>
-                                    <select class="select2-selection--single" name="especialidad" id="especialidad"
-                                        style="width:100%">
-                                        <option value="">Seleccione</option>
-                                        <?php foreach ($especialidades as $especialidad) { ?>
-                                        <option value="<?= $especialidad['id_especialidad'] ?>">
-                                            <?= $especialidad['nombre_especialidad'] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <input class="form-control" type="hidden" id="edad" placeholder="Edad">
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -149,16 +144,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="step" id="step-2" style="display: none;">
-                        <div class="row">
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" id="edad" placeholder="Edad">
-                            </div>
-
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="instrucciones">Diagnóstico</label>

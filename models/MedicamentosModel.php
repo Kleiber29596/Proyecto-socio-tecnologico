@@ -41,7 +41,7 @@ class MedicamentosModel extends ModeloBase {
 /*------------ Método para obtener una Medicamento -------*/
 public function consultarPresentacionMedicamento($id_medicamento) {
 	$db = new ModeloBase();
-	$query = "SELECT  id_presentacion_medicamento, presentacion_medicamentos.id_medicamento, presentacion_medicamentos.id_presentacion, id_codigo_categoria, medicamentos.nombre_medicamento,  presentacion.presentacion FROM presentacion_medicamentos INNER JOIN medicamentos ON  presentacion_medicamentos.id_medicamento = medicamentos.id_medicamento INNER JOIN presentacion ON presentacion_medicamentos.id_presentacion = presentacion.id_presentacion WHERE id_presentacion_medicamento = ".$id_medicamento."";
+	$query = "SELECT pre_me.id_presentacion_medicamento, pre_me.id_medicamento, pre_me.id_presentacion, m.nombre_medicamento,  pre.presentacion, m.codigo, c.categoria  FROM presentacion_medicamentos AS pre_me INNER JOIN  medicamentos AS m ON  pre_me.id_medicamento = m.id_medicamento INNER JOIN presentacion AS pre ON pre_me.id_presentacion = pre.id_presentacion INNER JOIN categoria_medicamento AS c ON m.codigo = c.codigo  WHERE id_presentacion_medicamento = ".$id_medicamento."";
 	$resultado = $db->obtenerTodos($query);
 	return $resultado;
 }
