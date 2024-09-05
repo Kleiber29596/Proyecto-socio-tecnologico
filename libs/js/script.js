@@ -1245,7 +1245,7 @@ $(document).ready(function () {
             row[2] +
             `)"><i class="fas fa-eye"></i></button>&nbsp;
     
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
+                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionMedicamentos(` +
             row[2] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
     
@@ -3309,7 +3309,7 @@ if ((modificar_cita = document.getElementById("modificar_cita"))) {
     })
       .done(function (response) {
         if (response.data.success == true) {
-          document.getElementById("formRegistrarMedicamento").reset();
+          document.getElementById("formRegistrarMedicamentos").reset();
 
           $("#modalAgregarMedicamentos").modal("hide");
 
@@ -3334,6 +3334,37 @@ if ((modificar_cita = document.getElementById("modificar_cita"))) {
         console.log("error");
       });
   }
+
+/*-------------------- Actualizar Medicamentos -------------------*/
+
+
+function listarDatosMedicamento(id) {
+  let id_medicamento = id;
+
+  $.ajax({
+    url: "index.php?page=consultarMedicamento",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_medicamento: id_medicamento,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById('r_medicamento_update').innerHTML = response.data.id_presentacion_medicamento;
+        document.getElementById('presentacion_update').innerHTML  = response.data.id_presentacion;
+
+        $("#modalActualizarMedicamentos").modal("show");
+      } else {
+       
+      }
+    })
+    .fail(function () {
+      console.log("Error en la solicitud AJAX.");
+    });
+}
+
+/*-------------------- Fin de actualizar Medicamentos -------------------*/
 
 
 /* -------------- Agregar recepcion medicamento ------------------ */

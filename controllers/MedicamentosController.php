@@ -61,7 +61,6 @@ class MedicamentosController
 	public function registrarMedicamento()
 
 	{
-		echo "hola";
 		$fecha_registro    = date('Y-m-d');
 		
 		$modelMedicamentos = new MedicamentosModel();
@@ -73,7 +72,7 @@ class MedicamentosController
 			'fecha_registro'	    => $fecha_registro
 		);
 		
-		$resultado = $modelMedicamentos->registrarMedicamento($datos);
+		$resultado = $modelMedicamentos->registrarPresentacionMedicamento($datos);
 		
 		if ($resultado) {
 			
