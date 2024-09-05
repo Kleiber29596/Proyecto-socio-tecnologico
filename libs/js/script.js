@@ -3995,9 +3995,7 @@ function consultarPersona() {
   let n_documento_persona = document.getElementById(
     "n_documento_persona"
   ).value;
-  let tipo_documento_persona = document.getElementById(
-    "tipo_documento_persona"
-  ).value;
+ 
   let contenedor_formulario_persona = document.getElementById(
     "Contenedor_formulario_persona"
   );
@@ -4015,7 +4013,6 @@ function consultarPersona() {
     dataType: "json",
     data: {
       n_documento_persona: n_documento_persona,
-      tipo_documento_persona: tipo_documento_persona,
     },
   })
     .done(function (response) {
@@ -4024,8 +4021,9 @@ function consultarPersona() {
           response.data.n_documento_persona;
         document.getElementById("nombres_apellidos_persona").innerHTML =
           response.data.nombres_persona;
-        document.getElementById("fecha_nac").innerHTML =
-          response.data.fecha_nac_persona;
+        
+        document.getElementById("edad").innerHTML =
+          response.data.edad;
         document.getElementById("sexo_persona").innerHTML =
           response.data.sexo_persona;
         document.getElementById("tlf_persona").innerHTML =
@@ -4088,7 +4086,7 @@ if (document.getElementById("agregar_consulta")) {
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
     console.log(datosMedicamentos);
     const confirmMessage = `
-  <ul>
+  <ul style="text-align: left;">
     <li><strong>Persona:</strong> ${nombre_persona}</li>
     <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
     <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
@@ -4096,7 +4094,7 @@ if (document.getElementById("agregar_consulta")) {
   </ul>
   <br>
   <p><strong>Medicamentos recetados:</strong>
-  <ul>
+  <ul style="text-align: left;">
   ${datosMedicamentos.map(medicamento => {
     return `<li>${medicamento}</li>`;
   }).join('')}
@@ -4161,6 +4159,10 @@ if (document.getElementById("agregar_consulta")) {
     
   }
 }
+
+const frecuenciaInput = document.getElementById('frecuencia');
+
+
 
 /* -------------- Recipes / Consultar Medicamento ------------------ */
 

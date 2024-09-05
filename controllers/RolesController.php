@@ -28,7 +28,7 @@ class RolesController
 			'host' => 'localhost',
 			'user' => 'root',
 			'pass' => '',
-			'db'   => 'jornada_diaria'
+			'db'   => 'medicina'
 		);
 
 

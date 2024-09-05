@@ -67,20 +67,7 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                            <div class="col-sm-2"
-                                style="display: flex; justify-content: flex-start; align-items: flex-end;">
-                                <div class="form-group">
-                                    <label for="tipo_documento_persona">Tipo de documento </label>
-                                    <select class="form-control" name="tipo_documento_persona"
-                                        id="tipo_documento_persona">
-                                        <option value="">Seleccione</option>
-                                        <option value="V">V</option>
-                                        <option value="E">E</option>
-                                        <option value="P">P</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-9">
+                            <div class="col-sm-11">
                                 <div class="form-group">
                                     <label for="n_documento_persona">Número de documento</label>
                                     <input class="form-control" type="text" id="n_documento_persona"
@@ -104,13 +91,13 @@
                                         <tr>
                                             <th>Nº documento</th>
                                             <th>Nombres</th>
-                                            <th>Fecha de Nacimiento</th>
+                                            <th>edad</th>
                                             <th>Sexo</th>
                                             <th>Teléfono</th>
                                             <th>Dirección</th>
                                         </tr>
                                         <tr>
-                                            <td id="n_documento" ></td>
+                                            <td id="n_documento"></td>
                                             <td id="nombres_apellidos_persona"></td>
                                             <td id="fecha_nac"></td>
                                             <td id="sexo_persona"></td>
@@ -122,7 +109,7 @@
                             </div>
                         </div>
 
-                        
+
                     </div>
 
                     <!-- Step 2 -->
@@ -195,20 +182,37 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <label for="frecuencia">Frecuencia</label>
-                                    <input type="text" class="form-control" id="frecuencia" name="frecuencia"
-                                        placeholder="Ingrese la frecuencia">
+
+                            <div class="col-sm-4">
+                                <label for="frecuencia">Frecuencia</label>
+                                <div class="form-group input-horas">
+                                    <input type="number" id="frecuencia" class="form-control" name="frecuencia" min="1"
+                                        step="1" placeholder="ingrese la frecuecia">
+                                    <span>horas</span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="duracion">Duración</label>
-                                    <input type="text" class="form-control" id="duracion" name="duracion"
-                                        placeholder="Ingrese la duración">
+
+                            <div class="col-sm-4">
+                                <label for="duracion">Duración</label>
+                                <div class="form-group input-duracion">
+                                    <input type="number" id="duracion" class="form-control" name="duracion" min="1"
+                                        step="1" placeholder="ingrese la duración">
                                 </div>
                             </div>
+
+                            <div class="col-sm-3">
+                                <label for="duracion"></label>
+                                <div class="form-group input-duracion">
+                                    <select name="unidad_duracion" class="form-control"
+                                        style="width: auto; display: inline-block; margin-left: 10px;">
+                                        <option value="días">Días</option>
+                                        <option value="semanas">Semanas</option>
+                                        <option value="meses">Meses</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
                             <div class="col-sm-1"
                                 style="display: flex; justify-content: flex-start;align-items: flex-end;">
                                 <div class="form-group">

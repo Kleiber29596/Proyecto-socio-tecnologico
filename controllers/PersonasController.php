@@ -359,7 +359,7 @@ public function verDatosPersona()
 		foreach ($listar as $lista) {
 			$id_persona				= $lista['id_persona'];
 			$tipo_documento_persona	= $lista['tipo_documento'];
-			$n_documento_persona 	= $lista['n_documento'];
+			$n_documento_persona 	= $lista['documento'];
 			$nombres_persona 		= $lista['nombres'];
 			$apellidos_persona 		= $lista['apellidos'];
 			$sexo_persona 		    = $lista['sexo'];

@@ -1280,18 +1280,25 @@ line-height: 28px !important;
 
 }
 
-.tbl_personas th {
-  opacity: 0.6; /* El texto será 50% transparente */
-}
+
 .tbl_medicamentos  th {
   opacity: 0.6; /* El texto será 50% transparente */
 }
-.tbl_personas table td {
-  opacity: 0.6; /* El texto será 50% transparente */
-}
-table tr {
-   border: solid 1px#ccc; 
-   padding: 10px;
+
+.input-horas {
+  position: relative;
 }
 
+.input-horas input {
+  padding-right: 50px; /* Espacio para el texto "horas" */
+}
 
+.input-horas span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: #6c757d; /* Color del texto "horas" */
+}

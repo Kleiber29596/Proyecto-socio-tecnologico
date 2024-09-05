@@ -87,7 +87,7 @@ public function listarDatosPersona($id_persona) {
 	/*------------Método para consultar un registro de una persona mediante la cedula --------*/
 public function consultarPersona($n_documento) {
     $db = new ModeloBase();
-    $query = "SELECT id_persona, n_documento, tipo_documento, nombres, apellidos, fecha_nacimiento, sexo, telefono, personas.id_estado, personas.id_municipio, personas.id_parroquia, correo, fecha_registro, estado, municipio, parroquia FROM personas INNER JOIN estados ON personas.id_estado = estados.id_estado INNER JOIN municipios ON personas.id_municipio = municipios.id_municipio INNER JOIN parroquias ON personas.id_parroquia = parroquias.id_parroquia WHERE n_documento = ".$n_documento."";
+    $query = "SELECT id_persona, CONCAT(personas.tipo_documento, '-', personas.n_documento) AS documento, CONCAT(personas.nombres, ' ', personas.apellidos) AS nombres, fecha_nacimiento, sexo, telefono, personas.id_estado, personas.id_municipio, personas.id_parroquia, correo, fecha_registro, estado, municipio, parroquia FROM personas INNER JOIN estados ON personas.id_estado = estados.id_estado INNER JOIN municipios ON personas.id_municipio = municipios.id_municipio INNER JOIN parroquias ON personas.id_parroquia = parroquias.id_parroquia WHERE n_documento = ".$n_documento."";
     $resultado = $db->obtenerTodos($query);
     return $resultado;
 }
