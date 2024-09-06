@@ -122,7 +122,8 @@ class MedicamentosController
 		$dosis 			=  $_POST['dosis'];
 		$unidad_medida 	=  $_POST['unidad_medida'];
 		$frecuencia		=  $_POST['frecuencia'];
-		$duracion 		=  $_POST['duracion'];
+		$cantidad 	   	=  $_POST['cantidad'];
+		$intervalo 	   	=  $_POST['intervalo'];
 
 		$modelMedicamentos  = new MedicamentosModel();
 		$medicamento = $modelMedicamentos->consultarPresentacionMedicamento($id_medicamento);
@@ -153,7 +154,8 @@ class MedicamentosController
 			'dosis' 					  => $dosis,
 			'unidad_medida' 			  => $unidad_medida,
 			'frecuencia'				  => $frecuencia,
-			'duracion'					  => $duracion
+			'cantidad' 			  		  => $cantidad,
+			'intervalo' 			      => $intervalo,
 		);
 
 		if ($medicamento) {
@@ -166,6 +168,11 @@ class MedicamentosController
 					'nombre_medicamento'        =>  $nombre_medicamento,
 					'presentacion'        		=>  $presentacion,
 					'id_medicamento' 			=>  $id_presentacion_medicamento,
+					'dosis'						=>  $dosis,
+					'unidad_medida' 			=>  $unidad_medida,
+			        'frecuencia'				=>  $frecuencia,
+					'cantidad' 			  		=>  $cantidad,
+					'intervalo' 			    =>  $intervalo,
 				],
 				'code' => 0,
 			];

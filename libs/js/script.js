@@ -30,7 +30,7 @@ function obtenerDatosTabla(tabla) {
     datos.push(filaDatos);
   }
 
-  return datos; // Retornamos el array con todos los datos
+  return console.log(datos); // Retornamos el array con todos los datos
 }
 
 /* Loader */
@@ -4090,15 +4090,20 @@ if (document.getElementById("agregar_consulta")) {
     <li><strong>Persona:</strong> ${nombre_persona}</li>
     <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
     <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
-    <li><strong>Instrucciones:</strong> ${instrucciones}</li>
   </ul>
-  <br>
+  
   <p><strong>Medicamentos recetados:</strong>
   <ul style="text-align: left;">
   ${datosMedicamentos.map(medicamento => {
     return `<li>${medicamento}</li>`;
   }).join('')}
-</ul>`;
+</ul>
+
+  <p><strong>Instruciones:</strong>
+<ul>
+ <li>${instrucciones}</li>
+</ul>
+`;
   
 
   
@@ -4174,13 +4179,14 @@ if (agregarMedicamentoButton) {
     function consultarMedicamento()
     {
         
-        let id_medicamento = document.getElementById("medicamento").value;
-        let dosis = document.getElementById("dosis").value;
-        let unidad_medida = document.getElementById("unidad_medida").value;
-        let frecuencia = document.getElementById("frecuencia").value;
-        let duracion = document.getElementById("duracion").value;
-        let contenedor_datos_medicamentos = document.getElementById("contenedor_datos_medicamentos");
-        let multiples_medicamentos = document.getElementById("multiples_medicamentos");
+        let id_medicamento                  = document.getElementById("medicamento").value;
+        let dosis                           = document.getElementById("dosis").value;
+        let unidad_medida                   = document.getElementById("unidad_medida").value;
+        let frecuencia                      = document.getElementById("frecuencia").value;
+        let cantidad                        = document.getElementById("cantidad_duracion").value;
+        let intervalo                       = document.getElementById("intervalo").value;
+        let contenedor_datos_medicamentos   = document.getElementById("contenedor_datos_medicamentos");
+        let multiples_medicamentos          = document.getElementById("multiples_medicamentos");
 
         $.ajax({
             url: "index.php?page=consultarMedicamento",
@@ -4191,7 +4197,8 @@ if (agregarMedicamentoButton) {
                     dosis: dosis,
                     unidad_medida : unidad_medida,
                     frecuencia: frecuencia,
-                    duracion: duracion,
+                    cantidad : cantidad,
+                    intervalo: intervalo,
             }
         })
         .done(function(response) {
@@ -4205,6 +4212,9 @@ if (agregarMedicamentoButton) {
                     text: response.data.info
                 });
 
+                let datos_descripcion = response.data.dosis+" "+response.data.unidad_medida+" cada "+frecuencia+" horas durante "+response.data.cantidad+" "+response.data.intervalo;
+                let descripcion_medicamento = response.data.nombre_medicamento+" en "+response.data.presentacion;
+
                 contador = contador + 1;
 
                 contenedor_datos_medicamentos.removeAttribute('style');
@@ -4213,10 +4223,9 @@ if (agregarMedicamentoButton) {
                 let id_contenedor    = "contenedor_"+contador;
                 let id_accion = "id_accion"+contador;
 
-                let id_medicamento = "id_medicamento_"+contador;
-                let id_nombre = "id_nombre_"+contador;
-                let id_presentacion = "id_presentacion_"+contador;
-                
+                let id_medicamento  = "id_medicamento_"+contador;
+                let id_nombre       = "id_nombre_"+contador;
+                let id_descripcion  = "id_descripcion_"+contador;
 
                 //Contenedor de los estudios
                 var cont_elemento = document.createElement("tr");
@@ -4234,12 +4243,12 @@ if (agregarMedicamentoButton) {
               td_medicamento.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
               cont_elemento.appendChild(td_medicamento);
 
-              //td que almacena el nombre de la presentacion
-              var td_presentacion = document.createElement("td")
-              td_presentacion.setAttribute("id", id_presentacion);
-              td_presentacion.setAttribute("class", 'codigo_contable');
-              td_presentacion.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
-              cont_elemento.appendChild(td_presentacion);
+              //td que almacena la descripcion del tratamiento
+              var td_descripcion = document.createElement("td")
+              td_descripcion.setAttribute("id", id_descripcion);
+              td_descripcion.setAttribute("class", 'codigo_contable');
+              td_descripcion.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
+              cont_elemento.appendChild(td_descripcion);
 
 
 
@@ -4266,9 +4275,8 @@ if (agregarMedicamentoButton) {
                 btn_delete.appendChild(icono_btn_delete);
 
 
-				       document.getElementById(id_nombre).innerHTML = response.data.nombre_medicamento;
-               document.getElementById(id_presentacion).innerHTML = response.data.presentacion;
-
+				       document.getElementById(id_nombre).innerHTML       = descripcion_medicamento;
+               document.getElementById(id_descripcion).innerHTML  = datos_descripcion;
 			
             }
             else
