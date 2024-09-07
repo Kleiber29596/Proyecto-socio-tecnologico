@@ -204,7 +204,7 @@
                                 <label for="duracion"></label>
                                 <div class="form-group input-duracion">
                                     <select name="unidad_duracion" class="form-control"
-                                        style="width: auto; display: inline-block; margin-left: 10px;">
+                                        style="width: 100%; display: inline-block; margin-left: 10px;">
                                         <option value="días">Días</option>
                                         <option value="semanas">Semanas</option>
                                         <option value="meses">Meses</option>
