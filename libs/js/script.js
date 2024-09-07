@@ -43,7 +43,16 @@ $(document).ready(function () {
 });
 
 /* -------------- Modulo Usuario ------------------ */
+/* -------------- Citas / Caledario ------------------ */
 
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth'
+    });
+      calendar.render();
+  });
+  
 /*----------------- Listar Usuarios -------------*/
 $(document).ready(function () {
   $("#tablaUsuario").DataTable({
@@ -263,6 +272,78 @@ $("#formRegistrarUsuario")
       },
     });
   });
+
+  /*------ listar Citas ---------*/
+$(document).ready(function () {
+  $("#tabla_citas").DataTable({
+    order: [[0, "DESC"]],
+    procesing: true,
+    serverSide: true,
+    ajax:"index.php?page=listarCitas",
+    pageLength: 6,
+    createdRow: function (row, data, dataIndex) {
+      if (data[5] == 0) {
+        $(row).addClass("table-danger");
+      } else {
+        //$(row).addClass('table-success');
+      }
+    },
+    columnDefs: [
+      {
+        orderable: false,
+        targets: 5,
+        render: function (data, type, row, meta) {
+          if (row[4] == 1) {
+            let botones =
+              `
+                    <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
+              row[5] +
+              `)"><i class="fas fa-eye"></i></button>&nbsp;
+    
+                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
+              row[5] +
+              `)"><i class="fas fa-edit"></i></button>&nbsp;
+    
+                    `;
+            return botones;
+          } else {
+            let botones =
+              `
+                <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
+              row[5] +
+              `)"><i class="fas fa-eye"></i></button>&nbsp;
+
+               <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
+              row[5] +
+              `)"><i class="fas fa-edit"></i></button>&nbsp; `;
+            return botones;
+          }
+        },
+      },
+    ],
+    dom: "Bfrtip",
+    language: {
+      decimal: "",
+      emptyTable: "No hay información",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+      infoFiltered: "(Filtrado de _MAX_ total entradas)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ Entradas",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "Sin resultados encontrados",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+    },
+  });
+});
 
 /* -------------- Ver Usuario ------------------ */
 function verUsuario(id) {
@@ -1154,77 +1235,7 @@ $(document).ready(function () {
   });
 });
 
-/*------ listar Citas ---------*/
-$(document).ready(function () {
-  $("#tabla_citas").DataTable({
-    order: [[0, "DESC"]],
-    procesing: true,
-    serverSide: true,
-    ajax: "http://127.0.0.1/sigeser/index.php?page=listarCitas",
-    pageLength: 9,
-    createdRow: function (row, data, dataIndex) {
-      if (data[9] == 0) {
-        $(row).addClass("table-danger");
-      } else {
-        //$(row).addClass('table-success');
-      }
-    },
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 10,
-        render: function (data, type, row, meta) {
-          if (row[10] == 1) {
-            let botones =
-              `
-                    <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
-              row[11] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
-    
-                   <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
-              row[11] +
-              `)"><i class="fas fa-edit"></i></button>&nbsp;
-    
-                    `;
-            return botones;
-          } else {
-            let botones =
-              `
-                <button type="button" class="btn btn-primary btn-sm" onclick="listarVer(` +
-              row[11] +
-              `)"><i class="fas fa-eye"></i></button>&nbsp;
 
-               <button type="button" class="btn btn-warning btn-sm"  onclick="listarActualizacionCita(` +
-              row[11] +
-              `)"><i class="fas fa-edit"></i></button>&nbsp; `;
-            return botones;
-          }
-        },
-      },
-    ],
-    dom: "Bfrtip",
-    language: {
-      decimal: "",
-      emptyTable: "No hay información",
-      info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-      infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
-      infoFiltered: "(Filtrado de _MAX_ total entradas)",
-      infoPostFix: "",
-      thousands: ",",
-      lengthMenu: "Mostrar _MENU_ Entradas",
-      loadingRecords: "Cargando...",
-      processing: "Procesando...",
-      search: "Buscar:",
-      zeroRecords: "Sin resultados encontrados",
-      paginate: {
-        first: "Primero",
-        last: "Ultimo",
-        next: "Siguiente",
-        previous: "Anterior",
-      },
-    },
-  });
-});
 
 /*------ listar Medicamentos ---------*/
 $(document).ready(function () {
@@ -4368,9 +4379,9 @@ $('#tipo_consulta').select2({
   dropdownParent: $('#modalAgregarConsulta')
 });
 
-$('#especialidad').select2({
-  dropdownParent: $('#modalAgregarConsulta')
-});
+// $('#especialidad').select2({
+//   dropdownParent: $('#modalAgregarConsulta')
+// });
 
 
 $('#estado').select2({
@@ -4379,6 +4390,371 @@ $('#estado').select2({
 
 
 
+
+
+
+
+$(document).ready(function () {
+  $("#update_especialidad").on("change", function () {
+    $("#update_especialidad option:selected").each(function () {
+      elegido = $(this).val();
+      $.ajax({
+        url: "index.php?page=llenarSelectDoctorUpdate",
+        type: "post",
+        dataType: "json",
+        data: {
+          elegido: elegido,
+        },
+      })
+        .done(function (response) {
+          if (response.data.success == true) {
+            //Limpiar select de municipios
+            var select_doctor = (document.getElementById(
+              "update_doctor"
+            ).innerHTML = '<option value="">Seleccione</option>');
+
+            for (es = 0; es < response.data.data.length; es++) {
+              //Crea el elemento <option> dentro del select municipio
+              var itemOption = document.createElement("option");
+
+              //Contenido de los <option> del select municipios
+              var doctor = document.createTextNode(
+                response.data.data[es].nombres +
+                  " " +
+                  response.data.data[es].apellidos +
+                  " C.I -" +
+                  response.data.data[es].n_documento +
+                  " - " +
+                  response.data.data[es].dias_trabajo
+              );
+              var id_doctor = document.createTextNode(
+                response.data.data[es].id_doctor
+              );
+
+              //Crear atributo value para los elemento option
+              var attValue = document.createAttribute("value");
+              attValue.value = response.data.data[es].id_doctor;
+              itemOption.setAttributeNode(attValue);
+
+              //Añadir contenido a los <option> creados
+              itemOption.appendChild(doctor);
+
+              document.getElementById("update_doctor").appendChild(itemOption);
+            }
+          }
+        })
+        .fail(function () {
+          console.log("error");
+        });
+    });
+  });
+});
+
+/* -------------- Citas / Registrar Cita ------------------ */
+
+var agregar_cita;
+if ((agregar_cita = document.getElementById("agregar_cita"))) {
+  agregar_cita.addEventListener("click", agregarCita, false);
+
+  function agregarCita() {
+    let id_paciente_cita = document.getElementById("id_paciente_cita").value;
+    let fecha_cita = document.getElementById("fecha_cita").value;
+    let observacion_cita = document.getElementById("observacion_cita").value;
+    let id_especialidad_cita = document.getElementById("especialidad").value;
+    let estatus_cita = document.getElementById("estatus_cita").value;
+    let id_doctor_cita = document.getElementById("doctor").value;
+
+    $.ajax({
+      url: "index.php?page=registrarCita",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_paciente_cita: id_paciente_cita,
+        id_doctor_cita: id_doctor_cita,
+        fecha_cita: fecha_cita,
+        observacion_cita: observacion_cita,
+        estatus_cita: estatus_cita,
+        id_especialidad_cita: id_especialidad_cita,
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+          document.getElementById("formRegistrarCita").reset();
+
+          $("#modalAgregarCitas").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          $("#tabla_citas").DataTable().ajax.reload();
+        } else {
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}
+
+/* -------------- Listar datos para actualización ------------------ */
+
+function listarActualizacionCita(id) {
+  let id_cita = id;
+
+  let update_contenedor_datos_paciente = document.getElementById(
+    "contenedor_datos_paciente"
+  );
+  let update_especialidad = document.getElementById(
+    "update_especialidad"
+  ).value;
+  let update_doctor = document.getElementById("update_doctor").value;
+  let update_fecha_cita = document.getElementById("update_fecha_cita").value;
+  let update_estatus_cita = document.getElementById(
+    "update_estatus_cita"
+  ).value;
+  let update_observacion_cita = document.getElementById(
+    "update_observacion_cita"
+  ).value;
+
+  $.ajax({
+    url: "index.php?page=listarActualizacionCita",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_cita: id_cita,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("update_tipo_documento_consulta").innerHTML =
+          response.data.datos_paciente.tipo_documento;
+        document.getElementById("update_n_documento_consulta").innerHTML =
+          response.data.datos_paciente.n_documento;
+        document.getElementById("update_nombres_consulta").innerHTML =
+          response.data.datos_paciente.nombres;
+        document.getElementById("update_apellidos_consulta").innerHTML =
+          response.data.datos_paciente.apellidos;
+        document.getElementById("update_fecha_nac_consulta").innerHTML =
+          response.data.datos_paciente.fecha_nacimiento;
+        document.getElementById("update_sexo_consulta").innerHTML =
+          response.data.datos_paciente.sexo;
+        document.getElementById("update_telefono_consulta").innerHTML =
+          response.data.datos_paciente.telefono;
+        document.getElementById("update_estatus_consulta").innerHTML =
+          response.data.datos_paciente.estatus;
+        document.getElementById("update_estado_consulta").innerHTML =
+          response.data.datos_paciente.estado;
+        document.getElementById("update_municipio_consulta").innerHTML =
+          response.data.datos_paciente.municipio;
+        document.getElementById("update_parroquia_consulta").innerHTML =
+          response.data.datos_paciente.parroquia;
+        document
+          .getElementById("update_id_paciente_cita")
+          .setAttribute("value", response.data.id_paciente);
+
+        document
+          .getElementById("update_contenedor_datos_paciente")
+          .removeAttribute("style");
+
+        document.getElementById("update_especialidad").value =
+          response.data.id_especialidad;
+        document.getElementById("update_doctor").value =
+          response.data.id_doctor;
+        document.getElementById("update_fecha_cita").value =
+          response.data.fecha_cita;
+        document.getElementById("update_estatus_cita").value =
+          response.data.estatus;
+        document.getElementById("update_observacion_cita").value =
+          response.data.observacion;
+        document.getElementById("update_id_cita").value = response.data.id_cita;
+
+        if (response.data.datos_paciente.estatus == 1) {
+          document.getElementById("update_estatus_consulta").innerHTML =
+            "<button class='btn btn-success'>Activo</button>";
+        } else {
+          document.getElementById("update_estatus_consulta").innerHTML =
+            "<button class='btn btn-danger'>inactivo</button>";
+        }
+
+        if (response.data.datos_paciente.tipo_documento == "Venezolano") {
+          document.getElementById("update_tipo_documento_consulta").innerHTML =
+            "V";
+        } else {
+          document.getElementById("update_estatus_consulta").innerHTML =
+            "<button class='btn btn-danger'>inactivo</button>";
+        }
+
+        var estado_municipio = (document.getElementById("doctor").innerHTML =
+          '<option value="">Seleccione</option>');
+
+        for (es = 0; es < response.data.select_doctor.length; es++) {
+          //Crea el elemento <option> dentro del select municipio
+          var itemOption = document.createElement("option");
+
+          //Contenido de los <option> del select municipios
+          var doctor = document.createTextNode(
+            response.data.select_doctor[es].nombres +
+              " " +
+              response.data.select_doctor[es].apellidos +
+              " C.I -" +
+              response.data.select_doctor[es].n_documento +
+              " - " +
+              response.data.select_doctor[es].dias_trabajo
+          );
+          var id_doctor = document.createTextNode(
+            response.data.select_doctor[es].id_doctor
+          );
+
+          //Crear atributo value para los elemento option
+          var attValue = document.createAttribute("value");
+          attValue.value = response.data.select_doctor[es].id_doctor;
+          itemOption.setAttributeNode(attValue);
+
+          //Añadir contenido a los <option> creados
+          itemOption.appendChild(doctor);
+
+          document.getElementById("update_doctor").appendChild(itemOption);
+          document
+            .getElementById("cont-loader")
+            .setAttribute("style", "display:none;");
+        }
+
+        $("#modalActualizarCita").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+/* -------------- Modificar Cita ------------------ */
+var modificar_cita;
+if ((modificar_cita = document.getElementById("modificar_cita"))) {
+  modificar_cita.addEventListener("click", modificarCita, false);
+
+  function modificarCita() {
+    let id_cita = document.getElementById("update_id_cita").value;
+    let id_paciente = document.getElementById("update_id_paciente_cita").value;
+    let update_especialidad = document.getElementById(
+      "update_especialidad"
+    ).value;
+    let update_doctor = document.getElementById("update_doctor").value;
+    let update_fecha_cita = document.getElementById("update_fecha_cita").value;
+    let update_estatus_cita = document.getElementById(
+      "update_estatus_cita"
+    ).value;
+    let update_observacion_cita = document.getElementById(
+      "update_observacion_cita"
+    ).value;
+
+    $.ajax({
+      url: "index.php?page=modificarCita",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_cita: id_cita,
+        id_paciente: id_paciente,
+        update_especialidad: update_especialidad,
+        update_doctor: update_doctor,
+        update_fecha_cita: update_fecha_cita,
+        update_estatus_cita: update_estatus_cita,
+        update_observacion_cita: update_observacion_cita,
+      },
+    })
+      .done(function (response) {
+        if (response.data.success == true) {
+          document.getElementById("formActualizarCita").reset();
+
+          $("#modalActualizarCita").modal("hide");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          $("#tabla_citas").DataTable().ajax.reload();
+        } else {
+          Swal.fire({
+            icon: "danger",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  }
+}
+
+
+$(document).ready(function () {
+  $("#especialidad").on("change", function () {
+    $("#especialidad option:selected").each(function () {
+      elegido = $(this).val();
+      $.ajax({
+        url: "index.php?page=llenarSelectDoctor",
+        type: "post",
+        dataType: "json",
+        data: {
+          elegido: elegido,
+        },
+      })
+        .done(function (response) {
+          if (response.data.success == true) {
+            //Limpiar select de municipios
+            var estado_municipio = (document.getElementById(
+              "doctor"
+            ).innerHTML = '<option value="">Seleccione</option>');
+
+            for (es = 0; es < response.data.data.length; es++) {
+              //Crea el elemento <option> dentro del select municipio
+              var itemOption = document.createElement("option");
+
+              //Contenido de los <option> del select municipios
+              var doctor = document.createTextNode(
+                response.data.data[es].nombres +
+                  " " +
+                  response.data.data[es].apellidos +
+                  " C.I -" +
+                  response.data.data[es].n_documento
+              );
+              var id_doctor = document.createTextNode(
+                response.data.data[es].id_doctor
+              );
+
+              //Crear atributo value para los elemento option
+              var attValue = document.createAttribute("value");
+              attValue.value = response.data.data[es].id_doctor;
+              itemOption.setAttributeNode(attValue);
+
+              //Añadir contenido a los <option> creados
+              itemOption.appendChild(doctor);
+
+              document.getElementById("doctor").appendChild(itemOption);
+            }
+          }
+        })
+        .fail(function () {
+          console.log("error");
+        });
+    });
+  });
+});
 
 
 

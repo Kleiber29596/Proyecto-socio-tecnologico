@@ -174,6 +174,13 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                         </a>
                     </li>
 
+                    <li>
+                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioCitas">
+                            <i class="bi bi-circle"></i><span>Citas</span>
+                        </a>
+                    </li>
+
+
                 </ul>
             </li><!-- End Ferias Nav -->
 
