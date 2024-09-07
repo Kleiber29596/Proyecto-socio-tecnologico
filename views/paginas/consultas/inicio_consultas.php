@@ -203,11 +203,7 @@
                             <div class="col-sm-3">
                                 <label for="duracion"></label>
                                 <div class="form-group input-duracion">
-<<<<<<< HEAD
-                                    <select name="unidad_duracion" class="form-control"
-=======
                                     <select name="intervalo" id="intervalo" class="form-control"
->>>>>>> 62e53087b4048d2877a307440d625511dad4a786
                                         style="width: 100%; display: inline-block; margin-left: 10px;">
                                         <option value="días">Días</option>
                                         <option value="semanas">Semanas</option>

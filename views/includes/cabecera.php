@@ -90,8 +90,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <!-- <img src="libs/img/Minpesca2.png    " alt=""
-                    style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 55%;"> -->
+                <img src="libs/img/Minpesca2.png    " alt=""
+                    style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 55%;">
                 <!--     <img src="libs/img/logo.png" alt="" style="max-height: 68px;">
                 -->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->

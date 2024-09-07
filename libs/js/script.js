@@ -30,7 +30,7 @@ function obtenerDatosTabla(tabla) {
     datos.push(filaDatos);
   }
 
-  return console.log(datos); // Retornamos el array con todos los datos
+  return datos; // Retornamos el array con todos los datos
 }
 
 /* Loader */
