@@ -175,7 +175,7 @@
                                     <select class="form-control" name="medicamento" id="unidad_medida">
                                         <option value="">Seleccione</option>
                                         <option value="unidad">Unidad</option>
-                                        <option value="ml"></option>
+                                        <option value="pastilla">pastilla</option>
 
                                     </select>
                                 </div>
@@ -195,15 +195,19 @@
                             <div class="col-sm-4">
                                 <label for="duracion">Duración</label>
                                 <div class="form-group input-duracion">
-                                    <input type="number" id="duracion" class="form-control" name="duracion" min="1"
-                                        step="1" placeholder="ingrese la duración">
+                                    <input type="number" id="cantidad_duracion" class="form-control"
+                                        name="cantidad_duracion" min="1" step="1" placeholder="ingrese la duración">
                                 </div>
                             </div>
 
                             <div class="col-sm-3">
                                 <label for="duracion"></label>
                                 <div class="form-group input-duracion">
+<<<<<<< HEAD
                                     <select name="unidad_duracion" class="form-control"
+=======
+                                    <select name="intervalo" id="intervalo" class="form-control"
+>>>>>>> 62e53087b4048d2877a307440d625511dad4a786
                                         style="width: 100%; display: inline-block; margin-left: 10px;">
                                         <option value="días">Días</option>
                                         <option value="semanas">Semanas</option>
@@ -229,8 +233,8 @@
                                 <table class="table table-bordered table-striped table-hover tbl_medicamentos"
                                     id="multiples_medicamentos">
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Presentación</th>
+                                        <th>Medicamento</th>
+                                        <th>Descripción</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </table>

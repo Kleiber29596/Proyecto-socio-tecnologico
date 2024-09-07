@@ -93,7 +93,9 @@ public function listarConsultas()
 			$dosis 	   				= $medicamento['dosis'];
 			$unidad_medida 	   	    = $medicamento['unidad_medida'];
 			$frecuencia 	   	    = $medicamento['frecuencia'];
-			$duracion 	   	    	= $medicamento['duracion'];
+			$cantidad 	   	    	= $medicamento['cantidad'];
+			$intervalo 	   	    	= $medicamento['intervalo'];
+
 			
 		$datos_intermedia= array(
 			'id_presentacion_medicamento' => $id_medicamento,
@@ -101,7 +103,8 @@ public function listarConsultas()
 			'dosis' 			  		  => $dosis,
 			'unidad_medida' 			  => $unidad_medida,
 			'frecuencia' 			  	  => $frecuencia ,
-			'duracion' 			  		  => $duracion,
+			'cantidad' 			  		  => $cantidad,
+			'intervalo' 			      => $intervalo,
 			'fecha_registro'			  => $fecha_registro
 		);
 		$registro_intermedia = $modelRecipe->registrarTblIntermedia($datos_intermedia);

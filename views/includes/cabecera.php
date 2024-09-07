@@ -63,17 +63,17 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    
+
 
     <!-- Template Main CSS File -->
     <link href="libs/css/style.css" rel="stylesheet">
 
     <!-- Estilos de la validacion de formulario -->
     <link href="libs/css/validacion.css" rel="stylesheet">
-    
 
 
-    
+
+
 
 
 </head>
@@ -90,8 +90,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <img src="libs/img/Minpesca2.png    " alt=""
-                    style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 55%;">
+                <!-- <img src="libs/img/Minpesca2.png    " alt=""
+                    style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 55%;"> -->
                 <!--     <img src="libs/img/logo.png" alt="" style="max-height: 68px;">
                 -->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->
@@ -178,7 +178,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             </li><!-- End Ferias Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-inventario" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-inventario" data-bs-toggle="collapse"
+                    href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Inventario</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
