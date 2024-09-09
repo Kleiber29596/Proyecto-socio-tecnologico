@@ -174,5 +174,66 @@ public function listarConsultas()
 	}
 
 
+	public function listarDatosConsulta()
+	{	
+		
+		$id_consulta = $_POST['id_consulta'];
+		$modelConsultas = new ConsultasModel();
+		$modelRecipes = new RecipeModel();
+
+		$listar = $modelConsultas->listarDatosConsulta($id_consulta);
+		
+		foreach ($listar as $lista) {
+			$id_consulta				= $lista['id_consulta'];
+			$id_tipo_consulta			= $lista['id_tipo_consulta'];
+			$tipo_consulta 				= $lista['id_tipo_consulta'];
+			$diagnostico 				= $lista['diagnostico'];
+			$nombres_persona 			= $lista['nombres_apellidos'];
+
+		}
+
+		$receta_medicamentos = $modelRecipes->consultarRecetaUpdate($id_consulta);
+
+		
+			
+		if ($listar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_consulta'		   			=> $id_consulta,
+					'tipo_consulta'		   			=> $tipo_consulta,
+					'diagnostico'		   			=> $diagnostico,
+					'nombres_persona'		   		=> $nombres_persona,
+					'receta_medicamentos'			=> $receta_medicamentos
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
 
 }

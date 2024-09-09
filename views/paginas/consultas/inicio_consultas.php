@@ -6,6 +6,7 @@
     $objeto2        = new ConsultasController();
     $objeto3        = new EspecialidadController();
     $consultas      = $objeto2->selectTipoConsulta();
+    $consultas_update = $objeto2->selectTipoConsulta();
     $medicamentos   = $objeto1->selectMedicamentos();
     $especialidades = $objeto3->selectEspecialidad(); 
     
@@ -87,11 +88,11 @@
                             <div class="col-sm-12">
                                 <p>Datos del Paciente</p>
                                 <div class="table-responsive tbl_personas">
-                                    <table class="table table-bordered table-striped table-hover">
+                                    <table class="table table-bordered table-secondary table-striped table-hover">
                                         <tr>
                                             <th>Nº documento</th>
                                             <th>Nombres</th>
-                                            <th>edad</th>
+                                            <th>fecha_nacimiento</th>
                                             <th>Sexo</th>
                                             <th>Teléfono</th>
                                             <th>Dirección</th>
@@ -226,11 +227,12 @@
                         <br>
                         <div class="row" id="contenedor_datos_medicamentos" style="display: none;">
                             <div class="col-sm-12 table-responsive" id="">
-                                <table class="table table-bordered table-striped table-hover tbl_medicamentos"
+                                <table
+                                    class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
                                     id="multiples_medicamentos">
                                     <tr>
                                         <th>Medicamento</th>
-                                        <th>Descripción</th>
+                                        <th>Presentación</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </table>
@@ -260,6 +262,66 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal Acutaliza Consultas-->
+
+<div class="modal fade" id="modalActualizarConsultas" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="modalActualizarConsultasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalActualizarConsultasLabel">Consulta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="nombres_apellidos">Paciente</label>
+                                <input class="form-control" type="text" name="nombres_persona" id="nombres_persona" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" name="id_consulta_update" id="id_consulta_update">
+                                <label for="rango_edad">Tipo de consulta</label>
+                                <select class="select2-selection--single" name="tipo_consulta" id="update_tipo_consulta"
+                                    style="width:100%">
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($consultas_update as $consulta_update) { ?>
+                                    <option value="<?= $consulta_update['id_tipo_consulta'] ?>">
+                                        <?= $consulta_update['motivo'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="instrucciones">Diagnóstico</label>
+                                <textarea class="form-control" id="update_diagnostico" name="diagnostico" rows="3"
+                                    placeholder="Ingrese el diagnóstico"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <p style="margin-auto;">Datos de la receta médica</p>
+                    </div>
+            </div>
+        </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+</div>
 </div>
 
 <script>

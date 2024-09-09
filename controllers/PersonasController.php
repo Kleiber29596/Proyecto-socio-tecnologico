@@ -382,7 +382,7 @@ public function verDatosPersona()
 					'id_persona'		   			=> $id_persona,
 					'tipo_documento_persona'   		=> $tipo_documento_persona,
 					'n_documento_persona' 			=> $n_documento_persona,
-					'fecha_nac_persona' 		    => $fecha_nac,
+					'fecha_nac' 		            => $fecha_nac,
 					'nombres_persona'				=> $nombres_persona,
 					'apellidos_persona'				=> $apellidos_persona,
 					'sexo_persona'			    	=> $sexo_persona,
@@ -467,5 +467,8 @@ public function verDatosPersona()
 			exit();
 		}
 	}
+
+
+
 
 }

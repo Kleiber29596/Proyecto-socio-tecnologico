@@ -238,7 +238,7 @@ $("#formRegistrarUsuario")
               row[4] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
       
-                     <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
+                     <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosConsulta(` +
               row[4] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
   
@@ -4032,9 +4032,8 @@ function consultarPersona() {
           response.data.n_documento_persona;
         document.getElementById("nombres_apellidos_persona").innerHTML =
           response.data.nombres_persona;
-        
-        document.getElementById("edad").innerHTML =
-          response.data.edad;
+        document.getElementById("fecha_nac").innerHTML =
+          response.data.fecha_nac;
         document.getElementById("sexo_persona").innerHTML =
           response.data.sexo_persona;
         document.getElementById("tlf_persona").innerHTML =
@@ -4223,8 +4222,7 @@ if (agregarMedicamentoButton) {
                     text: response.data.info
                 });
 
-                let datos_descripcion = response.data.dosis+" "+response.data.unidad_medida+" cada "+frecuencia+" horas durante "+response.data.cantidad+" "+response.data.intervalo;
-                let descripcion_medicamento = response.data.nombre_medicamento+" en "+response.data.presentacion;
+                
 
                 contador = contador + 1;
 
@@ -4236,13 +4234,13 @@ if (agregarMedicamentoButton) {
 
                 let id_medicamento  = "id_medicamento_"+contador;
                 let id_nombre       = "id_nombre_"+contador;
-                let id_descripcion  = "id_descripcion_"+contador;
+                let id_presentacion = "id_presentacion_"+contador;
 
                 //Contenedor de los estudios
                 var cont_elemento = document.createElement("tr");
-                //cont_elemento.setAttribute("class", class_contenedor);
+                //cont_elemento.setAttribute("class", "table-success");
                 cont_elemento.setAttribute("id", id_contenedor);
-				        cont_elemento.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
+				        cont_elemento.setAttribute("style", "border: solid 1px #ccc; padding: 10px; background:#e2e3e5;");
                 document.getElementById("multiples_medicamentos").appendChild(cont_elemento);
 
 
@@ -4254,15 +4252,15 @@ if (agregarMedicamentoButton) {
               td_medicamento.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
               cont_elemento.appendChild(td_medicamento);
 
-              //td que almacena la descripcion del tratamiento
-              var td_descripcion = document.createElement("td")
-              td_descripcion.setAttribute("id", id_descripcion);
-              td_descripcion.setAttribute("class", 'codigo_contable');
-              td_descripcion.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
-              cont_elemento.appendChild(td_descripcion);
 
+              //td que almacena la presentacion
+              var td_presentacion = document.createElement("td")
+              td_presentacion.setAttribute("id", id_presentacion);
+              td_presentacion.setAttribute("class", 'codigo_contable');
+              td_presentacion.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
+              cont_elemento.appendChild(td_presentacion);
 
-
+              
                 //Columna que almacena el boton borrar
                 var td_accion_borrar = document.createElement("td")
                 td_accion_borrar.setAttribute("id", id_accion);
@@ -4279,6 +4277,8 @@ if (agregarMedicamentoButton) {
                 btn_delete.setAttribute("style","background:#dc3545; color: #FFF;");
                 td_accion_borrar.appendChild(btn_delete);
 
+                
+
                 //Icono del boton borrar
                 var icono_btn_delete = document.createElement("i")
                 icono_btn_delete.setAttribute("class","fas fa-trash");
@@ -4286,8 +4286,39 @@ if (agregarMedicamentoButton) {
                 btn_delete.appendChild(icono_btn_delete);
 
 
-				       document.getElementById(id_nombre).innerHTML       = descripcion_medicamento;
-               document.getElementById(id_descripcion).innerHTML  = datos_descripcion;
+                //Boton de ver
+                var btn_ver = document.createElement("button")
+                btn_ver.setAttribute("class","btn btn-primary btn-sm");
+                btn_ver.setAttribute("title","Ver");
+                btn_ver.setAttribute("type","button");
+                btn_ver.setAttribute("onclick","Ver("+response.data.id_medicamento+")");
+                btn_ver.setAttribute("style","color: #FFF; background:#0d6efd;  margin-left:5px;");
+                td_accion_borrar.appendChild(btn_ver);
+
+                //Icono del boton de ver
+                var icono_btn_ver = document.createElement("i")
+                icono_btn_ver.setAttribute("class","fas fa-eye");
+                icono_btn_ver.setAttribute("data-id", "");
+                btn_ver.appendChild(icono_btn_ver);
+
+
+                 //Boton de actualizar
+                //  var btn_actualizar = document.createElement("button")
+                //  btn_actualizar.setAttribute("class","btn btn-warning btn-sm");
+                //  btn_actualizar.setAttribute("title","actualizar");
+                //  btn_actualizar.setAttribute("type","button");
+                //  btn_actualizar.setAttribute("onclick","actualizar("+response.data.id_medicamento+")");
+                //  btn_actualizar.setAttribute("style","color: #000000; background:#ffc107;  margin-left:5px;");
+                //  td_accion_borrar.appendChild(btn_actualizar);
+ 
+                 //Icono del boton de actualizar
+                //  var icono_btn_actualizar = document.createElement("i")
+                //  icono_btn_actualizar.setAttribute("class","fas fa-edit");
+                //  icono_btn_actualizar.setAttribute("data-id", "");
+                //  btn_actualizar.appendChild(icono_btn_actualizar);
+                
+				       document.getElementById(id_nombre).innerHTML       = response.data.nombre_medicamento;
+               document.getElementById(id_presentacion).innerHTML  = response.data.presentacion;
 			
             }
             else
@@ -4757,4 +4788,34 @@ $(document).ready(function () {
 });
 
 
-
+/* -------------- Obtener datos para actualizar la consultas ------------------ */
+function listarDatosConsulta(id) {
+  let id_consulta = id;
+  
+  $.ajax({
+    url: "index.php?page=listarDatosConsulta",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_consulta: id_consulta,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("id_consulta_update").value =
+          response.data.id_consulta;
+        document.getElementById("nombres_persona").value =
+          response.data.nombres_persona;
+        document.getElementById("update_tipo_consulta").value =
+          response.data.tipo_consulta;
+        document.getElementById("update_diagnostico").value =
+          response.data.diagnostico;
+        
+        $("#modalActualizarConsultas").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
