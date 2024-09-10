@@ -46,11 +46,11 @@ public function listarConsultas()
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 			
-			array('db' => 'documento',      'dt' => 0),
-			array('db' => 'nombre_apellido','dt' => 1),
-			array('db' => 'motivo',  		'dt' => 2),
-			array('db' => 'edad',     		'dt' => 3),
-			array('db' => 'id_consulta', 	'dt' => 4)
+			array('db' => 'fecha_registro',      'dt' => 0),
+			array('db' => 'nombre_apellido',	 'dt' => 1),
+			array('db' => 'documento',  		 'dt' => 2),
+			array('db' => 'motivo',     		 'dt' => 3),
+			array('db' => 'id_consulta', 		 'dt' => 4)
 
 		);
 

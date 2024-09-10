@@ -3843,16 +3843,16 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false,
-        targets: 9,
+        targets: 4,
         render: function (data, type, row, meta) {
           let botones =
             `
                     <button type="button" class="btn btn-primary btn-sm" onclick="VerDatosPersona(` +
-            row[9] +
+            row[4] +
             `)"><i class="fas fa-eye"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
-            row[9] +
+            row[4] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
      `;
           return botones;

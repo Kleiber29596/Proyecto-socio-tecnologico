@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <p></p>
                     <!-- Button trigger modal  -->
-                    <button title="Agregar Especies" class="btn btn-primary" data-bs-toggle="modal"
+                    <button title="Agregar Consulta" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#modalAgregarConsulta">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -32,10 +32,10 @@
                         <table class="table table-bordered" id="tbl_consultas" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Nº documento/Paciente</th>
+                                    <th>Fecha</th>
                                     <th>Nombres/Apellidos</th>
-                                    <th>Tipo Consulta</th>
-                                    <th>Edad</th>
+                                    <th>Nº documento</th>
+                                    <th>Tipo consulta</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>

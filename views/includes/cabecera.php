@@ -164,6 +164,13 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             </li><!-- Modulos-->
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                    <i class="bi bi-person"></i>
+                    <span>Personas</span>
+                </a>
+            </li><!-- End usuarios Page Nav -->
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Salud</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -215,22 +222,9 @@ if (session_status() === PHP_SESSION_ACTIVE) {
                 </ul>
             </li><!-- End Ferias Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-people-fill"></i><span>Personas</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
-                            <i class="bi bi-circle"></i><span>Personas</span>
-                        </a>
-                    </li>
-                </ul>
-            </li><!-- End Forms Nav -->
-
 
             <li class="nav-heading">Configuracion</li>
-
+        
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
                     <i class="bi bi-person"></i>

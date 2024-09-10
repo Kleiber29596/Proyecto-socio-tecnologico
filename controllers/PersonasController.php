@@ -40,7 +40,7 @@ class PersonasController
 		// DB table to use 
 		$table = <<<EOT
         (
-            SELECT pe.id_persona, pe.n_documento, pe.nombres, pe.apellidos, pe.sexo, pe.telefono, e.estado, m.municipio, pa.parroquia, pe.correo FROM personas AS pe INNER JOIN estados e ON pe.id_estado = e.id_estado  INNER JOIN municipios m ON pe.id_municipio = m.id_municipio  INNER JOIN parroquias pa ON pe.id_parroquia = pa.id_parroquia ORDER BY pe.id_persona DESC
+            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.nombres, ' ', pe.apellidos) AS nombre_apellido, pe.sexo, pe.telefono, e.estado, m.municipio, pa.parroquia, pe.correo FROM personas AS pe INNER JOIN estados e ON pe.id_estado = e.id_estado  INNER JOIN municipios m ON pe.id_municipio = m.id_municipio  INNER JOIN parroquias pa ON pe.id_parroquia = pa.id_parroquia ORDER BY pe.id_persona DESC
         ) temp
         EOT;
 
@@ -52,16 +52,11 @@ class PersonasController
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 
-			array('db' => 'n_documento',   	'dt' => 0),
-			array('db' => 'nombres',     	'dt' => 1),
-			array('db' => 'apellidos',     	'dt' => 2),
-			array('db' => 'sexo',     	    'dt' => 3),
-			array('db' => 'telefono',     	'dt' => 4),
-			array('db' => 'estado',     	'dt' => 5),
-			array('db' => 'municipio',     	'dt' => 6),
-			array('db' => 'parroquia',     	'dt' => 7),
-			array('db' => 'correo',     	'dt' => 8),
-			array('db' => 'id_persona', 	'dt' => 9)
+			array('db' => 'documento',   	'dt' => 0),
+			array('db' => 'nombre_apellido','dt' => 1),
+			array('db' => 'sexo',     	    'dt' => 2),
+			array('db' => 'telefono',     	'dt' => 3),
+			array('db' => 'id_persona', 	'dt' => 4)
 
 		);
 

@@ -29,14 +29,9 @@ $update_parroquias = $objeto->selectParroquia();
                             <thead>
                                 <tr>
                                     <th>Nº documento</th>
-                                    <th>Nombres</th>
-                                    <th>Apellidos</th>
+                                    <th>Nombres/Apellidos</th>
                                     <th>Sexo</th>
                                     <th>Telefono</th>
-                                    <th>Estado</th>
-                                    <th>Municipio</th>
-                                    <th>Parroquia</th>
-                                    <th>Correo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
