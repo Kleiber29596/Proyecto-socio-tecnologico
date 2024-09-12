@@ -4080,14 +4080,20 @@ if (document.getElementById("agregar_consulta")) {
 
   function agregarConsulta() {
     // Datos de la consulta
-    let id_persona      = document.getElementById("id_persona").value;
-    let persona         = document.getElementById("nombres_apellidos_persona")
-    let nombre_persona  = persona.textContent;
-    let edad            = document.getElementById("edad").value;
-    let tipo_consulta   = document.getElementById("tipo_consulta").value;
-    let opcion_consulta = document.getElementById("tipo_consulta");
-    var consulta        =  opcion_consulta.options[opcion_consulta.selectedIndex].text;
-    let diagnostico     = document.getElementById("diagnostico").value;
+    let id_persona           = document.getElementById("id_persona").value;
+    let persona              = document.getElementById("nombres_apellidos_persona")
+    let nombre_persona       = persona.textContent;
+    let edad                 = document.getElementById("edad").value;
+    let tipo_consulta        = document.getElementById("tipo_consulta").value;
+    let opcion_consulta      = document.getElementById("tipo_consulta");
+    let consulta             =  opcion_consulta.options[opcion_consulta.selectedIndex].text;
+    let diagnostico          = document.getElementById("diagnostico").value;
+    let peso                 = document.getElementById("peso").value;
+    let altura               = document.getElementById("altura").value;
+    let presion_arterial     = document.getElementById("presion_arterial").value;
+
+
+
     
     // Datos del recipe
     let instrucciones = document.getElementById("instrucciones").value;
@@ -4136,6 +4142,9 @@ if (document.getElementById("agregar_consulta")) {
             edad: edad,
             tipo_consulta: tipo_consulta,
             diagnostico: diagnostico,
+            peso: peso,
+            altura: altura,
+            presion_arterial: presion_arterial,
             instrucciones: instrucciones,
           },
         })

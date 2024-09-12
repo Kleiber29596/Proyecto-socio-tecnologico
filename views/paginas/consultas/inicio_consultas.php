@@ -116,12 +116,42 @@
                     <!-- Step 2 -->
                     <div class="step" id="step-2" style="display: none;">
                         <div class="row">
+                            <!-- Campo oculto para la edad -->
                             <div class="form-group">
                                 <input class="form-control" type="hidden" id="edad" placeholder="Edad">
                             </div>
+
+                            <!-- Campo para el peso del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="peso">Peso (kg)</label>
+                                    <input class="form-control" type="number" id="peso" name="peso"
+                                        placeholder="Ingrese el peso">
+                                </div>
+                            </div>
+
+                            <!-- Campo para la altura del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="altura">Altura (cm)</label>
+                                    <input class="form-control" type="number" id="altura" name="altura"
+                                        placeholder="Ingrese la altura">
+                                </div>
+                            </div>
+
+                            <!-- Campo para la presión arterial del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="presion_arterial">Presión Arterial</label>
+                                    <input class="form-control" type="text" id="presion_arterial"
+                                        name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)">
+                                </div>
+                            </div>
+
+                            <!-- Campo para el tipo de consulta -->
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="rango_edad">Tipo de consulta</label>
+                                    <label for="tipo_consulta">Tipo de consulta</label>
                                     <select class="select2-selection--single" name="tipo_consulta" id="tipo_consulta"
                                         style="width:100%">
                                         <option value="">Seleccione</option>
@@ -132,14 +162,19 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <!-- Campo para el diagnóstico -->
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="instrucciones">Diagnóstico</label>
+                                    <label for="diagnostico">Diagnóstico</label>
                                     <textarea class="form-control" id="diagnostico" name="diagnostico" rows="3"
                                         placeholder="Ingrese el diagnóstico"></textarea>
                                 </div>
                             </div>
+
+
                         </div>
+
                     </div>
 
                     <!-- Step 3 -->
@@ -280,7 +315,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="nombres_apellidos">Paciente</label>
-                                <input class="form-control" type="text" name="nombres_persona" id="nombres_persona" disabled>
+                                <input class="form-control" type="text" name="nombres_persona" id="nombres_persona"
+                                    disabled>
                             </div>
                         </div>
                         <div class="col-sm-6">

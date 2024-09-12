@@ -116,6 +116,9 @@ public function listarConsultas()
 			'edad'    	  			=> $_POST['edad'],
 			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
 			'diagnostico'		    => $_POST['diagnostico'],
+			'peso'		            => $_POST['peso'],
+			'altura'		        => $_POST['altura'],
+			'presion_arterial'		=> $_POST['presion_arterial'],
 			'fecha_registro'  		=> $fecha_registro,
 			'id_recipe'				=> $id_recipe,
 			'id_usuario'			=> $_SESSION['user_id']
