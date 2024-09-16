@@ -46,4 +46,11 @@ public function consultarRecetaUpdate($id_consulta) {
     return $resultado;
 }
 
+public function consultarTratamiento($id_medicamento) {
+    $db = new ModeloBase();
+    $query = "SELECT id_temporal_medicamento, id_presentacion_medicamento, CONCAT(dosis,' ', unidad_medida, ' cada ', frecuencia, ' durante ', cantidad,' ',intervalo) AS tratamiento FROM tbl_temporal_medicamentos WHERE id_presentacion_medicamento = 2";
+    $resultado = $db->ObtenerTodos($query);
+    return $resultado;
+}
+
 }

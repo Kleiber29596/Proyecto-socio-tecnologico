@@ -4048,7 +4048,6 @@ function consultarPersona() {
           .getElementById("id_persona")
           .setAttribute("value", response.data.id_persona);
         document.getElementById("edad").value = response.data.edad;
-
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
           icon: "success",
@@ -4057,6 +4056,8 @@ function consultarPersona() {
           text: response.data.info,
         });
       } else {
+        contenedor_datos_persona.setAttribute("style", "display: none;");
+
         Swal.fire({
           icon: "warning",
           confirmButtonColor: "#3085d6",
@@ -4100,26 +4101,30 @@ if (document.getElementById("agregar_consulta")) {
 
     const tablaMedicamentos = document.getElementById('multiples_medicamentos');
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
-    console.log(datosMedicamentos);
-    const confirmMessage = `
-  <ul style="text-align: left;">
-    <li><strong>Persona:</strong> ${nombre_persona}</li>
-    <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
-    <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
-  </ul>
-  
-  <p><strong>Medicamentos recetados:</strong>
-  <ul style="text-align: left;">
-  ${datosMedicamentos.map(medicamento => {
-    return `<li>${medicamento}</li>`;
-  }).join('')}
+
+    const listaMedicamentos = datosMedicamentos.map(medicamento => `<li>${medicamento}</li>`).join('');
+   // Crea el mensaje de confirmación incluyendo la lista de medicamentos y las instrucciones
+const confirmMessage = `
+<ul style="text-align: left;">
+  <li><strong>Persona:</strong> ${nombre_persona}</li>
+  <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
+  <li><strong>Peso:</strong> ${peso}</li>
+  <li><strong>Altura:</strong> ${altura}</li>
+  <li><strong>Presión arterial:</strong> ${presion_arterial}</li>
+  <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
 </ul>
 
-  <p><strong>Instruciones:</strong>
+<p><strong>Medicamentos recetados:</strong></p>
+  <ul style="text-align: left;">
+    ${listaMedicamentos}
+  </ul>
+
+<p><strong>Instrucciones adicionales:</strong></p>
 <ul>
- <li>${instrucciones}</li>
+  <li>${instrucciones}</li>
 </ul>
 `;
+
   
 
   
@@ -4294,40 +4299,15 @@ if (agregarMedicamentoButton) {
                 icono_btn_delete.setAttribute("data-id", "");
                 btn_delete.appendChild(icono_btn_delete);
 
-
-                //Boton de ver
-                var btn_ver = document.createElement("button")
-                btn_ver.setAttribute("class","btn btn-primary btn-sm");
-                btn_ver.setAttribute("title","Ver");
-                btn_ver.setAttribute("type","button");
-                btn_ver.setAttribute("onclick","Ver("+response.data.id_medicamento+")");
-                btn_ver.setAttribute("style","color: #FFF; background:#0d6efd;  margin-left:5px;");
-                td_accion_borrar.appendChild(btn_ver);
-
-                //Icono del boton de ver
-                var icono_btn_ver = document.createElement("i")
-                icono_btn_ver.setAttribute("class","fas fa-eye");
-                icono_btn_ver.setAttribute("data-id", "");
-                btn_ver.appendChild(icono_btn_ver);
-
-
-                 //Boton de actualizar
-                //  var btn_actualizar = document.createElement("button")
-                //  btn_actualizar.setAttribute("class","btn btn-warning btn-sm");
-                //  btn_actualizar.setAttribute("title","actualizar");
-                //  btn_actualizar.setAttribute("type","button");
-                //  btn_actualizar.setAttribute("onclick","actualizar("+response.data.id_medicamento+")");
-                //  btn_actualizar.setAttribute("style","color: #000000; background:#ffc107;  margin-left:5px;");
-                //  td_accion_borrar.appendChild(btn_actualizar);
- 
-                 //Icono del boton de actualizar
-                //  var icono_btn_actualizar = document.createElement("i")
-                //  icono_btn_actualizar.setAttribute("class","fas fa-edit");
-                //  icono_btn_actualizar.setAttribute("data-id", "");
-                //  btn_actualizar.appendChild(icono_btn_actualizar);
                 
-				       document.getElementById(id_nombre).innerHTML       = response.data.nombre_medicamento;
-               document.getElementById(id_presentacion).innerHTML  = response.data.presentacion;
+				       document.getElementById(id_nombre).innerHTML       = response.data.nombre_medicamento+' '+response.data.presentacion;
+
+               if(response.data.dosis > 1) {
+                document.getElementById(id_presentacion).innerHTML  = response.data.dosis+' '+response.data.unidad_medida+'s cada '+response.data.frecuencia+' horas por '+response.data.cantidad+' '+response.data.intervalo;
+
+               }else{
+                document.getElementById(id_presentacion).innerHTML  = response.data.dosis+' '+response.data.unidad_medida+' cada '+response.data.frecuencia+' horas por '+response.data.cantidad+' '+response.data.intervalo;
+               }
 			
             }
             else
@@ -4405,6 +4385,65 @@ let id_medicamento = id;
     });
 
 }
+
+/* -------------- Citas / Remover estudio ------------------ */
+function verTratamiento(id)
+{
+
+  
+let id_medicamento = id;
+
+
+    $.ajax({
+        url: "index.php?page=verTratamiento",
+        type: 'post',
+        dataType: 'json',
+        data: {
+          
+              id_medicamento : id_medicamento
+        }
+    })
+    .done(function(response) {
+        if (response.data.success == true) 
+        {
+
+    const tratamiento = `
+     
+      
+      <p><strong>Tratamiento:</strong>
+      <ul style="text-align: left;">
+
+      <li>${response.data.tratamiento}</li>  
+
+    </ul>
+
+    `;
+    Swal.fire({
+        title: "Estas seguro de guardar los datos?",
+        html: tratamiento, // Use HTML for better formatting
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "De acuerdo!"
+    });
+
+        }
+        else
+        {
+    Swal.fire({
+      icon: 'error',
+      title: response.data.message,
+      confirmButtonColor: '#0d6efd',
+      text: response.data.info
+    });
+        }
+    })
+    .fail(function() {
+
+        console.log("error");
+    });
+
+}
+
 
 
 $('#medicamento').select2({
@@ -4828,3 +4867,4 @@ function listarDatosConsulta(id) {
       console.log("error");
     });
 }
+

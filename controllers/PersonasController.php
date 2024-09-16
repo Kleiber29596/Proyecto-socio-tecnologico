@@ -367,7 +367,7 @@ public function verDatosPersona()
 
 		$edad_persona = obtener_edad($fecha_nac);
 			
-		if ($listar) {
+		if ($nombres_persona != '') {
 			
 			$data = [
 				'data' => [
@@ -399,7 +399,7 @@ public function verDatosPersona()
 				'data' => [
 					'success'            =>  false,
 					'message'            => 'La persona no se encuentra registrada',
-					'info'               =>  'Debe registrar al Beneficiario'
+					'info'               =>  'Debe registrarse en el modulo personas'
 				],
 				'code' => 0,
 			];

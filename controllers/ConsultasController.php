@@ -169,6 +169,9 @@ public function listarConsultas()
 		return $receta;
 	}
 
+	
+	
+
 
 	#estableciendo la vista del reporte
 	public function imprimirRecipe() {

@@ -61,7 +61,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="libs/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="libs/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="libs/vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
 
 
 

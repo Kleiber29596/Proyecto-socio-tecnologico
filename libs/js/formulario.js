@@ -1,5 +1,8 @@
 const formulario = document.getElementById('formRegistrarPersona');
 const inputs = document.querySelectorAll('#formRegistrarPersona input');
+const inputs_consulta = document.querySelectorAll('#formRegistrarConsultas input');
+
+
 
 const expresiones = {
 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
@@ -48,6 +51,12 @@ const validarCampo = (expresion, input, campo) => {
 }
  
 inputs.forEach((input) =>{
+	input.addEventListener('keyup', validarFormulario);
+	input.addEventListener('blur', validarFormulario);
+
+});
+
+inputs_consulta.forEach((input) =>{
 	input.addEventListener('keyup', validarFormulario);
 	input.addEventListener('blur', validarFormulario);
 

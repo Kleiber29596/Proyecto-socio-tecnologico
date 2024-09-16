@@ -68,14 +68,18 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                            <div class="col-sm-11">
+                            <div class="col-sm-11" id="grupo_n_documento">
+                                <label class="formulario__label" for="n_documento">Nº de documento</label>
                                 <div class="form-group">
-                                    <label for="n_documento_persona">Número de documento</label>
-                                    <input class="form-control" type="text" id="n_documento_persona"
-                                        placeholder="Numero de documento">
-                                    <input type="hidden" id="id_persona" value="">
+                                    <input class="form-control formulario__validacion__input" type="text"
+                                        id="n_documento_persona" name="n_documento" placeholder="Numero de documento...">
+                                        <input type="hidden" id="id_persona" value="">
+                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
                                 </div>
+                                <p class="formulario__input-error">El numero de documento debe contener solo numeros y debe tener mínimo 7 y máximo 8 digitos.
+                                </p>
                             </div>
+    
                             <div class="col-sm-1"
                                 style="display: flex; justify-content: flex-start; align-items: flex-end;">
                                 <div class="form-group">
@@ -190,7 +194,7 @@
                                         <option value="">Seleccione</option>
                                         <?php foreach ($medicamentos as $medicamento) { ?>
                                         <option value="<?= $medicamento['id_presentacion_medicamento'] ?>">
-                                            <?= $medicamento['nombre_medicamento'].'-'.$medicamento['presentacion'] ?>
+                                            <?= $medicamento['nombre_medicamento'].' '.$medicamento['presentacion'] ?>
                                         </option>
                                         <?php } ?>
                                     </select>
@@ -267,7 +271,7 @@
                                     id="multiples_medicamentos">
                                     <tr>
                                         <th>Medicamento</th>
-                                        <th>Presentación</th>
+                                        <th>Instrucciones</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </table>
@@ -276,7 +280,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="instrucciones">Instrucciones</label>
+                                    <label for="instrucciones">Instrucciones Adicionales</label>
                                     <textarea class="form-control" id="instrucciones" name="instrucciones" rows="3"
                                         placeholder="Ingrese las instrucciones"></textarea>
                                 </div>

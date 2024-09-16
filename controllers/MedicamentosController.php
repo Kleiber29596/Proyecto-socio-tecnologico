@@ -163,8 +163,8 @@ class MedicamentosController
 			$data = [
 				'data' => [
 					'success'            		=>  true,
-					'message'            		=> 'El medicamento encontrado',
-					'info'               		=> '',  
+					'message'            		=> 'Medicamento encontrado',
+					'info'               		=> '	',  
 					'nombre_medicamento'        =>  $nombre_medicamento,
 					'presentacion'        		=>  $presentacion,
 					'id_medicamento' 			=>  $id_presentacion_medicamento,

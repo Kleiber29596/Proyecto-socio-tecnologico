@@ -19,7 +19,7 @@
 <script src="libs/js/main.js"></script>
 <!-- Template Main JS File -->
 <script src="libs/js/iniciarSesion.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="libs/vendor/select2/dist/js/select2.min.js"></script>
 <script src="libs/js/script.js"></script>
 <script src="libs/js/formulario.js"></script>
 <script src="libs/vendor/calendar/index.global.min.js"></script>
