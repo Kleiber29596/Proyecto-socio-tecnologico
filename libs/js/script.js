@@ -4169,7 +4169,7 @@ const confirmMessage = `
               });
               
     
-              $("#tabla_consultas").DataTable().ajax.reload();
+              $("#tbl_consultas").DataTable().ajax.reload();
             } else {
               Swal.fire({
                 icon: "error",
@@ -4858,6 +4858,111 @@ function listarDatosConsulta(id) {
           response.data.tipo_consulta;
         document.getElementById("update_diagnostico").value =
           response.data.diagnostico;
+
+          document.getElementById("multiples_medicamentos_update").innerHTML =
+          "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
+
+        response.data.receta_medicamentos.forEach(function (medicamento, index) {
+          contador = contador + 1;
+
+          //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
+
+          let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
+          let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
+
+          let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
+          let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
+          let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
+
+          //Contenedor de los detalles agregados
+          var cont_elemento = document.createElement("tr");
+          cont_elemento.setAttribute("id", id_contenedor);
+          cont_elemento.setAttribute("class", "contenedor_medicamento");
+          cont_elemento.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          document
+            .getElementById("multiples_medicamentos_update")
+            .appendChild(cont_elemento);
+
+          //td que almacena los nombres de las especies
+          var td_medicamentos = document.createElement("td");
+          td_medicamentos.setAttribute("id", id_medicamento);
+          td_medicamentos.setAttribute("class", "ente");
+          td_medicamentos.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          cont_elemento.appendChild(td_medicamentos);
+
+          //td que almacena que almacena las presentaciones de las especies
+          var td_presentacion = document.createElement("td");
+          td_presentacion.setAttribute("id", id_presentacion);
+          td_presentacion.setAttribute("class", "cuenta_movimiento");
+          td_presentacion.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          cont_elemento.appendChild(td_presentacion);
+
+          //Columna que almacena el boton borrar
+          var td_accion_borrar = document.createElement("td");
+          td_accion_borrar.setAttribute("id", id_boton_borrar);
+          td_accion_borrar.setAttribute("class", "acciones");
+          td_accion_borrar.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          cont_elemento.appendChild(td_accion_borrar);
+
+          //Boton borrar
+          var btn_delete = document.createElement("button");
+          btn_delete.setAttribute("class", "btn btn-danger btn-sm");
+          btn_delete.setAttribute("title", "Remover");
+          btn_delete.setAttribute("type", "button");
+          btn_delete.setAttribute(
+            "onclick",
+            "eliminarEspecieUpdate(" + medicamento.id_recipe_medicamento + ")"
+          );
+          btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
+          td_accion_borrar.appendChild(btn_delete);
+
+          //Boton Modificar
+          var btn_update = document.createElement("button");
+          btn_update.setAttribute("class", "btn btn-warning btn-sm");
+          btn_update.setAttribute("title", "Modificar");
+          btn_update.setAttribute("type", "button");
+          btn_update.setAttribute(
+            "onclick",
+            "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+          );
+          btn_update.setAttribute(
+            "style",
+            "background:#ffc107; color: #FFF; margin-left: 10px;"
+          );
+          td_accion_borrar.appendChild(btn_update);
+
+          //Icono del boton borrar
+          var icono_btn_delete = document.createElement("i");
+          icono_btn_delete.setAttribute("class", "fas fa-trash");
+          icono_btn_delete.setAttribute("data-id", "");
+          btn_delete.appendChild(icono_btn_delete);
+
+          //Icono del boton modificar
+          var icono_btn_update = document.createElement("i");
+          icono_btn_update.setAttribute("class", "fas fa-edit");
+          icono_btn_update.setAttribute("data-id", "");
+          btn_update.appendChild(icono_btn_update);
+
+          document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento;
+          document.getElementById(id_presentacion).innerHTML =
+            medicamento.presentacion;
+      
+          document
+            .getElementById("contenedor_datos_medicamentos_update")
+            .removeAttribute("style");
+        });
         
         $("#modalActualizarConsultas").modal("show");
       } else {
@@ -4868,3 +4973,57 @@ function listarDatosConsulta(id) {
     });
 }
 
+/* -------------- Obtener datos para actualizar receta médica ------------------ */
+function ModificarRecetaMedica(id) {
+  let id_receta = id;
+
+// document.getElementById("medicamento_update").value = id;
+//document.getElementById("modificar_especie_jornada").removeAttribute("style");
+//document.getElementById("cancelar_especie_update").removeAttribute("style");
+
+  //resetear los elementos tr
+  const filas = document.querySelectorAll(".contenedor_medicamento");
+
+  filas.forEach((fila) => {
+    fila.style.backgroundColor = "#FFFFFF";
+  });
+
+  //Fin resetear los elementos tr
+
+  let contenedor;
+
+  contenedor = "contenedor" + "_" + id_receta;
+
+  document.getElementById(contenedor).style.backgroundColor = "#fff3cd";
+
+  $.ajax({
+    url: "index.php?page=obtenerDatosReceta",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_receta: id_receta,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("medicamento_update").value =
+          response.data.id_presentacion_medicamento;
+        document.getElementById("dosis_update").value =
+          response.data.dosis;
+        document.getElementById("unidad_medida_update").value =
+          response.data.unidad_medida;
+        document.getElementById("frecuencia_update").value =
+          response.data.frecuencia;
+        document.getElementById("cantidad_update").value =
+          response.data.cantidad;
+          document.getElementById("intervalo_update").value =
+          response.data.dosis;
+
+        $("#modalActualizarConsultas").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}

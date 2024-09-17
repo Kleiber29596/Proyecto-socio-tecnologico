@@ -241,5 +241,65 @@ public function listarConsultas()
 		
 	}
 
+	public function obtenerDatosReceta()
+	{	
+		
+		$id_medicamento = $_POST['id_medicamento'];
+		$modelRecipes = new RecipeModel();
+
+		$listar = $modelRecipes->obtenerDatosReceta($id_medicamento);
+		
+		foreach ($listar as $lista) {
+			$id_presentacion_medicamento = $lista['id_presentacion_medicamento'];
+			$dosis			 		     = $lista['dosis'];
+			$unidad_medida 				 = $lista['unidad_medida'];
+			$frecuencia 				 = $lista['frecuencia'];
+			$cantidad 			         = $lista['cantidad'];
+			$intervalo 			         = $lista['intervalo'];
+
+			
+
+		}
+			
+		if ($listar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_presentacion_medicamento'   => $id_presentacion_medicamento,
+					'dosis'		   					=> $dosis,
+					'unidad_medida'		   			=> $unidad_medida,
+					'frecuencia'		   		    => $frecuencia,
+					'cantidad'			            => $cantidad,
+					'intervalo'			            => $intervalo
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
 
 }

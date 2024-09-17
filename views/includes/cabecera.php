@@ -224,7 +224,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
 
             <li class="nav-heading">Configuracion</li>
-        
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=ModuloUsuario">
                     <i class="bi bi-person"></i>

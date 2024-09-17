@@ -53,7 +53,7 @@
 
 <!-- Modal Agregar Consulta-->
 <div class="modal fade" id="modalAgregarConsulta" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="modalAgregarCitasLabel" aria-hidden="true">
+    aria-labelledby="modalAgregarConsultaLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,18 +68,14 @@
                     <!-- Step 1 -->
                     <div class="step" id="step-1">
                         <div class="row">
-                            <div class="col-sm-11" id="grupo_n_documento">
-                                <label class="formulario__label" for="n_documento">Nº de documento</label>
+                            <div class="col-sm-11">
                                 <div class="form-group">
-                                    <input class="form-control formulario__validacion__input" type="text"
-                                        id="n_documento_persona" name="n_documento" placeholder="Numero de documento...">
-                                        <input type="hidden" id="id_persona" value="">
-                                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                                    <label for="n_documento_persona">Número de documento</label>
+                                    <input class="form-control" type="text" id="n_documento_persona"
+                                        placeholder="Numero de documento">
+                                    <input type="hidden" id="id_persona" value="">
                                 </div>
-                                <p class="formulario__input-error">El numero de documento debe contener solo numeros y debe tener mínimo 7 y máximo 8 digitos.
-                                </p>
                             </div>
-    
                             <div class="col-sm-1"
                                 style="display: flex; justify-content: flex-start; align-items: flex-end;">
                                 <div class="form-group">
@@ -194,7 +190,7 @@
                                         <option value="">Seleccione</option>
                                         <?php foreach ($medicamentos as $medicamento) { ?>
                                         <option value="<?= $medicamento['id_presentacion_medicamento'] ?>">
-                                            <?= $medicamento['nombre_medicamento'].' '.$medicamento['presentacion'] ?>
+                                            <?= $medicamento['nombre_medicamento'].'-'.$medicamento['presentacion'] ?>
                                         </option>
                                         <?php } ?>
                                     </select>
@@ -271,7 +267,7 @@
                                     id="multiples_medicamentos">
                                     <tr>
                                         <th>Medicamento</th>
-                                        <th>Instrucciones</th>
+                                        <th>Presentación</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </table>
@@ -280,7 +276,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="instrucciones">Instrucciones Adicionales</label>
+                                    <label for="instrucciones">Instrucciones</label>
                                     <textarea class="form-control" id="instrucciones" name="instrucciones" rows="3"
                                         placeholder="Ingrese las instrucciones"></textarea>
                                 </div>
@@ -350,17 +346,99 @@
                         </div>
                     </div>
                     <br>
+                    <p>Receta Médica</p>
+
                     <div class="row">
-                        <p style="margin-auto;">Datos de la receta médica</p>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="medicamento">Medicamento</label>
+                                <select class="select2-selection--single" name="medicamento" id="medicamento_update"
+                                    style="width:100%">
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($medicamentos as $medicamento) { ?>
+                                    <option value="<?= $medicamento['id_presentacion_medicamento'] ?>">
+                                        <?= $medicamento['nombre_medicamento'].'-'.$medicamento['presentacion'] ?>
+                                    </option>
+                                    <?php } ?>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="dosis">Dosis</label>
+                                <input type="number" class="form-control" id="dosis_update" name="dosis"
+                                    placeholder="Ingrese la dosis">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="dosis">Unidad de medida</label>
+                                <select class="form-control" name="medicamento" id="unidad_medida_update">
+                                    <option value="">Seleccione</option>
+                                    <option value="unidad">Unidad</option>
+                                    <option value="pastilla">pastilla</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <label for="frecuencia">Frecuencia</label>
+                            <div class="form-group input-horas">
+                                <input type="number" id="frecuencia_update" class="form-control" name="frecuencia"
+                                    min="1" step="1" placeholder="ingrese la frecuecia">
+                                <span>horas</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label for="duracion">Duración</label>
+                            <div class="form-group input-duracion">
+                                <input type="number" id="cantidad_duracion_update" class="form-control"
+                                    name="cantidad_duracion" min="1" step="1" placeholder="ingrese la duración">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="duracion"></label>
+                            <div class="form-group input-duracion">
+                                <select name="intervalo" id="intervalo_update" class="form-control"
+                                    style="width: 100%; display: inline-block; margin-left: 10px;">
+                                    <option value="días">Días</option>
+                                    <option value="semanas">Semanas</option>
+                                    <option value="meses">Meses</option>
+                                </select>
+
+                            </div>
+                            <br>
+                        </div>
+
+
+
+
+                        <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
+                            <div class="col-sm-12 table-responsive">
+
+                                <table
+                                    class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
+                                    id="multiples_medicamentos_update">
+
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
             </div>
-        </div>
 
-        </form>
+            </form>
+        </div>
+        <div class="modal-footer">
+        </div>
     </div>
-    <div class="modal-footer">
-    </div>
-</div>
 </div>
 </div>
 
