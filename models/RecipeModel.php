@@ -46,12 +46,13 @@ public function consultarRecetaUpdate($id_consulta) {
     return $resultado;
 }
 
-public function obtenerDatosReceta($id) {
-    $db = new ModeloBase();
-    $query = "SELECT id_recipe_medicamento, id_presentacion_medicamento, id_recipe, dosis, unidad_medida, frecuencia, cantidad, intervalo from recipes_medicamentos WHERE id_recipe_medicamento= ".$id."";
-    $resultado = $db->FectAll($query);
-    return $resultado;
-}
+public function obtenerDatosReceta($id)
+	{
+		$db = new ModeloBase();
+		$query = "SELECT id_recipe_medicamento, id_presentacion_medicamento, id_recipe, dosis, unidad_medida, frecuencia, cantidad, intervalo from recipes_medicamentos WHERE id_recipe_medicamento = ".$id."";
+		$resultado = $db->FectAll($query);
+		return $resultado;
+	}
 
 
 }

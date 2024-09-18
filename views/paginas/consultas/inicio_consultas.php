@@ -5,9 +5,10 @@
     $objeto1        = new MedicamentosController();
     $objeto2        = new ConsultasController();
     $objeto3        = new EspecialidadController();
-    $consultas      = $objeto2->selectTipoConsulta();
-    $consultas_update = $objeto2->selectTipoConsulta();
-    $medicamentos   = $objeto1->selectMedicamentos();
+    $consultas             = $objeto2->selectTipoConsulta();
+    $consultas_update      = $objeto2->selectTipoConsulta();
+    $medicamentos          = $objeto1->selectMedicamentos();
+    $medicamentos_update   = $objeto1->selectMedicamentos();
     $especialidades = $objeto3->selectEspecialidad(); 
     
 ?>
@@ -355,9 +356,9 @@
                                 <select class="select2-selection--single" name="medicamento" id="medicamento_update"
                                     style="width:100%">
                                     <option value="">Seleccione</option>
-                                    <?php foreach ($medicamentos as $medicamento) { ?>
-                                    <option value="<?= $medicamento['id_presentacion_medicamento'] ?>">
-                                        <?= $medicamento['nombre_medicamento'].'-'.$medicamento['presentacion'] ?>
+                                    <?php foreach ($medicamentos_update as $medicamento_update) { ?>
+                                    <option value="<?= $medicamento_update['id_presentacion_medicamento'] ?>">
+                                        <?= $medicamento_update['nombre_medicamento'].'-'.$medicamento_update['presentacion'] ?>
                                     </option>
                                     <?php } ?>
                                 </select>
@@ -398,8 +399,8 @@
                         <div class="col-sm-4">
                             <label for="duracion">Duración</label>
                             <div class="form-group input-duracion">
-                                <input type="number" id="cantidad_duracion_update" class="form-control"
-                                    name="cantidad_duracion" min="1" step="1" placeholder="ingrese la duración">
+                                <input type="number" id="cantidad_update" class="form-control" name="cantidad_duracion"
+                                    min="1" step="1" placeholder="ingrese la duración">
                             </div>
                         </div>
 
@@ -414,8 +415,27 @@
                                 </select>
 
                             </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success btn-circle" style="display: none;"
+                                        id="modificar_especie_jornada" title="Modificar"><i
+                                            class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-danger btn-circle" style="display: none;"
+                                        id="cancelar_especie_update" onclick="cancelarEspecieUpdate()"
+                                        title="Cancelar"><i class="fas fa-ban"></i></button>
+                                </div>
+                            </div>
                             <br>
                         </div>
+
+
+
+
+
 
 
 

@@ -4880,7 +4880,7 @@ function listarDatosConsulta(id) {
           cont_elemento.setAttribute("class", "contenedor_medicamento");
           cont_elemento.setAttribute(
             "style",
-            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+            "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
           );
           document
             .getElementById("multiples_medicamentos_update")
@@ -4985,7 +4985,7 @@ function ModificarRecetaMedica(id) {
   const filas = document.querySelectorAll(".contenedor_medicamento");
 
   filas.forEach((fila) => {
-    fila.style.backgroundColor = "#FFFFFF";
+    fila.style.backgroundColor = "#e2e3e5";
   });
 
   //Fin resetear los elementos tr
@@ -5017,7 +5017,7 @@ function ModificarRecetaMedica(id) {
         document.getElementById("cantidad_update").value =
           response.data.cantidad;
           document.getElementById("intervalo_update").value =
-          response.data.dosis;
+          response.data.intervalo;
 
         $("#modalActualizarConsultas").modal("show");
       } else {

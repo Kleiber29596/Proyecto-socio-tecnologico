@@ -244,24 +244,24 @@ public function listarConsultas()
 	public function obtenerDatosReceta()
 	{	
 		
-		$id_medicamento = $_POST['id_medicamento'];
+		$id_receta = $_POST['id_receta'];
 		$modelRecipes = new RecipeModel();
-
-		$listar = $modelRecipes->obtenerDatosReceta($id_medicamento);
 		
+		$listar = $modelRecipes->obtenerDatosReceta($id_receta);
+		
+
 		foreach ($listar as $lista) {
-			$id_presentacion_medicamento = $lista['id_presentacion_medicamento'];
-			$dosis			 		     = $lista['dosis'];
-			$unidad_medida 				 = $lista['unidad_medida'];
-			$frecuencia 				 = $lista['frecuencia'];
-			$cantidad 			         = $lista['cantidad'];
-			$intervalo 			         = $lista['intervalo'];
-
-			
-
+			$id_presentacion_medicamento = $lista->id_presentacion_medicamento; // Cambiado a ->
+			$dosis = $lista->dosis; // Cambiado a ->
+			$unidad_medida = $lista->unidad_medida; // Cambiado a ->
+			$frecuencia = $lista->frecuencia; // Cambiado a ->
+			$cantidad = $lista->cantidad; // Cambiado a ->
+			$intervalo = $lista->intervalo; // Cambiado a ->
 		}
+
+		
 			
-		if ($listar) {
+		if ($intervalo != '') {
 			
 			$data = [
 				'data' => [
