@@ -26,7 +26,7 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
 ?>
 <div class="pagetitle">
-  <h1>MATRIZ OPERACIÓN "VENEZUELA COME PESCADO"</h1>
+  <!-- <h1>MATRIZ OPERACIÓN "VENEZUELA COME PESCADO"</h1> -->
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">Incio</a></li>
@@ -130,12 +130,12 @@ if (session_status() === PHP_SESSION_ACTIVE) {
         <div class="col-12">
           <div class="card">
 
-            <div class="card-body">
+            <!-- <div class="card-body">
               <h5 class="card-title">Matriz <span>/ Por especie</span></h5>
               <div class="table-responsive">
                 <!-- Table with stripped rows -->
 
-                <div class="container">
+                <!-- <div class="container">
                   <img src="libs/img/cintillo1.png" alt="" style="width: 100%;">
                 </div><br>
                 <div class="container">
@@ -171,16 +171,16 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
                   </tbody>
                 </table>
-                <!-- End Table with stripped rows -->
+                 End Table with stripped rows 
 
               </div>
             </div>
 
           </div>
-        </div><!-- End Reports -->
+        </div> End Reports -->
 
         <!-- Recent Sales -->
-        <div class="col-12">
+        <div class="col-12"> 
           <div class="card recent-sales overflow-auto">
 
             <div class="filter">
