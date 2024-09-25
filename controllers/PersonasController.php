@@ -40,7 +40,7 @@ class PersonasController
 		// DB table to use 
 		$table = <<<EOT
         (
-            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.nombres, ' ', pe.apellidos) AS nombre_apellido, pe.sexo, pe.telefono, e.estado, m.municipio, pa.parroquia, pe.correo FROM personas AS pe INNER JOIN estados e ON pe.id_estado = e.id_estado  INNER JOIN municipios m ON pe.id_municipio = m.id_municipio  INNER JOIN parroquias pa ON pe.id_parroquia = pa.id_parroquia ORDER BY pe.id_persona DESC
+            SELECT pe.id_persona, CONCAT(pe.tipo_documento, '-', pe.n_documento) AS documento, CONCAT(pe.nombres, ' ', pe.apellidos) AS nombre_apellido, pe.sexo, pe.telefono, pe.correo FROM personas AS pe ORDER BY pe.id_persona DESC
         ) temp
         EOT;
 
@@ -84,9 +84,7 @@ class PersonasController
 			'sexo'		     		=> $_POST['sexo'],
 			'telefono'		  		=> $_POST['telefono'],
 			'correo'          		=> $_POST['correo'],
-			'id_estado'          	=> $_POST['estado'],
-			'id_municipio'       	=> $_POST['municipio'],
-			'id_parroquia'       	=> $_POST['parroquia'],
+			'direccion'				=> $_POST['direccion'],
 			'fecha_registro'  		=> $fecha_registro
 		);
 		$resultado = $modelPersonas->registrarPersona($datos);
@@ -190,12 +188,7 @@ class PersonasController
             $apellidos          = $listar['apellidos'];
             $sexo               = $listar['sexo'];
             $telefono           = $listar['telefono'];
-            $estado             = $listar['id_estado'];
-            $municipio          = $listar['id_municipio'];
-            $parroquia          = $listar['id_parroquia'];
-			$nombre_estado      = $listar['estado'];
-            $nombre_municipio   = $listar['municipio'];
-            $nombre_parroquia   = $listar['parroquia'];
+			$direccion          = $listar['direccion'];
             $correo             = $listar['correo'];
             $fecha_nacimiento   = $listar['fecha_nacimiento'];
             $id_persona         = $listar['id_persona'];
@@ -212,12 +205,7 @@ class PersonasController
                 'apellidos'          => $apellidos,
                 'sexo'               => $sexo,
                 'telefono'           => $telefono,
-                'estado'             => $estado,
-                'municipio'          => $municipio,
-                'parroquia'          => $parroquia,
-				'nombre_estado'		 => $nombre_estado,
-				'nombre_municipio'	 => $nombre_municipio,
-				'nombre_parroquia'	 => $nombre_parroquia,
+                'direccion'          => $direccion,
                 'correo'             => $correo,
                 'fecha_nacimiento'   => $fecha_nacimiento,
                 'id_persona'         => $id_persona
@@ -360,9 +348,8 @@ public function verDatosPersona()
 			$sexo_persona 		    = $lista['sexo'];
 			$fecha_nac  			= $lista['fecha_nacimiento'];
 			$tlf_persona 		    = $lista['telefono'];
-			$estado_persona 		= $lista['estado'];
-			$municipio_persona 		= $lista['municipio'];
-			$parroquia_persona 		= $lista['parroquia'];
+			$direccion 		        = $lista['direccion'];
+		
 		}
 
 		$edad_persona = obtener_edad($fecha_nac);
@@ -382,9 +369,7 @@ public function verDatosPersona()
 					'apellidos_persona'				=> $apellidos_persona,
 					'sexo_persona'			    	=> $sexo_persona,
 					'tlf_persona'			    	=> $tlf_persona,
-					'estado_persona'				=> $estado_persona,
-					'municipio_persona'				=> $municipio_persona,
-					'parroquia_persona'				=> $parroquia_persona,
+					'direccion'			 	        => $direccion,
 					'edad'							=> $edad_persona,
 				],
 				'code' => 0,
@@ -426,11 +411,9 @@ public function verDatosPersona()
 			'apellidos'			 => $_POST['apellidos'],
 			'sexo'			     => $_POST['sexo'],
 			'telefono'			 => $_POST['telefono'],
-			'id_estado'			 => $_POST['estado'],
-			'id_municipio'	     => $_POST['municipio'],
-			'id_parroquia'	     => $_POST['parroquia'],
 			'correo'			 => $_POST['correo'],
-			'fecha_nacimiento'	 => $_POST['fecha_nac']
+			'fecha_nacimiento'	 => $_POST['fecha_nac'],
+			'direccion'	         => $_POST['direccion']
 		);
 
 
