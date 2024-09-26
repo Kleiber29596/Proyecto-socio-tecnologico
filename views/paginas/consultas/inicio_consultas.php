@@ -325,7 +325,7 @@
                                 <input type="hidden" name="consulta_update" id="id_consulta_update">
                                 <label for="rango_edad">Tipo de consulta</label>
                                 <select class="select2-selection--single" name="tipo_consulta" id="update_tipo_consulta"
-                                    style="width:100%">
+                                    style="width:100%" disabled>
                                     <option value="">Seleccione</option>
                                     <?php foreach ($consultas_update as $consulta_update) { ?>
                                     <option value="<?= $consulta_update['id_tipo_consulta'] ?>">
@@ -337,11 +337,46 @@
                     </div>
                     <br>
                     <div class="row">
+                            <!-- Campo oculto para la edad -->
+                            <div class="form-group">
+                                <input class="form-control" type="hidden" id="edad" placeholder="Edad">
+                            </div>
+
+                            <!-- Campo para el peso del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="peso">Peso (kg)</label>
+                                    <input class="form-control" type="number" id="update_peso" name="peso"
+                                        placeholder="Ingrese el peso" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Campo para la altura del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="altura">Altura (cm)</label>
+                                    <input class="form-control" type="number" id="update_altura" name="altura "
+                                        placeholder="Ingrese la altura" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Campo para la presión arterial del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="presion_arterial">Presión Arterial</label>
+                                    <input class="form-control" type="text" id="update_presion_arterial"
+                                        name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)" disabled>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+                    <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="instrucciones">Diagnóstico</label>
                                 <textarea class="form-control" id="update_diagnostico" name="diagnostico" rows="3"
-                                    placeholder="Ingrese el diagnóstico"></textarea>
+                                    placeholder="Ingrese el diagnóstico" disabled></textarea>
                             </div>
 
                         </div>
@@ -426,7 +461,7 @@
                                             class="fas fa-ban"></i></button>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-success btn-circle"
+                                    <button type="button" class="btn btn-success btn-circle "
                                         style="display: flex; margin-top:25px; margin-left:10px;"
                                         id="modificar_receta" onclick="modificarReceta()" title="Modificar"><i
                                             class="fas fa-edit"></i></button>
@@ -445,13 +480,18 @@
                                 class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
                                 id="multiples_medicamentos_update">
 
-                            </table>
+                            </table>    
 
                         </div>
                     </div>
 
                 
             </div>
+            <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" onclick="modificarPersona()" title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
+                    </div>
         </div>
 
 

@@ -1968,6 +1968,8 @@ if (document.getElementById("agregar_persona")) {
   }
 }
 
+
+
 /* -------------- Listar datos para actualización ------------------ */
 
 function listarActualizacionEspecialidad(id) {
@@ -4011,8 +4013,10 @@ if (document.getElementById("agregar_consulta")) {
     const tablaMedicamentos = document.getElementById('multiples_medicamentos');
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
 
-    const listaMedicamentos = datosMedicamentos.map(medicamento => `<li>${medicamento}</li>`).join('');
-   // Crea el mensaje de confirmación incluyendo la lista de medicamentos y las instrucciones
+    const listaMedicamentos = datosMedicamentos.map(medicamento => {
+      // Asegúrate de que `medicamento` sea un array
+      return `<li>${medicamento.join(' ')}</li>`;
+    }).join('');
 const confirmMessage = `
 <ul style="text-align: left;">
   <li><strong>Persona:</strong> ${nombre_persona}</li>
@@ -4765,6 +4769,12 @@ function listarDatosConsulta(id) {
           response.data.nombres_persona;
         document.getElementById("update_tipo_consulta").value =
           response.data.tipo_consulta;
+        document.getElementById("update_peso").value =
+          response.data.peso;
+        document.getElementById("update_altura").value =
+          response.data.altura;
+        document.getElementById("update_presion_arterial").value =
+          response.data.presion_arterial;
         document.getElementById("update_diagnostico").value =
           response.data.diagnostico;
           document.getElementById("id_consulta_update").value =
@@ -4878,6 +4888,57 @@ function listarDatosConsulta(id) {
         
         $("#modalActualizarConsultas").modal("show");
       } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+function modificarPersona() {
+
+  let id_consulta           = document.getElementById("id_consulta_update").value;
+  let peso                  = document.getElementById("update_peso").value ;
+  let altura                = document.getElementById("update_altura").value
+  let presion_arterial      = document.getElementById("update_presion_arterial").value
+  let diagnostico           = document.getElementById("update_diagnostico").value
+ 
+  $.ajax({
+    url: "index.php?page=modificarPersona",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_persona: id_persona,
+      tipo_documento: tipo_documento,
+      n_documento: n_documento,
+      nombres: nombres,
+      apellidos: apellidos,
+      sexo: sexo,
+      fecha_nac: fecha_nac,
+      telefono: telefono,
+      direccion: direccion,
+      correo: correo,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success) {
+        $("#formActualizarPersonas")[0].reset();
+        $("#modalActualizarPersonas").modal("hide");
+        $("#tbl_personas").DataTable().ajax.reload();
+
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
       }
     })
     .fail(function () {
@@ -5139,3 +5200,6 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
         console.log("error");
       });
   }
+
+
+  

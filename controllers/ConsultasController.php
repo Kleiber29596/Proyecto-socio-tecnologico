@@ -195,6 +195,9 @@ public function listarConsultas()
 			$tipo_consulta 				= $lista['id_tipo_consulta'];
 			$diagnostico 				= $lista['diagnostico'];
 			$nombres_persona 			= $lista['nombres_apellidos'];
+			$altura 			        = $lista['altura'];
+			$peso 			            = $lista['peso'];
+			$presion_arterial 			= $lista['presion_arterial'];
 
 		}
 
@@ -213,7 +216,10 @@ public function listarConsultas()
 					'tipo_consulta'		   			=> $tipo_consulta,
 					'diagnostico'		   			=> $diagnostico,
 					'nombres_persona'		   		=> $nombres_persona,
-					'receta_medicamentos'			=> $receta_medicamentos
+					'receta_medicamentos'			=> $receta_medicamentos,
+					'altura'					    => $altura,
+					'peso'							=> $peso,
+					'presion_arterial'				=> $presion_arterial
 
 				],
 				'code' => 0,
@@ -325,7 +331,7 @@ public function listarConsultas()
 			$data = [
 				'data' => [
 					'success'           	 	  	=>  true,
-					'message'           	 		=> 'Registro encontrado',
+					'message'           	 		=> 'Receta modificada',
 					'info'              	 	    =>  '',
 					'recetas'   					=> $recetas
 					
