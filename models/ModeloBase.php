@@ -33,25 +33,25 @@ class ModeloBase extends DB {
 		}
 	}
 
-	public function editar($tabla, $id, $datos) {
+	public function editar($tabla, $nombre_id, $id, $datos)
+	{
 		try {
 
-		    $campos = array();
+			$campos = array();
 
 			foreach ($datos as $claves => $elemento) {
-				$campos[] = " ". $claves ."=:". $claves;
-					// nombre=:nombre 	email=:email 
+				$campos[] = " " . $claves . "=:" . $claves;
+				// nombre=:nombre 	email=:email 
 			}
 
 			$cadena = implode(", ", $campos);
 			//nombre=:nombre, email=:email
 
-			$sql = "UPDATE $tabla SET $cadena WHERE id=:id";
+			$sql = "UPDATE $tabla SET $cadena WHERE  $nombre_id =:id";
 			$q = $this->db->prepare($sql);
 			//se asigna la variable $id a la cadena antes de ejecutar el query
 			$datos['id'] = $id;
-			return $q->execute($datos); 
-
+			return $q->execute($datos);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		} catch (Exception $e) {

@@ -244,19 +244,19 @@ public function listarConsultas()
 	public function obtenerDatosReceta()
 	{	
 		
-		$id_receta = $_POST['id_receta'];
-		$modelRecipes = new RecipeModel();
+		$id_receta          = $_POST['id_receta'];
+		$modelRecipes       = new RecipeModel();
 		
 		$listar = $modelRecipes->obtenerDatosReceta($id_receta);
 		
 
 		foreach ($listar as $lista) {
-			$id_presentacion_medicamento = $lista->id_presentacion_medicamento; // Cambiado a ->
-			$dosis = $lista->dosis; // Cambiado a ->
-			$unidad_medida = $lista->unidad_medida; // Cambiado a ->
-			$frecuencia = $lista->frecuencia; // Cambiado a ->
-			$cantidad = $lista->cantidad; // Cambiado a ->
-			$intervalo = $lista->intervalo; // Cambiado a ->
+			$id_presentacion_medicamento = $lista->id_presentacion_medicamento; 
+			$dosis = $lista->dosis; 
+			$unidad_medida = $lista->unidad_medida; 
+			$frecuencia = $lista->frecuencia; 
+			$cantidad = $lista->cantidad; 
+			$intervalo = $lista->intervalo; 
 		}
 
 		
@@ -302,4 +302,60 @@ public function listarConsultas()
 	}
 
 
+	public function modificarReceta()
+	{	
+		$id_consulta_update = $_POST['id_consulta_update'];
+		$id_receta = $_POST['id_receta_update'];
+		$modelRecipes = new RecipeModel();
+
+		$datos = array(
+			'id_recipe_medicamento'		        => 	$id_receta,
+			'id_presentacion_medicamento'         	=> $_POST['medicamento_update'],
+			'dosis'    	  							=> $_POST['dosis_update'],
+			'frecuencia'  							=> $_POST['frecuencia_update'],
+			'cantidad'		    					=> $_POST['cantidad_update'],
+			'intervalo'		            			=> $_POST['intervalo_update'],
+		);
+		
+		$modificar = $modelRecipes->modificarReceta($id_receta, $datos);
+		$recetas = $modelRecipes->consultarRecetaUpdate($id_consulta_update);
+
+		if ($recetas) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'recetas'   					=> $recetas
+					
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
+
 }
+
