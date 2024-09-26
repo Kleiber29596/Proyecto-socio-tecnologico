@@ -10,7 +10,8 @@ const expresiones = {
 	password: /^.{4,12}$/, // 4 a 12 digitos.
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{7,14}$/, // 7 a 14 numeros.
-	n_documento: /^\d{7,8}$/ // 7 a 14 numeros.
+	n_documento: /^\d{7,8}$/, // 7 a 14 numeros.
+	direccion:("^\\s\\d{2}\\s#\\d{2}-\\d{2}\\s[a-zA-Z\\s]+$")
 }
 
 const validarFormulario	 = (e) => {
@@ -29,6 +30,9 @@ const validarFormulario	 = (e) => {
 		break;
 		case "correo":
 			validarCampo(expresiones.correo, e.target,'correo');
+		break;
+		case "direccion":
+			validarCampo(expresiones.nombre, e.target,'direccion');
 		break;
 	}
 }

@@ -477,34 +477,25 @@ function showStep(step) {
     }
     steps[step - 1].style.display = "block";
 
-    document.getElementById("prevBtn").style.display = step == 1 ? "none" : "inline";
-    document.getElementById("nextBtn").style.display = step == steps.length ? "none" : "inline";
-    document.getElementById("agregar_consulta").style.display = step == steps.length ? "inline" : "none";
+    document.getElementById("prevBtn").style.display = step === 1 ? "none" : "inline";
+    document.getElementById("nextBtn").style.display = step === steps.length ? "none" : "inline";
+    document.getElementById("agregar_consulta").style.display = step === steps.length ? "inline" : "none";
 }
 
 function nextPrev(n) {
     var steps = document.getElementsByClassName("step");
-    if (n == 1 && !validateForm()) return false;
+    
+    // Eliminamos la validación completamente
     steps[currentStep - 1].style.display = "none";
     currentStep += n;
+
     if (currentStep > steps.length) {
         document.getElementById("formRegistrarConsultas").submit();
         return false;
     }
+    
     showStep(currentStep);
 }
 
-function validateForm() {
-    var valid = true;
-    var inputs = document.querySelectorAll(".step:nth-child(" + currentStep + ") input");
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == "") {
-            inputs[i].classList.add("is-invalid");
-            valid = false;
-        } else {
-            inputs[i].classList.remove("is-invalid");
-        }
-    }
-    return valid;
-}
+
 </script>

@@ -1903,90 +1903,23 @@ if ((agregar_paciente = document.getElementById("agregar_paciente"))) {
   }
 }
 
-/* -------------- Agregar Paciente ------------------ 
-var agregar_paciente;
-if ((agregar_paciente = document.getElementById("agregar_paciente"))) {
-  agregar_paciente.addEventListener("click", agregarPaciente, false);
 
-  function agregarPaciente() {
-    let nombres = document.getElementById("nombres_paciente").value;
-    let apellidos = document.getElementById("apellidos_paciente").value;
-    let tipo_documento = document.getElementById("tipo_documento").value;
-    let n_documento = document.getElementById("n_documento_paciente").value;
-    let fecha_nac = document.getElementById("fecha_nac").value;
-    let sexo = document.getElementById("sexo").value;
-    let estatus = document.getElementById("estatus_paciente").value;
-    let telefono = document.getElementById("telefono").value;
-    let correo = document.getElementById("correo_paciente").value;
-    let estado = document.getElementById("estado").value;
-    let municipio = document.getElementById("municipio").value;
-    let parroquia = document.getElementById("parroquia").value;
-
-    $.ajax({
-      url: "index.php?page=registrarPaciente",
-      type: "post",
-      dataType: "json",
-      data: {
-        nombres: nombres,
-        apellidos: apellidos,
-        tipo_documento: tipo_documento,
-        n_documento: n_documento,
-        fecha_nac: fecha_nac,
-        sexo: sexo,
-        estatus: estatus,
-        telefono: telefono,
-        correo: correo,
-        estado: estado,
-        municipio: municipio,
-        parroquia: parroquia
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formRegistrarPaciente").reset();
-
-          $("#modalAgregarPaciente").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_paciente").DataTable().ajax.reload();
-          contenedor_formulario_persona.setAttribute('style', "display: none;");
-          contenedor_datos_persona.removeAttribute('style');
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}-------------- Agregar Persona ------------------ */
+/*-------------- Agregar Persona ------------------ */
 
 if (document.getElementById("agregar_persona")) {
   agregar_persona.addEventListener("click", agregarPersona, false);
 
   function agregarPersona() {
-    let nombres = document.getElementById("nombres").value;
-    let apellidos = document.getElementById("apellidos").value;
-    let tipo_documento = document.getElementById("tipo_documento").value;
-    let n_documento = document.getElementById("n_documento").value;
-    let fecha_nac = document.getElementById("fecha_nac").value;
-    let sexo = document.getElementById("sexo").value;
-    let telefono = document.getElementById("telefono").value;
-    let correo = document.getElementById("correo").value;
-    let estado = document.getElementById("estado").value;
-    let municipio = document.getElementById("municipio").value;
-    let parroquia = document.getElementById("parroquia").value;
+    let nombres         = document.getElementById("nombres").value;
+    let apellidos       = document.getElementById("apellidos").value;
+    let tipo_documento  = document.getElementById("tipo_documento").value;
+    let n_documento     = document.getElementById("n_documento").value;
+    let fecha_nac       = document.getElementById("fecha_nac").value;
+    let sexo            = document.getElementById("sexo").value;
+    let telefono        = document.getElementById("telefono").value;
+    let correo          = document.getElementById("correo").value;
+    let direccion       = document.getElementById("direccion").value;
+
 
     $.ajax({
       url: "index.php?page=registrarPersona",
@@ -2001,9 +1934,7 @@ if (document.getElementById("agregar_persona")) {
         telefono: telefono,
         sexo: sexo,
         correo: correo,
-        estado: estado,
-        municipio: municipio,
-        parroquia: parroquia,
+        direccion: direccion,
       },
     })
       .done(function (response) {
@@ -3815,15 +3746,13 @@ function listarDatosPersona(id) {
         document.getElementById("update_telefono").value =
           response.data.telefono;
         document.getElementById("update_correo").value = response.data.correo;
-        document.getElementById("update_estado").value = response.data.estado;
-        document.getElementById("update_municipio").value =
-          response.data.municipio;
-        document.getElementById("update_parroquia").value =
           response.data.parroquia;
         document.getElementById("update_fecha_nac").value =
           response.data.fecha_nacimiento;
+        document.getElementById("update_direccion").value =
+          response.data.direccion;
 
-        $("#modalActualizarPersona").modal("show");
+        $("#modalActualizarPersonas").modal("show");
       } else {
         console.log("No se encontraron datos o la respuesta no es exitosa.");
       }
@@ -3884,30 +3813,19 @@ $(document).ready(function () {
 });
 
 function modificarPersona() {
-  let id_persona = document.getElementById("id_persona").value;
+
+  let id_persona     = document.getElementById("id_persona").value;
   let tipo_documento = document.getElementById("update_tipo_documento").value;
-  let n_documento = document.getElementById("update_n_documento").value;
-  let nombres = document.getElementById("update_nombres").value;
-  let apellidos = document.getElementById("update_apellidos").value;
-  let sexo = document.getElementById("update_sexo").value;
-  let fecha_nac = document.getElementById("update_fecha_nac").value;
-  let telefono = document.getElementById("update_telefono").value;
-  let estado = document.getElementById("update_estado").value;
-  let municipio = document.getElementById("update_municipio").value;
-  let parroquia = document.getElementById("update_parroquia").value;
-  let correo = document.getElementById("update_correo").value;
-
-  // Validación simple
-  if (!tipo_documento) {
-    Swal.fire({
-      icon: "warning",
-      confirmButtonColor: "#3085d6",
-      title: "Tipo de documento requerido",
-      text: "Por favor seleccione un tipo de documento.",
-    });
-    return;
-  }
-
+  let n_documento    = document.getElementById("update_n_documento").value;
+  let nombres        = document.getElementById("update_nombres").value;
+  let apellidos      = document.getElementById("update_apellidos").value;
+  let sexo           = document.getElementById("update_sexo").value;
+  let fecha_nac      = document.getElementById("update_fecha_nac").value;
+  let telefono       = document.getElementById("update_telefono").value;
+  let correo         = document.getElementById("update_correo").value;
+  let direccion      = document.getElementById("update_direccion").value;
+  
+ 
   $.ajax({
     url: "index.php?page=modificarPersona",
     type: "post",
@@ -3921,17 +3839,15 @@ function modificarPersona() {
       sexo: sexo,
       fecha_nac: fecha_nac,
       telefono: telefono,
-      estado: estado,
-      municipio: municipio,
-      parroquia: parroquia,
+      direccion: direccion,
       correo: correo,
     },
   })
     .done(function (response) {
       if (response.data.success) {
-        $("#formActualizarPersona")[0].reset();
-        $("#modalActualizarPersona").modal("hide");
-        $("#tabla_persona").DataTable().ajax.reload();
+        $("#formActualizarPersonas")[0].reset();
+        $("#modalActualizarPersonas").modal("hide");
+        $("#tbl_personas").DataTable().ajax.reload();
 
         Swal.fire({
           icon: "success",
@@ -4038,15 +3954,8 @@ function consultarPersona() {
           response.data.sexo_persona;
         document.getElementById("tlf_persona").innerHTML =
           response.data.tlf_persona;
-        document.getElementById("direccion_persona").innerHTML =
-          response.data.estado_persona +
-          ", Municipio " +
-          response.data.municipio_persona +
-          ", Parroquia " +
-          response.data.parroquia_persona;
-        document
-          .getElementById("id_persona")
-          .setAttribute("value", response.data.id_persona);
+        document.getElementById("direccion_persona").innerHTML = response.data.direccion
+        document.getElementById("id_persona").setAttribute("value", response.data.id_persona);
         document.getElementById("edad").value = response.data.edad;
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
