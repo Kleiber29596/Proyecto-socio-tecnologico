@@ -5,8 +5,10 @@
     $objeto1        = new MedicamentosController();
     $objeto2        = new ConsultasController();
     $objeto3        = new EspecialidadController();
-    $consultas      = $objeto2->selectTipoConsulta();
-    $medicamentos   = $objeto1->selectMedicamentos();
+    $consultas             = $objeto2->selectTipoConsulta();
+    $consultas_update      = $objeto2->selectTipoConsulta();
+    $medicamentos          = $objeto1->selectMedicamentos();
+    $medicamentos_update   = $objeto1->selectMedicamentos();
     $especialidades = $objeto3->selectEspecialidad(); 
     
 ?>
@@ -22,7 +24,7 @@
                 <div class="card-body">
                     <p></p>
                     <!-- Button trigger modal  -->
-                    <button title="Agregar Especies" class="btn btn-primary" data-bs-toggle="modal"
+                    <button title="Agregar Consulta" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#modalAgregarConsulta">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -31,10 +33,10 @@
                         <table class="table table-bordered" id="tbl_consultas" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Nº documento/Paciente</th>
+                                    <th>Fecha</th>
                                     <th>Nombres/Apellidos</th>
-                                    <th>Tipo Consulta</th>
-                                    <th>Edad</th>
+                                    <th>Nº documento</th>
+                                    <th>Tipo consulta</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -52,7 +54,7 @@
 
 <!-- Modal Agregar Consulta-->
 <div class="modal fade" id="modalAgregarConsulta" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="modalAgregarCitasLabel" aria-hidden="true">
+    aria-labelledby="modalAgregarConsultaLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -87,11 +89,11 @@
                             <div class="col-sm-12">
                                 <p>Datos del Paciente</p>
                                 <div class="table-responsive tbl_personas">
-                                    <table class="table table-bordered table-striped table-hover">
+                                    <table class="table table-bordered table-secondary table-striped table-hover">
                                         <tr>
                                             <th>Nº documento</th>
                                             <th>Nombres</th>
-                                            <th>edad</th>
+                                            <th>fecha_nacimiento</th>
                                             <th>Sexo</th>
                                             <th>Teléfono</th>
                                             <th>Dirección</th>
@@ -115,12 +117,42 @@
                     <!-- Step 2 -->
                     <div class="step" id="step-2" style="display: none;">
                         <div class="row">
+                            <!-- Campo oculto para la edad -->
                             <div class="form-group">
                                 <input class="form-control" type="hidden" id="edad" placeholder="Edad">
                             </div>
+
+                            <!-- Campo para el peso del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="peso">Peso (kg)</label>
+                                    <input class="form-control" type="number" id="peso" name="peso"
+                                        placeholder="Ingrese el peso">
+                                </div>
+                            </div>
+
+                            <!-- Campo para la altura del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="altura">Altura (cm)</label>
+                                    <input class="form-control" type="number" id="altura" name="altura"
+                                        placeholder="Ingrese la altura">
+                                </div>
+                            </div>
+
+                            <!-- Campo para la presión arterial del paciente -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="presion_arterial">Presión Arterial</label>
+                                    <input class="form-control" type="text" id="presion_arterial"
+                                        name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)">
+                                </div>
+                            </div>
+
+                            <!-- Campo para el tipo de consulta -->
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="rango_edad">Tipo de consulta</label>
+                                    <label for="tipo_consulta">Tipo de consulta</label>
                                     <select class="select2-selection--single" name="tipo_consulta" id="tipo_consulta"
                                         style="width:100%">
                                         <option value="">Seleccione</option>
@@ -131,14 +163,19 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <!-- Campo para el diagnóstico -->
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="instrucciones">Diagnóstico</label>
+                                    <label for="diagnostico">Diagnóstico</label>
                                     <textarea class="form-control" id="diagnostico" name="diagnostico" rows="3"
                                         placeholder="Ingrese el diagnóstico"></textarea>
                                 </div>
                             </div>
+
+
                         </div>
+
                     </div>
 
                     <!-- Step 3 -->
@@ -226,11 +263,12 @@
                         <br>
                         <div class="row" id="contenedor_datos_medicamentos" style="display: none;">
                             <div class="col-sm-12 table-responsive" id="">
-                                <table class="table table-bordered table-striped table-hover tbl_medicamentos"
+                                <table
+                                    class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
                                     id="multiples_medicamentos">
                                     <tr>
                                         <th>Medicamento</th>
-                                        <th>Descripción</th>
+                                        <th>Presentación</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </table>
@@ -262,6 +300,172 @@
     </div>
 </div>
 
+<!-- Modal Acutaliza Consultas-->
+
+<div class="modal fade" id="modalActualizarConsultas" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="modalActualizarConsultasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalActualizarConsultasLabel">Consulta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="nombres_apellidos">Paciente</label>
+                                <input class="form-control" type="text" name="nombres_persona" id="nombres_persona"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" name="consulta_update" id="id_consulta_update">
+                                <label for="rango_edad">Tipo de consulta</label>
+                                <select class="select2-selection--single" name="tipo_consulta" id="update_tipo_consulta"
+                                    style="width:100%">
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($consultas_update as $consulta_update) { ?>
+                                    <option value="<?= $consulta_update['id_tipo_consulta'] ?>">
+                                        <?= $consulta_update['motivo'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="instrucciones">Diagnóstico</label>
+                                <textarea class="form-control" id="update_diagnostico" name="diagnostico" rows="3"
+                                    placeholder="Ingrese el diagnóstico"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <p>Medicamentos recetados</p>
+
+                    <div id="contenedor-actualizar-receta" style="display:none;">
+                    <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="medicamento">Medicamento</label>
+                                    <input type="hidden" id="receta-medica">
+                                    <select class="select2-selection--single" name="medicamento" id="medicamento_update"
+                                        style="width:100%">
+                                        <option value="">Seleccione</option>
+                                        <?php foreach ($medicamentos_update as $medicamento_update) { ?>
+                                        <option value="<?= $medicamento_update['id_presentacion_medicamento'] ?>">
+                                            <?= $medicamento_update['nombre_medicamento'].'-'.$medicamento_update['presentacion'] ?>
+                                        </option>
+                                        <?php } ?>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="dosis">Dosis</label>
+                                    <input type="number" class="form-control" id="dosis_update" name="dosis"
+                                        placeholder="Ingrese la dosis">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="dosis">Unidad de medida</label>
+                                    <select class="form-control" name="medicamento" id="unidad_medida_update">
+                                        <option value="">Seleccione</option>
+                                        <option value="unidad">Unidad</option>
+                                        <option value="pastilla">pastilla</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
+                            <div class="col-sm-3">
+                                <label for="frecuencia">Frecuencia</label>
+                                <div class="form-group input-horas">
+                                    <input type="number" id="frecuencia_update" class="form-control" name="frecuencia"
+                                        min="1" step="1" placeholder="ingrese la frecuecia">
+                                    <span>horas</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="duracion">Duración</label>
+                                <div class="form-group input-duracion">
+                                    <input type="number" id="cantidad_update" class="form-control" name="cantidad_duracion"
+                                        min="1" step="1" placeholder="ingrese la duración">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="duracion"></label>
+                                <div class="form-group input-duracion">
+                                    <select name="intervalo" id="intervalo_update" class="form-control"
+                                        style="width: 100%; display: inline-block; margin-left: 10px;">
+                                        <option value="días">Días</option>
+                                        <option value="semanas">Semanas</option>
+                                        <option value="meses">Meses</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="display: flex; align-items:center;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-danger btn-circle"
+                                        style="display: flex; margin-top:25px;" id="cancelar_especie_update"
+                                        onclick="cancelarEspecieUpdate()" title="Cancelar"><i
+                                            class="fas fa-ban"></i></button>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success btn-circle"
+                                        style="display: flex; margin-top:25px; margin-left:10px;"
+                                        id="modificar_receta" onclick="modificarReceta()" title="Modificar"><i
+                                            class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <br>
+
+                    <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
+                        <div class="col-sm-12 table-responsive">
+
+                            <table
+                                class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
+                                id="multiples_medicamentos_update">
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+</form>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+
 <script>
 var currentStep = 1;
 showStep(currentStep);
@@ -273,34 +477,25 @@ function showStep(step) {
     }
     steps[step - 1].style.display = "block";
 
-    document.getElementById("prevBtn").style.display = step == 1 ? "none" : "inline";
-    document.getElementById("nextBtn").style.display = step == steps.length ? "none" : "inline";
-    document.getElementById("agregar_consulta").style.display = step == steps.length ? "inline" : "none";
+    document.getElementById("prevBtn").style.display = step === 1 ? "none" : "inline";
+    document.getElementById("nextBtn").style.display = step === steps.length ? "none" : "inline";
+    document.getElementById("agregar_consulta").style.display = step === steps.length ? "inline" : "none";
 }
 
 function nextPrev(n) {
     var steps = document.getElementsByClassName("step");
-    if (n == 1 && !validateForm()) return false;
+    
+    // Eliminamos la validación completamente
     steps[currentStep - 1].style.display = "none";
     currentStep += n;
+
     if (currentStep > steps.length) {
         document.getElementById("formRegistrarConsultas").submit();
         return false;
     }
+    
     showStep(currentStep);
 }
 
-function validateForm() {
-    var valid = true;
-    var inputs = document.querySelectorAll(".step:nth-child(" + currentStep + ") input");
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == "") {
-            inputs[i].classList.add("is-invalid");
-            valid = false;
-        } else {
-            inputs[i].classList.remove("is-invalid");
-        }
-    }
-    return valid;
-}
+
 </script>

@@ -46,11 +46,11 @@ public function listarConsultas()
 		// The `dt` parameter represents the DataTables column identifier. 
 		$columns = array(
 			
-			array('db' => 'documento',      'dt' => 0),
-			array('db' => 'nombre_apellido','dt' => 1),
-			array('db' => 'motivo',  		'dt' => 2),
-			array('db' => 'edad',     		'dt' => 3),
-			array('db' => 'id_consulta', 	'dt' => 4)
+			array('db' => 'fecha_registro',      'dt' => 0),
+			array('db' => 'nombre_apellido',	 'dt' => 1),
+			array('db' => 'documento',  		 'dt' => 2),
+			array('db' => 'motivo',     		 'dt' => 3),
+			array('db' => 'id_consulta', 		 'dt' => 4)
 
 		);
 
@@ -116,6 +116,9 @@ public function listarConsultas()
 			'edad'    	  			=> $_POST['edad'],
 			'id_tipo_consulta'  	=> $_POST['tipo_consulta'],
 			'diagnostico'		    => $_POST['diagnostico'],
+			'peso'		            => $_POST['peso'],
+			'altura'		        => $_POST['altura'],
+			'presion_arterial'		=> $_POST['presion_arterial'],
 			'fecha_registro'  		=> $fecha_registro,
 			'id_recipe'				=> $id_recipe,
 			'id_usuario'			=> $_SESSION['user_id']
@@ -166,6 +169,9 @@ public function listarConsultas()
 		return $receta;
 	}
 
+	
+	
+
 
 	#estableciendo la vista del reporte
 	public function imprimirRecipe() {
@@ -174,5 +180,182 @@ public function listarConsultas()
 	}
 
 
+	public function listarDatosConsulta()
+	{	
+		
+		$id_consulta = $_POST['id_consulta'];
+		$modelConsultas = new ConsultasModel();
+		$modelRecipes = new RecipeModel();
+
+		$listar = $modelConsultas->listarDatosConsulta($id_consulta);
+		
+		foreach ($listar as $lista) {
+			$id_consulta				= $lista['id_consulta'];
+			$id_tipo_consulta			= $lista['id_tipo_consulta'];
+			$tipo_consulta 				= $lista['id_tipo_consulta'];
+			$diagnostico 				= $lista['diagnostico'];
+			$nombres_persona 			= $lista['nombres_apellidos'];
+
+		}
+
+		$receta_medicamentos = $modelRecipes->consultarRecetaUpdate($id_consulta);
+
+		
+			
+		if ($listar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_consulta'		   			=> $id_consulta,
+					'tipo_consulta'		   			=> $tipo_consulta,
+					'diagnostico'		   			=> $diagnostico,
+					'nombres_persona'		   		=> $nombres_persona,
+					'receta_medicamentos'			=> $receta_medicamentos
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
+	public function obtenerDatosReceta()
+	{	
+		
+		$id_receta          = $_POST['id_receta'];
+		$modelRecipes       = new RecipeModel();
+		
+		$listar = $modelRecipes->obtenerDatosReceta($id_receta);
+		
+
+		foreach ($listar as $lista) {
+			$id_presentacion_medicamento = $lista->id_presentacion_medicamento; 
+			$dosis = $lista->dosis; 
+			$unidad_medida = $lista->unidad_medida; 
+			$frecuencia = $lista->frecuencia; 
+			$cantidad = $lista->cantidad; 
+			$intervalo = $lista->intervalo; 
+		}
+
+		
+			
+		if ($intervalo != '') {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_presentacion_medicamento'   => $id_presentacion_medicamento,
+					'dosis'		   					=> $dosis,
+					'unidad_medida'		   			=> $unidad_medida,
+					'frecuencia'		   		    => $frecuencia,
+					'cantidad'			            => $cantidad,
+					'intervalo'			            => $intervalo
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
+
+	public function modificarReceta()
+	{	
+		$id_consulta_update = $_POST['id_consulta_update'];
+		$id_receta = $_POST['id_receta_update'];
+		$modelRecipes = new RecipeModel();
+
+		$datos = array(
+			'id_recipe_medicamento'		        => 	$id_receta,
+			'id_presentacion_medicamento'         	=> $_POST['medicamento_update'],
+			'dosis'    	  							=> $_POST['dosis_update'],
+			'frecuencia'  							=> $_POST['frecuencia_update'],
+			'cantidad'		    					=> $_POST['cantidad_update'],
+			'intervalo'		            			=> $_POST['intervalo_update'],
+		);
+		
+		$modificar = $modelRecipes->modificarReceta($id_receta, $datos);
+		$recetas = $modelRecipes->consultarRecetaUpdate($id_consulta_update);
+
+		if ($recetas) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'recetas'   					=> $recetas
+					
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
 
 }
+

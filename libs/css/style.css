@@ -1281,17 +1281,7 @@ line-height: 28px !important;
 }
 
 
-.tbl_medicamentos  th {
-  opacity: 0.6; /* El texto será 50% transparente */
-}
 
-.input-horas {
-  position: relative;
-}
-
-.input-horas input {
-  padding-right: 50px; /* Espacio para el texto "horas" */
-}
 
 .input-horas span {
   position: absolute;

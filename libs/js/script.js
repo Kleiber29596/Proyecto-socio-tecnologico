@@ -238,7 +238,7 @@ $("#formRegistrarUsuario")
               row[4] +
               `)"><i class="fas fa-eye"></i></button>&nbsp;
       
-                     <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
+                     <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosConsulta(` +
               row[4] +
               `)"><i class="fas fa-edit"></i></button>&nbsp;
   
@@ -1903,90 +1903,23 @@ if ((agregar_paciente = document.getElementById("agregar_paciente"))) {
   }
 }
 
-/* -------------- Agregar Paciente ------------------ 
-var agregar_paciente;
-if ((agregar_paciente = document.getElementById("agregar_paciente"))) {
-  agregar_paciente.addEventListener("click", agregarPaciente, false);
 
-  function agregarPaciente() {
-    let nombres = document.getElementById("nombres_paciente").value;
-    let apellidos = document.getElementById("apellidos_paciente").value;
-    let tipo_documento = document.getElementById("tipo_documento").value;
-    let n_documento = document.getElementById("n_documento_paciente").value;
-    let fecha_nac = document.getElementById("fecha_nac").value;
-    let sexo = document.getElementById("sexo").value;
-    let estatus = document.getElementById("estatus_paciente").value;
-    let telefono = document.getElementById("telefono").value;
-    let correo = document.getElementById("correo_paciente").value;
-    let estado = document.getElementById("estado").value;
-    let municipio = document.getElementById("municipio").value;
-    let parroquia = document.getElementById("parroquia").value;
-
-    $.ajax({
-      url: "index.php?page=registrarPaciente",
-      type: "post",
-      dataType: "json",
-      data: {
-        nombres: nombres,
-        apellidos: apellidos,
-        tipo_documento: tipo_documento,
-        n_documento: n_documento,
-        fecha_nac: fecha_nac,
-        sexo: sexo,
-        estatus: estatus,
-        telefono: telefono,
-        correo: correo,
-        estado: estado,
-        municipio: municipio,
-        parroquia: parroquia
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formRegistrarPaciente").reset();
-
-          $("#modalAgregarPaciente").modal("hide");
-
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-
-          $("#tabla_paciente").DataTable().ajax.reload();
-          contenedor_formulario_persona.setAttribute('style', "display: none;");
-          contenedor_datos_persona.removeAttribute('style');
-        } else {
-          Swal.fire({
-            icon: "danger",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
-          });
-        }
-      })
-      .fail(function () {
-        console.log("error");
-      });
-  }
-}-------------- Agregar Persona ------------------ */
+/*-------------- Agregar Persona ------------------ */
 
 if (document.getElementById("agregar_persona")) {
   agregar_persona.addEventListener("click", agregarPersona, false);
 
   function agregarPersona() {
-    let nombres = document.getElementById("nombres").value;
-    let apellidos = document.getElementById("apellidos").value;
-    let tipo_documento = document.getElementById("tipo_documento").value;
-    let n_documento = document.getElementById("n_documento").value;
-    let fecha_nac = document.getElementById("fecha_nac").value;
-    let sexo = document.getElementById("sexo").value;
-    let telefono = document.getElementById("telefono").value;
-    let correo = document.getElementById("correo").value;
-    let estado = document.getElementById("estado").value;
-    let municipio = document.getElementById("municipio").value;
-    let parroquia = document.getElementById("parroquia").value;
+    let nombres         = document.getElementById("nombres").value;
+    let apellidos       = document.getElementById("apellidos").value;
+    let tipo_documento  = document.getElementById("tipo_documento").value;
+    let n_documento     = document.getElementById("n_documento").value;
+    let fecha_nac       = document.getElementById("fecha_nac").value;
+    let sexo            = document.getElementById("sexo").value;
+    let telefono        = document.getElementById("telefono").value;
+    let correo          = document.getElementById("correo").value;
+    let direccion       = document.getElementById("direccion").value;
+
 
     $.ajax({
       url: "index.php?page=registrarPersona",
@@ -2001,9 +1934,7 @@ if (document.getElementById("agregar_persona")) {
         telefono: telefono,
         sexo: sexo,
         correo: correo,
-        estado: estado,
-        municipio: municipio,
-        parroquia: parroquia,
+        direccion: direccion,
       },
     })
       .done(function (response) {
@@ -3815,15 +3746,13 @@ function listarDatosPersona(id) {
         document.getElementById("update_telefono").value =
           response.data.telefono;
         document.getElementById("update_correo").value = response.data.correo;
-        document.getElementById("update_estado").value = response.data.estado;
-        document.getElementById("update_municipio").value =
-          response.data.municipio;
-        document.getElementById("update_parroquia").value =
           response.data.parroquia;
         document.getElementById("update_fecha_nac").value =
           response.data.fecha_nacimiento;
+        document.getElementById("update_direccion").value =
+          response.data.direccion;
 
-        $("#modalActualizarPersona").modal("show");
+        $("#modalActualizarPersonas").modal("show");
       } else {
         console.log("No se encontraron datos o la respuesta no es exitosa.");
       }
@@ -3843,16 +3772,16 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false,
-        targets: 9,
+        targets: 4,
         render: function (data, type, row, meta) {
           let botones =
             `
                     <button type="button" class="btn btn-primary btn-sm" onclick="VerDatosPersona(` +
-            row[9] +
+            row[4] +
             `)"><i class="fas fa-eye"></i></button>&nbsp;
     
                    <button type="button" class="btn btn-warning btn-sm"  onclick="listarDatosPersona(` +
-            row[9] +
+            row[4] +
             `)"><i class="fas fa-edit"></i></button>&nbsp;
      `;
           return botones;
@@ -3884,30 +3813,19 @@ $(document).ready(function () {
 });
 
 function modificarPersona() {
-  let id_persona = document.getElementById("id_persona").value;
+
+  let id_persona     = document.getElementById("id_persona").value;
   let tipo_documento = document.getElementById("update_tipo_documento").value;
-  let n_documento = document.getElementById("update_n_documento").value;
-  let nombres = document.getElementById("update_nombres").value;
-  let apellidos = document.getElementById("update_apellidos").value;
-  let sexo = document.getElementById("update_sexo").value;
-  let fecha_nac = document.getElementById("update_fecha_nac").value;
-  let telefono = document.getElementById("update_telefono").value;
-  let estado = document.getElementById("update_estado").value;
-  let municipio = document.getElementById("update_municipio").value;
-  let parroquia = document.getElementById("update_parroquia").value;
-  let correo = document.getElementById("update_correo").value;
-
-  // Validación simple
-  if (!tipo_documento) {
-    Swal.fire({
-      icon: "warning",
-      confirmButtonColor: "#3085d6",
-      title: "Tipo de documento requerido",
-      text: "Por favor seleccione un tipo de documento.",
-    });
-    return;
-  }
-
+  let n_documento    = document.getElementById("update_n_documento").value;
+  let nombres        = document.getElementById("update_nombres").value;
+  let apellidos      = document.getElementById("update_apellidos").value;
+  let sexo           = document.getElementById("update_sexo").value;
+  let fecha_nac      = document.getElementById("update_fecha_nac").value;
+  let telefono       = document.getElementById("update_telefono").value;
+  let correo         = document.getElementById("update_correo").value;
+  let direccion      = document.getElementById("update_direccion").value;
+  
+ 
   $.ajax({
     url: "index.php?page=modificarPersona",
     type: "post",
@@ -3921,17 +3839,15 @@ function modificarPersona() {
       sexo: sexo,
       fecha_nac: fecha_nac,
       telefono: telefono,
-      estado: estado,
-      municipio: municipio,
-      parroquia: parroquia,
+      direccion: direccion,
       correo: correo,
     },
   })
     .done(function (response) {
       if (response.data.success) {
-        $("#formActualizarPersona")[0].reset();
-        $("#modalActualizarPersona").modal("hide");
-        $("#tabla_persona").DataTable().ajax.reload();
+        $("#formActualizarPersonas")[0].reset();
+        $("#modalActualizarPersonas").modal("hide");
+        $("#tbl_personas").DataTable().ajax.reload();
 
         Swal.fire({
           icon: "success",
@@ -4032,24 +3948,15 @@ function consultarPersona() {
           response.data.n_documento_persona;
         document.getElementById("nombres_apellidos_persona").innerHTML =
           response.data.nombres_persona;
-        
-        document.getElementById("edad").innerHTML =
-          response.data.edad;
+        document.getElementById("fecha_nac").innerHTML =
+          response.data.fecha_nac;
         document.getElementById("sexo_persona").innerHTML =
           response.data.sexo_persona;
         document.getElementById("tlf_persona").innerHTML =
           response.data.tlf_persona;
-        document.getElementById("direccion_persona").innerHTML =
-          response.data.estado_persona +
-          ", Municipio " +
-          response.data.municipio_persona +
-          ", Parroquia " +
-          response.data.parroquia_persona;
-        document
-          .getElementById("id_persona")
-          .setAttribute("value", response.data.id_persona);
+        document.getElementById("direccion_persona").innerHTML = response.data.direccion
+        document.getElementById("id_persona").setAttribute("value", response.data.id_persona);
         document.getElementById("edad").value = response.data.edad;
-
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
           icon: "success",
@@ -4058,6 +3965,8 @@ function consultarPersona() {
           text: response.data.info,
         });
       } else {
+        contenedor_datos_persona.setAttribute("style", "display: none;");
+
         Swal.fire({
           icon: "warning",
           confirmButtonColor: "#3085d6",
@@ -4081,40 +3990,50 @@ if (document.getElementById("agregar_consulta")) {
 
   function agregarConsulta() {
     // Datos de la consulta
-    let id_persona      = document.getElementById("id_persona").value;
-    let persona         = document.getElementById("nombres_apellidos_persona")
-    let nombre_persona  = persona.textContent;
-    let edad            = document.getElementById("edad").value;
-    let tipo_consulta   = document.getElementById("tipo_consulta").value;
-    let opcion_consulta = document.getElementById("tipo_consulta");
-    var consulta        =  opcion_consulta.options[opcion_consulta.selectedIndex].text;
-    let diagnostico     = document.getElementById("diagnostico").value;
+    let id_persona           = document.getElementById("id_persona").value;
+    let persona              = document.getElementById("nombres_apellidos_persona")
+    let nombre_persona       = persona.textContent;
+    let edad                 = document.getElementById("edad").value;
+    let tipo_consulta        = document.getElementById("tipo_consulta").value;
+    let opcion_consulta      = document.getElementById("tipo_consulta");
+    let consulta             =  opcion_consulta.options[opcion_consulta.selectedIndex].text;
+    let diagnostico          = document.getElementById("diagnostico").value;
+    let peso                 = document.getElementById("peso").value;
+    let altura               = document.getElementById("altura").value;
+    let presion_arterial     = document.getElementById("presion_arterial").value;
+
+
+
     
     // Datos del recipe
     let instrucciones = document.getElementById("instrucciones").value;
 
     const tablaMedicamentos = document.getElementById('multiples_medicamentos');
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
-    console.log(datosMedicamentos);
-    const confirmMessage = `
-  <ul style="text-align: left;">
-    <li><strong>Persona:</strong> ${nombre_persona}</li>
-    <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
-    <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
-  </ul>
-  
-  <p><strong>Medicamentos recetados:</strong>
-  <ul style="text-align: left;">
-  ${datosMedicamentos.map(medicamento => {
-    return `<li>${medicamento}</li>`;
-  }).join('')}
+
+    const listaMedicamentos = datosMedicamentos.map(medicamento => `<li>${medicamento}</li>`).join('');
+   // Crea el mensaje de confirmación incluyendo la lista de medicamentos y las instrucciones
+const confirmMessage = `
+<ul style="text-align: left;">
+  <li><strong>Persona:</strong> ${nombre_persona}</li>
+  <li><strong>Tipo de Consulta:</strong> ${consulta}</li>
+  <li><strong>Peso:</strong> ${peso}</li>
+  <li><strong>Altura:</strong> ${altura}</li>
+  <li><strong>Presión arterial:</strong> ${presion_arterial}</li>
+  <li><strong>Diagnóstico:</strong> ${diagnostico}</li>
 </ul>
 
-  <p><strong>Instruciones:</strong>
+<p><strong>Medicamentos recetados:</strong></p>
+  <ul style="text-align: left;">
+    ${listaMedicamentos}
+  </ul>
+
+<p><strong>Instrucciones adicionales:</strong></p>
 <ul>
- <li>${instrucciones}</li>
+  <li>${instrucciones}</li>
 </ul>
 `;
+
   
 
   
@@ -4137,6 +4056,9 @@ if (document.getElementById("agregar_consulta")) {
             edad: edad,
             tipo_consulta: tipo_consulta,
             diagnostico: diagnostico,
+            peso: peso,
+            altura: altura,
+            presion_arterial: presion_arterial,
             instrucciones: instrucciones,
           },
         })
@@ -4156,7 +4078,7 @@ if (document.getElementById("agregar_consulta")) {
               });
               
     
-              $("#tabla_consultas").DataTable().ajax.reload();
+              $("#tbl_consultas").DataTable().ajax.reload();
             } else {
               Swal.fire({
                 icon: "error",
@@ -4223,8 +4145,7 @@ if (agregarMedicamentoButton) {
                     text: response.data.info
                 });
 
-                let datos_descripcion = response.data.dosis+" "+response.data.unidad_medida+" cada "+frecuencia+" horas durante "+response.data.cantidad+" "+response.data.intervalo;
-                let descripcion_medicamento = response.data.nombre_medicamento+" en "+response.data.presentacion;
+                
 
                 contador = contador + 1;
 
@@ -4236,13 +4157,13 @@ if (agregarMedicamentoButton) {
 
                 let id_medicamento  = "id_medicamento_"+contador;
                 let id_nombre       = "id_nombre_"+contador;
-                let id_descripcion  = "id_descripcion_"+contador;
+                let id_presentacion = "id_presentacion_"+contador;
 
                 //Contenedor de los estudios
                 var cont_elemento = document.createElement("tr");
-                //cont_elemento.setAttribute("class", class_contenedor);
+                //cont_elemento.setAttribute("class", "table-success");
                 cont_elemento.setAttribute("id", id_contenedor);
-				        cont_elemento.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
+				        cont_elemento.setAttribute("style", "border: solid 1px #ccc; padding: 10px; background:#e2e3e5;");
                 document.getElementById("multiples_medicamentos").appendChild(cont_elemento);
 
 
@@ -4254,15 +4175,15 @@ if (agregarMedicamentoButton) {
               td_medicamento.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
               cont_elemento.appendChild(td_medicamento);
 
-              //td que almacena la descripcion del tratamiento
-              var td_descripcion = document.createElement("td")
-              td_descripcion.setAttribute("id", id_descripcion);
-              td_descripcion.setAttribute("class", 'codigo_contable');
-              td_descripcion.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
-              cont_elemento.appendChild(td_descripcion);
 
+              //td que almacena la presentacion
+              var td_presentacion = document.createElement("td")
+              td_presentacion.setAttribute("id", id_presentacion);
+              td_presentacion.setAttribute("class", 'codigo_contable');
+              td_presentacion.setAttribute("style", "border: solid 1px #ccc; padding: 10px;");
+              cont_elemento.appendChild(td_presentacion);
 
-
+              
                 //Columna que almacena el boton borrar
                 var td_accion_borrar = document.createElement("td")
                 td_accion_borrar.setAttribute("id", id_accion);
@@ -4279,15 +4200,23 @@ if (agregarMedicamentoButton) {
                 btn_delete.setAttribute("style","background:#dc3545; color: #FFF;");
                 td_accion_borrar.appendChild(btn_delete);
 
+                
+
                 //Icono del boton borrar
                 var icono_btn_delete = document.createElement("i")
                 icono_btn_delete.setAttribute("class","fas fa-trash");
                 icono_btn_delete.setAttribute("data-id", "");
                 btn_delete.appendChild(icono_btn_delete);
 
+                
+				       document.getElementById(id_nombre).innerHTML       = response.data.nombre_medicamento+' '+response.data.presentacion;
 
-				       document.getElementById(id_nombre).innerHTML       = descripcion_medicamento;
-               document.getElementById(id_descripcion).innerHTML  = datos_descripcion;
+               if(response.data.dosis > 1) {
+                document.getElementById(id_presentacion).innerHTML  = response.data.dosis+' '+response.data.unidad_medida+'s cada '+response.data.frecuencia+' horas por '+response.data.cantidad+' '+response.data.intervalo;
+
+               }else{
+                document.getElementById(id_presentacion).innerHTML  = response.data.dosis+' '+response.data.unidad_medida+' cada '+response.data.frecuencia+' horas por '+response.data.cantidad+' '+response.data.intervalo;
+               }
 			
             }
             else
@@ -4365,6 +4294,65 @@ let id_medicamento = id;
     });
 
 }
+
+/* -------------- Citas / Remover estudio ------------------ */
+function verTratamiento(id)
+{
+
+  
+let id_medicamento = id;
+
+
+    $.ajax({
+        url: "index.php?page=verTratamiento",
+        type: 'post',
+        dataType: 'json',
+        data: {
+          
+              id_medicamento : id_medicamento
+        }
+    })
+    .done(function(response) {
+        if (response.data.success == true) 
+        {
+
+    const tratamiento = `
+     
+      
+      <p><strong>Tratamiento:</strong>
+      <ul style="text-align: left;">
+
+      <li>${response.data.tratamiento}</li>  
+
+    </ul>
+
+    `;
+    Swal.fire({
+        title: "Estas seguro de guardar los datos?",
+        html: tratamiento, // Use HTML for better formatting
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "De acuerdo!"
+    });
+
+        }
+        else
+        {
+    Swal.fire({
+      icon: 'error',
+      title: response.data.message,
+      confirmButtonColor: '#0d6efd',
+      text: response.data.info
+    });
+        }
+    })
+    .fail(function() {
+
+        console.log("error");
+    });
+
+}
+
 
 
 $('#medicamento').select2({
@@ -4757,4 +4745,397 @@ $(document).ready(function () {
 });
 
 
+/* -------------- Obtener datos para actualizar la consultas ------------------ */
+function listarDatosConsulta(id) {
+  let id_consulta = id;
+  
+  $.ajax({
+    url: "index.php?page=listarDatosConsulta",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_consulta: id_consulta,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("id_consulta_update").value =
+          response.data.id_consulta;
+        document.getElementById("nombres_persona").value =
+          response.data.nombres_persona;
+        document.getElementById("update_tipo_consulta").value =
+          response.data.tipo_consulta;
+        document.getElementById("update_diagnostico").value =
+          response.data.diagnostico;
+          document.getElementById("id_consulta_update").value =
+          response.data.id_consulta;
+        
 
+          document.getElementById("multiples_medicamentos_update").innerHTML =
+          "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
+
+        response.data.receta_medicamentos.forEach(function (medicamento, index) {
+          contador = contador + 1;
+
+          //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
+
+          let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
+          let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
+
+          let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
+          let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
+          let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
+          
+          //Contenedor de los detalles agregados
+          var cont_elemento = document.createElement("tr");
+          cont_elemento.setAttribute("id", id_contenedor);
+          cont_elemento.setAttribute("class", "contenedor_medicamento");
+          cont_elemento.setAttribute(
+            "style",
+            "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          document
+            .getElementById("multiples_medicamentos_update")
+            .appendChild(cont_elemento);
+
+          //td que almacena los nombres de las especies
+          var td_medicamentos = document.createElement("td");
+          td_medicamentos.setAttribute("id", id_medicamento);
+          td_medicamentos.setAttribute("class", "ente");
+          td_medicamentos.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          cont_elemento.appendChild(td_medicamentos);
+
+          //td que almacena que almacena las presentaciones de las especies
+          var td_presentacion = document.createElement("td");
+          td_presentacion.setAttribute("id", id_presentacion);
+          td_presentacion.setAttribute("class", "cuenta_movimiento");
+          td_presentacion.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          cont_elemento.appendChild(td_presentacion);
+
+          //Columna que almacena el boton borrar
+          var td_accion_borrar = document.createElement("td");
+          td_accion_borrar.setAttribute("id", id_boton_borrar);
+          td_accion_borrar.setAttribute("class", "acciones");
+          td_accion_borrar.setAttribute(
+            "style",
+            "border: solid 1px #ccc; text-align: center; padding: 10px;"
+          );
+          cont_elemento.appendChild(td_accion_borrar);
+
+          //Boton borrar
+          var btn_delete = document.createElement("button");
+          btn_delete.setAttribute("class", "btn btn-danger btn-sm");
+          btn_delete.setAttribute("title", "Remover");
+          btn_delete.setAttribute("type", "button");
+          btn_delete.setAttribute(
+            "onclick",
+            "eliminarEspecieUpdate(" + medicamento.id_recipe_medicamento + ")"
+          );
+          btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
+          td_accion_borrar.appendChild(btn_delete);
+
+          //Boton Modificar
+          var btn_update = document.createElement("button");
+          btn_update.setAttribute("class", "btn btn-warning btn-sm");
+          btn_update.setAttribute("title", "Modificar");
+          btn_update.setAttribute("type", "button");
+          btn_update.setAttribute(
+            "onclick",
+            "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+          );
+          btn_update.setAttribute(
+            "style",
+            "background:#ffc107; color: #FFF; margin-left: 10px;"
+          );
+          td_accion_borrar.appendChild(btn_update);
+
+          //Icono del boton borrar
+          var icono_btn_delete = document.createElement("i");
+          icono_btn_delete.setAttribute("class", "fas fa-trash");
+          icono_btn_delete.setAttribute("data-id", "");
+          btn_delete.appendChild(icono_btn_delete);
+
+          //Icono del boton modificar
+          var icono_btn_update = document.createElement("i");
+          icono_btn_update.setAttribute("class", "fas fa-edit");
+          icono_btn_update.setAttribute("data-id", "");
+          btn_update.appendChild(icono_btn_update);
+
+          document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento;
+          document.getElementById(id_presentacion).innerHTML =
+            medicamento.presentacion;
+      
+          document
+            .getElementById("contenedor_datos_medicamentos_update")
+            .removeAttribute("style");
+        });
+        
+        $("#modalActualizarConsultas").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+/* -------------- Obtener datos para actualizar receta médica ------------------ */
+function ModificarRecetaMedica(id) {
+  let id_receta = id;
+
+document.getElementById("cont-loader").removeAttribute("style");
+document.getElementById("contenedor-actualizar-receta").removeAttribute("style");
+
+  //resetear los elementos tr
+  const filas = document.querySelectorAll(".contenedor_medicamento");
+
+  filas.forEach((fila) => {
+    fila.style.backgroundColor = "#e2e3e5";
+  });
+
+  //Fin resetear los elementos tr
+
+  let contenedor;
+
+  contenedor = "contenedor" + "_" + id_receta;
+
+  document.getElementById(contenedor).style.backgroundColor = "#fff3cd";
+  document.getElementById("receta-medica").value = id_receta;
+  $.ajax({
+    url: "index.php?page=obtenerDatosReceta",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_receta: id_receta,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success == true) {
+        document.getElementById("medicamento_update").value =
+          response.data.id_presentacion_medicamento;
+        document.getElementById("dosis_update").value =
+          response.data.dosis;
+        document.getElementById("unidad_medida_update").value =
+          response.data.unidad_medida;
+        document.getElementById("frecuencia_update").value =
+          response.data.frecuencia;
+        document.getElementById("cantidad_update").value =
+          response.data.cantidad;
+        document.getElementById("intervalo_update").value =
+          response.data.intervalo;
+        
+        
+
+          document.getElementById("cont-loader").setAttribute("style", "display:none;");
+
+
+        $("#modalActualizarConsultas").modal("show");
+      } else {
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+
+
+/* Actualizar receta medica */
+
+  function modificarReceta() {
+
+    document.getElementById("cont-loader").removeAttribute("style");
+
+    let id_receta_update            = document.getElementById("receta-medica").value;
+    let medicamento_update          = document.getElementById("medicamento_update").value;
+    let dosis_update                = document.getElementById("dosis_update").value;
+    let unidad_medida_update        = document.getElementById("unidad_medida_update").value;
+    let frecuencia_update           = document.getElementById("frecuencia_update").value;
+    let cantidad_update             = document.getElementById("cantidad_update").value;
+    let intervalo_update            = document.getElementById("intervalo_update").value;
+    let id_consulta_update          = document.getElementById("id_consulta_update").value;
+    console.log(intervalo_update);
+    /* comprobar campos vacios */
+    if (
+      medicamento_update == "" ||
+      frecuencia_update == "" ||
+      cantidad_update == "" ||
+      intervalo_update == "" ||
+      dosis_update == ""
+
+    ) {
+  
+      Swal.fire({
+        icon: "error",
+        title: "Campos vacios",
+        text: "Todos los campos son obligatorios",
+        confirmButtonColor: "#3085d6",
+      });
+
+    }
+
+
+    $.ajax({
+      url: "index.php?page=modificarReceta",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_receta_update:       id_receta_update,
+        medicamento_update:     medicamento_update,
+        dosis_update:           dosis_update,
+        unidad_medida_update:   unidad_medida_update,
+        frecuencia_update:      frecuencia_update,
+        cantidad_update:        cantidad_update,
+        intervalo_update:       intervalo_update,
+        id_consulta_update:     id_consulta_update
+      },
+    })
+
+      .done(function (response) {
+        if (response.data.success == true) {
+          document
+            .getElementById("cont-loader")
+            .setAttribute("style", "display:none;");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          document.getElementById("multiples_medicamentos_update").innerHTML = "";
+
+          document.getElementById("multiples_medicamentos_update").innerHTML =
+            "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
+
+            response.data.recetas.forEach(function (medicamento, index) {
+              contador = contador + 1;
+    
+              //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
+    
+              let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
+              let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
+    
+              let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
+              let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
+              let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
+              
+              //Contenedor de los detalles agregados
+              var cont_elemento = document.createElement("tr");
+              cont_elemento.setAttribute("id", id_contenedor);
+              cont_elemento.setAttribute("class", "contenedor_medicamento");
+              cont_elemento.setAttribute(
+                "style",
+                "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              document
+                .getElementById("multiples_medicamentos_update")
+                .appendChild(cont_elemento);
+    
+              //td que almacena los nombres de las especies
+              var td_medicamentos = document.createElement("td");
+              td_medicamentos.setAttribute("id", id_medicamento);
+              td_medicamentos.setAttribute("class", "ente");
+              td_medicamentos.setAttribute(
+                "style",
+                "border: solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              cont_elemento.appendChild(td_medicamentos);
+    
+              //td que almacena que almacena las presentaciones de las especies
+              var td_presentacion = document.createElement("td");
+              td_presentacion.setAttribute("id", id_presentacion);
+              td_presentacion.setAttribute("class", "cuenta_movimiento");
+              td_presentacion.setAttribute(
+                "style",
+                "border: solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              cont_elemento.appendChild(td_presentacion);
+    
+              //Columna que almacena el boton borrar
+              var td_accion_borrar = document.createElement("td");
+              td_accion_borrar.setAttribute("id", id_boton_borrar);
+              td_accion_borrar.setAttribute("class", "acciones");
+              td_accion_borrar.setAttribute(
+                "style",
+                "border: solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              cont_elemento.appendChild(td_accion_borrar);
+    
+              //Boton borrar
+              var btn_delete = document.createElement("button");
+              btn_delete.setAttribute("class", "btn btn-danger btn-sm");
+              btn_delete.setAttribute("title", "Remover");
+              btn_delete.setAttribute("type", "button");
+              btn_delete.setAttribute(
+                "onclick",
+                "eliminarEspecieUpdate(" + medicamento.id_recipe_medicamento + ")"
+              );
+              btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
+              td_accion_borrar.appendChild(btn_delete);
+    
+              //Boton Modificar
+              var btn_update = document.createElement("button");
+              btn_update.setAttribute("class", "btn btn-warning btn-sm");
+              btn_update.setAttribute("title", "Modificar");
+              btn_update.setAttribute("type", "button");
+              btn_update.setAttribute(
+                "onclick",
+                "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+              );
+              btn_update.setAttribute(
+                "style",
+                "background:#ffc107; color: #FFF; margin-left: 10px;"
+              );
+              td_accion_borrar.appendChild(btn_update);
+    
+              //Icono del boton borrar
+              var icono_btn_delete = document.createElement("i");
+              icono_btn_delete.setAttribute("class", "fas fa-trash");
+              icono_btn_delete.setAttribute("data-id", "");
+              btn_delete.appendChild(icono_btn_delete);
+    
+              //Icono del boton modificar
+              var icono_btn_update = document.createElement("i");
+              icono_btn_update.setAttribute("class", "fas fa-edit");
+              icono_btn_update.setAttribute("data-id", "");
+              btn_update.appendChild(icono_btn_update);
+    
+              document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento;
+              document.getElementById(id_presentacion).innerHTML =
+                medicamento.presentacion;
+          
+              document
+                .getElementById("contenedor_datos_medicamentos_update")
+                .removeAttribute("style");
+            });
+            
+          /* Fin mostrar las especies de pescado para la actualizacion */
+        } else {
+          document
+            .getElementById("cont-loader")
+            .setAttribute("style", "display:none;");
+
+          Swal.fire({
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        document
+          .getElementById("cont-loader")
+          .setAttribute("style", "display:none;");
+
+        console.log("error");
+      });
+  }

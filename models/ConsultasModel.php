@@ -28,4 +28,14 @@ class ConsultasModel extends ModeloBase {
 		return $resultado;
 	}
 
+
+	/*-------	Listar tipos de consultas	-------------------- */
+	public function listarDatosConsulta($id_consulta)
+	{
+		$db = new ModeloBase();
+		$query = "SELECT c.id_consulta, c.id_tipo_consulta, c.id_persona, c.diagnostico, tipo_c.motivo, CONCAT(p.nombres, ' ', p.apellidos) AS nombres_apellidos from consultas AS c INNER JOIN tipo_consulta AS tipo_c ON c.id_tipo_consulta = tipo_c.id_tipo_consulta  INNER JOIN personas AS p ON c.id_persona = p.id_persona WHERE c.id_consulta = ".$id_consulta."";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
 }
