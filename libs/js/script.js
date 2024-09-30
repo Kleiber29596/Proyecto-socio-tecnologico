@@ -3948,15 +3948,13 @@ function consultarPersona() {
           response.data.n_documento_persona;
         document.getElementById("nombres_apellidos_persona").innerHTML =
           response.data.nombres_persona;
-        document.getElementById("fecha_nac").innerHTML =
-          response.data.fecha_nac;
         document.getElementById("sexo_persona").innerHTML =
           response.data.sexo_persona;
         document.getElementById("tlf_persona").innerHTML =
           response.data.tlf_persona;
         document.getElementById("direccion_persona").innerHTML = response.data.direccion
         document.getElementById("id_persona").setAttribute("value", response.data.id_persona);
-        document.getElementById("edad").value = response.data.edad;
+        document.getElementById("edad").innerHTML = response.data.edad
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
           icon: "success",
@@ -3996,7 +3994,7 @@ if (document.getElementById("agregar_consulta")) {
     let edad                 = document.getElementById("edad").value;
     let tipo_consulta        = document.getElementById("tipo_consulta").value;
     let opcion_consulta      = document.getElementById("tipo_consulta");
-    let consulta             =  opcion_consulta.options[opcion_consulta.selectedIndex].text;
+    let consulta             = opcion_consulta.options[opcion_consulta.selectedIndex].text;
     let diagnostico          = document.getElementById("diagnostico").value;
     let peso                 = document.getElementById("peso").value;
     let altura               = document.getElementById("altura").value;
@@ -4011,8 +4009,10 @@ if (document.getElementById("agregar_consulta")) {
     const tablaMedicamentos = document.getElementById('multiples_medicamentos');
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
 
-    const listaMedicamentos = datosMedicamentos.map(medicamento => `<li>${medicamento}</li>`).join('');
-   // Crea el mensaje de confirmación incluyendo la lista de medicamentos y las instrucciones
+    const listaMedicamentos = datosMedicamentos.map(medicamento => {
+      // Filtramos para evitar campos vacíos y unimos los elementos sin comas
+      return medicamento.filter(detalle => detalle !== '').join(' ');
+    }).join('\n'); // Unimos cada medicamento por salto de línea
 const confirmMessage = `
 <ul style="text-align: left;">
   <li><strong>Persona:</strong> ${nombre_persona}</li>

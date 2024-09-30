@@ -93,7 +93,7 @@
                                         <tr>
                                             <th>Nº documento</th>
                                             <th>Nombres</th>
-                                            <th>fecha_nacimiento</th>
+                                            <th>Edad</th>
                                             <th>Sexo</th>
                                             <th>Teléfono</th>
                                             <th>Dirección</th>
@@ -101,7 +101,7 @@
                                         <tr>
                                             <td id="n_documento"></td>
                                             <td id="nombres_apellidos_persona"></td>
-                                            <td id="fecha_nac"></td>
+                                            <td id="edad"></td>
                                             <td id="sexo_persona"></td>
                                             <td id="tlf_persona"></td>
                                             <td id="direccion_persona"></td>
@@ -431,14 +431,6 @@
                             </div>
                             <br>
                         </div>
-
-
-
-
-
-
-
-
 
                         <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
                             <div class="col-sm-12 table-responsive">

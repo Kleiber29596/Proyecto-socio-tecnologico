@@ -62,6 +62,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="libs/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="libs/vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
 
 
 
