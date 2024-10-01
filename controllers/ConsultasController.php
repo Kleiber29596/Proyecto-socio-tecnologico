@@ -195,6 +195,9 @@ public function listarConsultas()
 			$tipo_consulta 				= $lista['id_tipo_consulta'];
 			$diagnostico 				= $lista['diagnostico'];
 			$nombres_persona 			= $lista['nombres_apellidos'];
+			$altura 			        = $lista['altura'];
+			$peso 			            = $lista['peso'];
+			$presion_arterial 			= $lista['presion_arterial'];
 
 		}
 
@@ -213,7 +216,10 @@ public function listarConsultas()
 					'tipo_consulta'		   			=> $tipo_consulta,
 					'diagnostico'		   			=> $diagnostico,
 					'nombres_persona'		   		=> $nombres_persona,
-					'receta_medicamentos'			=> $receta_medicamentos
+					'receta_medicamentos'			=> $receta_medicamentos,
+					'altura'					    => $altura,
+					'peso'							=> $peso,
+					'presion_arterial'				=> $presion_arterial
 
 				],
 				'code' => 0,
@@ -244,19 +250,19 @@ public function listarConsultas()
 	public function obtenerDatosReceta()
 	{	
 		
-		$id_receta = $_POST['id_receta'];
-		$modelRecipes = new RecipeModel();
+		$id_receta          = $_POST['id_receta'];
+		$modelRecipes       = new RecipeModel();
 		
 		$listar = $modelRecipes->obtenerDatosReceta($id_receta);
 		
 
 		foreach ($listar as $lista) {
-			$id_presentacion_medicamento = $lista->id_presentacion_medicamento; // Cambiado a ->
-			$dosis = $lista->dosis; // Cambiado a ->
-			$unidad_medida = $lista->unidad_medida; // Cambiado a ->
-			$frecuencia = $lista->frecuencia; // Cambiado a ->
-			$cantidad = $lista->cantidad; // Cambiado a ->
-			$intervalo = $lista->intervalo; // Cambiado a ->
+			$id_presentacion_medicamento = $lista->id_presentacion_medicamento; 
+			$dosis = $lista->dosis; 
+			$unidad_medida = $lista->unidad_medida; 
+			$frecuencia = $lista->frecuencia; 
+			$cantidad = $lista->cantidad; 
+			$intervalo = $lista->intervalo; 
 		}
 
 		
@@ -302,4 +308,57 @@ public function listarConsultas()
 	}
 
 
+	public function modificarConsulta()
+	{	
+		$id_consulta_update = $_POST['id_consulta_update'];
+
+
+		$modelConsultas = new ConsultasModel();
+
+		$datos = array(
+			'id_tipo_consulta'         	            => $_POST['update_tipo_consulta'],
+			'peso'							        => $_POST['update_peso'],
+			'altura'							    => $_POST['update_altura'],
+			'presion_arterial'				        => $_POST['update_presion_arterial']
+		
+		);
+		
+		$modificar = $modelConsultas->modificarConsulta($id_consulta_update, $datos);
+
+		if ($modificar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Consulta modificada',
+					'info'              	 	    =>  '',
+					
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al modificar la consulta',
+					'info'               =>  ''
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
+
 }
+

@@ -55,4 +55,16 @@ public function obtenerDatosReceta($id)
 	}
 
 
+public function modificarReceta($id, $datos)
+	{
+		$db = new ModeloBase();
+		try {
+			$editar = $db->editar('recipes_medicamentos', 'id_recipe_medicamento', $id, $datos);
+			return $editar;
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+
 }

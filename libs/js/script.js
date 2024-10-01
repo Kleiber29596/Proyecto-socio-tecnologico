@@ -1968,6 +1968,8 @@ if (document.getElementById("agregar_persona")) {
   }
 }
 
+
+
 /* -------------- Listar datos para actualización ------------------ */
 
 function listarActualizacionEspecialidad(id) {
@@ -4010,9 +4012,9 @@ if (document.getElementById("agregar_consulta")) {
     var datosMedicamentos = obtenerDatosTabla(tablaMedicamentos);
 
     const listaMedicamentos = datosMedicamentos.map(medicamento => {
-      // Filtramos para evitar campos vacíos y unimos los elementos sin comas
-      return medicamento.filter(detalle => detalle !== '').join(' ');
-    }).join('\n'); // Unimos cada medicamento por salto de línea
+      // Asegúrate de que `medicamento` sea un array
+      return `<li>${medicamento.join(' ')}</li>`;
+    }).join('');
 const confirmMessage = `
 <ul style="text-align: left;">
   <li><strong>Persona:</strong> ${nombre_persona}</li>
@@ -4765,8 +4767,17 @@ function listarDatosConsulta(id) {
           response.data.nombres_persona;
         document.getElementById("update_tipo_consulta").value =
           response.data.tipo_consulta;
+        document.getElementById("update_peso").value =
+          response.data.peso;
+        document.getElementById("update_altura").value =
+          response.data.altura;
+        document.getElementById("update_presion_arterial").value =
+          response.data.presion_arterial;
         document.getElementById("update_diagnostico").value =
           response.data.diagnostico;
+          document.getElementById("id_consulta_update").value =
+          response.data.id_consulta;
+        
 
           document.getElementById("multiples_medicamentos_update").innerHTML =
           "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
@@ -4782,7 +4793,7 @@ function listarDatosConsulta(id) {
           let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
           let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
           let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
-
+          
           //Contenedor de los detalles agregados
           var cont_elemento = document.createElement("tr");
           cont_elemento.setAttribute("id", id_contenedor);
@@ -4825,18 +4836,6 @@ function listarDatosConsulta(id) {
           );
           cont_elemento.appendChild(td_accion_borrar);
 
-          //Boton borrar
-          var btn_delete = document.createElement("button");
-          btn_delete.setAttribute("class", "btn btn-danger btn-sm");
-          btn_delete.setAttribute("title", "Remover");
-          btn_delete.setAttribute("type", "button");
-          btn_delete.setAttribute(
-            "onclick",
-            "eliminarEspecieUpdate(" + medicamento.id_recipe_medicamento + ")"
-          );
-          btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
-          td_accion_borrar.appendChild(btn_delete);
-
           //Boton Modificar
           var btn_update = document.createElement("button");
           btn_update.setAttribute("class", "btn btn-warning btn-sm");
@@ -4851,12 +4850,7 @@ function listarDatosConsulta(id) {
             "background:#ffc107; color: #FFF; margin-left: 10px;"
           );
           td_accion_borrar.appendChild(btn_update);
-
-          //Icono del boton borrar
-          var icono_btn_delete = document.createElement("i");
-          icono_btn_delete.setAttribute("class", "fas fa-trash");
-          icono_btn_delete.setAttribute("data-id", "");
-          btn_delete.appendChild(icono_btn_delete);
+          
 
           //Icono del boton modificar
           var icono_btn_update = document.createElement("i");
@@ -4882,13 +4876,63 @@ function listarDatosConsulta(id) {
     });
 }
 
+function modificarPersona() {
+
+  let id_consulta           = document.getElementById("id_consulta_update").value;
+  let peso                  = document.getElementById("update_peso").value ;
+  let altura                = document.getElementById("update_altura").value
+  let presion_arterial      = document.getElementById("update_presion_arterial").value
+  let diagnostico           = document.getElementById("update_diagnostico").value
+ 
+  $.ajax({
+    url: "index.php?page=modificarPersona",
+    type: "post",
+    dataType: "json",
+    data: {
+      id_persona: id_persona,
+      tipo_documento: tipo_documento,
+      n_documento: n_documento,
+      nombres: nombres,
+      apellidos: apellidos,
+      sexo: sexo,
+      fecha_nac: fecha_nac,
+      telefono: telefono,
+      direccion: direccion,
+      correo: correo,
+    },
+  })
+    .done(function (response) {
+      if (response.data.success) {
+        $("#formActualizarPersonas")[0].reset();
+        $("#modalActualizarPersonas").modal("hide");
+        $("#tbl_personas").DataTable().ajax.reload();
+
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          title: response.data.message,
+          text: response.data.info,
+        });
+      }
+    })
+    .fail(function () {
+      console.log("error");
+    });
+}
+
 /* -------------- Obtener datos para actualizar receta médica ------------------ */
 function ModificarRecetaMedica(id) {
   let id_receta = id;
 
-// document.getElementById("medicamento_update").value = id;
-//document.getElementById("modificar_especie_jornada").removeAttribute("style");
-//document.getElementById("cancelar_especie_update").removeAttribute("style");
+document.getElementById("cont-loader").removeAttribute("style");
+document.getElementById("contenedor-actualizar-receta").removeAttribute("style");
 
   //resetear los elementos tr
   const filas = document.querySelectorAll(".contenedor_medicamento");
@@ -4904,7 +4948,7 @@ function ModificarRecetaMedica(id) {
   contenedor = "contenedor" + "_" + id_receta;
 
   document.getElementById(contenedor).style.backgroundColor = "#fff3cd";
-
+  document.getElementById("receta-medica").value = id_receta;
   $.ajax({
     url: "index.php?page=obtenerDatosReceta",
     type: "post",
@@ -4925,8 +4969,13 @@ function ModificarRecetaMedica(id) {
           response.data.frecuencia;
         document.getElementById("cantidad_update").value =
           response.data.cantidad;
-          document.getElementById("intervalo_update").value =
+        document.getElementById("intervalo_update").value =
           response.data.intervalo;
+        
+        
+
+          document.getElementById("cont-loader").setAttribute("style", "display:none;");
+
 
         $("#modalActualizarConsultas").modal("show");
       } else {
@@ -4936,3 +4985,291 @@ function ModificarRecetaMedica(id) {
       console.log("error");
     });
 }
+
+
+
+/* Actualizar receta medica */
+
+  function modificarReceta() {
+
+    document.getElementById("cont-loader").removeAttribute("style");
+
+    let id_receta_update            = document.getElementById("receta-medica").value;
+    let medicamento_update          = document.getElementById("medicamento_update").value;
+    let dosis_update                = document.getElementById("dosis_update").value;
+    let unidad_medida_update        = document.getElementById("unidad_medida_update").value;
+    let frecuencia_update           = document.getElementById("frecuencia_update").value;
+    let cantidad_update             = document.getElementById("cantidad_update").value;
+    let intervalo_update            = document.getElementById("intervalo_update").value;
+    let id_consulta_update          = document.getElementById("id_consulta_update").value;
+    console.log(intervalo_update);
+    /* comprobar campos vacios */
+    if (
+      medicamento_update == "" ||
+      frecuencia_update == "" ||
+      cantidad_update == "" ||
+      intervalo_update == "" ||
+      dosis_update == ""
+
+    ) {
+  
+      Swal.fire({
+        icon: "error",
+        title: "Campos vacios",
+        text: "Todos los campos son obligatorios",
+        confirmButtonColor: "#3085d6",
+      });
+
+    }
+
+
+    $.ajax({
+      url: "index.php?page=modificarReceta",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_receta_update:       id_receta_update,
+        medicamento_update:     medicamento_update,
+        dosis_update:           dosis_update,
+        unidad_medida_update:   unidad_medida_update,
+        frecuencia_update:      frecuencia_update,
+        cantidad_update:        cantidad_update,
+        intervalo_update:       intervalo_update,
+        id_consulta_update:     id_consulta_update
+      },
+    })
+
+      .done(function (response) {
+        if (response.data.success == true) {
+          document
+            .getElementById("cont-loader")
+            .setAttribute("style", "display:none;");
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+
+          document.getElementById("multiples_medicamentos_update").innerHTML = "";
+
+          document.getElementById("multiples_medicamentos_update").innerHTML =
+            "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
+
+            response.data.recetas.forEach(function (medicamento, index) {
+              contador = contador + 1;
+    
+              //7document.getElementById("total_beneficiarios_view").innerHTML = contador;
+    
+              let class_contenedor = "row contenedor_" + medicamento.id_recipe_medicamento;
+              let id_contenedor = "contenedor_" + medicamento.id_recipe_medicamento;
+    
+              let id_medicamento = "id_medicamento_" + medicamento.id_recipe_medicamento;
+              let id_presentacion = "id_presentacion_" + medicamento.id_recipe_medicamento;
+              let id_boton_borrar = "id_boton_borrar_" + medicamento.id_recipe_medicamento;
+              
+              //Contenedor de los detalles agregados
+              var cont_elemento = document.createElement("tr");
+              cont_elemento.setAttribute("id", id_contenedor);
+              cont_elemento.setAttribute("class", "contenedor_medicamento");
+              cont_elemento.setAttribute(
+                "style",
+                "background:#e2e3e5; border:  solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              document
+                .getElementById("multiples_medicamentos_update")
+                .appendChild(cont_elemento);
+    
+              //td que almacena los nombres de las especies
+              var td_medicamentos = document.createElement("td");
+              td_medicamentos.setAttribute("id", id_medicamento);
+              td_medicamentos.setAttribute("class", "ente");
+              td_medicamentos.setAttribute(
+                "style",
+                "border: solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              cont_elemento.appendChild(td_medicamentos);
+    
+              //td que almacena que almacena las presentaciones de las especies
+              var td_presentacion = document.createElement("td");
+              td_presentacion.setAttribute("id", id_presentacion);
+              td_presentacion.setAttribute("class", "cuenta_movimiento");
+              td_presentacion.setAttribute(
+                "style",
+                "border: solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              cont_elemento.appendChild(td_presentacion);
+    
+              //Columna que almacena el boton borrar
+              var td_accion_borrar = document.createElement("td");
+              td_accion_borrar.setAttribute("id", id_boton_borrar);
+              td_accion_borrar.setAttribute("class", "acciones");
+              td_accion_borrar.setAttribute(
+                "style",
+                "border: solid 1px #ccc; text-align: center; padding: 10px;"
+              );
+              cont_elemento.appendChild(td_accion_borrar);
+    
+              //Boton borrar
+              var btn_delete = document.createElement("button");
+              btn_delete.setAttribute("class", "btn btn-danger btn-sm");
+              btn_delete.setAttribute("title", "Remover");
+              btn_delete.setAttribute("type", "button");
+              btn_delete.setAttribute(
+                "onclick",
+                "eliminarEspecieUpdate(" + medicamento.id_recipe_medicamento + ")"
+              );
+              btn_delete.setAttribute("style", "background:#dc3545; color: #FFF;");
+              td_accion_borrar.appendChild(btn_delete);
+    
+              //Boton Modificar
+              var btn_update = document.createElement("button");
+              btn_update.setAttribute("class", "btn btn-warning btn-sm");
+              btn_update.setAttribute("title", "Modificar");
+              btn_update.setAttribute("type", "button");
+              btn_update.setAttribute(
+                "onclick",
+                "ModificarRecetaMedica(" + medicamento.id_recipe_medicamento + ")"
+              );
+              btn_update.setAttribute(
+                "style",
+                "background:#ffc107; color: #FFF; margin-left: 10px;"
+              );
+              td_accion_borrar.appendChild(btn_update);
+    
+              //Icono del boton borrar
+              var icono_btn_delete = document.createElement("i");
+              icono_btn_delete.setAttribute("class", "fas fa-trash");
+              icono_btn_delete.setAttribute("data-id", "");
+              btn_delete.appendChild(icono_btn_delete);
+    
+              //Icono del boton modificar
+              var icono_btn_update = document.createElement("i");
+              icono_btn_update.setAttribute("class", "fas fa-edit");
+              icono_btn_update.setAttribute("data-id", "");
+              btn_update.appendChild(icono_btn_update);
+    
+              document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento;
+              document.getElementById(id_presentacion).innerHTML =
+                medicamento.presentacion;
+          
+              document
+                .getElementById("contenedor_datos_medicamentos_update")
+                .removeAttribute("style");
+            });
+            
+          /* Fin mostrar las especies de pescado para la actualizacion */
+        } else {
+          document
+            .getElementById("cont-loader")
+            .setAttribute("style", "display:none;");
+
+          Swal.fire({
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        document
+          .getElementById("cont-loader")
+          .setAttribute("style", "display:none;");
+
+        console.log("error");
+      });
+  }
+
+  
+  document.getElementById('modificar_consulta').addEventListener('click', modificarConsulta);
+
+  function modificarConsulta() {
+    
+    let id_consulta_update                 = document.getElementById("id_consulta_update").value;         
+    let update_tipo_consulta               = document.getElementById("update_tipo_consulta").value;
+    let update_peso                        = document.getElementById("update_peso").value;
+    let update_altura                      = document.getElementById("update_altura").value;
+    let update_presion_arterial            = document.getElementById("update_presion_arterial").value;
+    let update_diagnostico                 = document.getElementById("update_diagnostico").value;
+
+    /* comprobar campos vacios */
+    if (
+      id_consulta_update == "" ||
+      update_tipo_consulta == "" ||
+      update_peso == "" ||
+      update_altura == "" ||
+      update_presion_arterial == "" ||
+      update_diagnostico == ""
+
+    ) {
+  
+      Swal.fire({
+        icon: "error",
+        title: "Campos vacios",
+        text: "Todos los campos son obligatorios",
+        confirmButtonColor: "#3085d6",
+      });
+
+    }
+
+    $.ajax({
+      url: "index.php?page=modificarConsulta",
+      type: "post",
+      dataType: "json",
+      data: {
+        id_consulta_update:       id_consulta_update,
+        update_tipo_consulta:     update_tipo_consulta,
+        update_peso:              update_peso,
+        update_altura:            update_altura,
+        update_presion_arterial:  update_presion_arterial,
+        update_diagnostico:       update_diagnostico
+      },
+    })
+
+      .done(function (response) {
+
+        if (response.data.success == true) {
+
+          Swal.fire({
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+            
+          /* Fin mostrar las especies de pescado para la actualizacion */
+        } else {
+          document
+            .getElementById("cont-loader")
+            .setAttribute("style", "display:none;");
+
+          Swal.fire({
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+            title: response.data.message,
+            text: response.data.info,
+          });
+        }
+      })
+      .fail(function () {
+        document
+          .getElementById("cont-loader")
+          .setAttribute("style", "display:none;");
+
+        console.log("error");
+      });
+  }
+
+
+  function cancelarRecetaUpdate() {
+  
+     //document.getElementById('contenedor-actualizar-receta').setAttribute('style', "display:none;");
+     document.getElementById('form_update_receta').reset();
+
+
+     
+
+  }
+
