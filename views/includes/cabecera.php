@@ -61,7 +61,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     <link href="libs/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="libs/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="libs/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="libs/vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+
 
 
 
@@ -92,8 +93,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <img src="libs/img/Minpesca2.png    " alt=""
-                    style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 55%;">
+                <img src="libs/img/logo-caritas.jpg    " alt=""
+                    style="    max-height: 117px;margin-left: -3px;margin-top: 11px; width: 60%; height:80px;">
                 <!--     <img src="libs/img/logo.png" alt="" style="max-height: 68px;">
                 -->
                 <!-- <span class="d-none d-lg-block">Jornadas De Ferias</span> -->
@@ -166,6 +167,13 @@ if (session_status() === PHP_SESSION_ACTIVE) {
             </li><!-- Modulos-->
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
+                    <i class="bi bi-person"></i>
+                    <span>Personas</span>
+                </a>
+            </li><!-- End usuarios Page Nav -->
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Salud</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -216,19 +224,6 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
                 </ul>
             </li><!-- End Ferias Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-people-fill"></i><span>Personas</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a class="nav-link collapsed" href="<?= SERVERURL ?>index.php?page=inicioPersonas">
-                            <i class="bi bi-circle"></i><span>Personas</span>
-                        </a>
-                    </li>
-                </ul>
-            </li><!-- End Forms Nav -->
 
 
             <li class="nav-heading">Configuracion</li>

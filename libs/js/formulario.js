@@ -1,5 +1,8 @@
 const formulario = document.getElementById('formRegistrarPersona');
 const inputs = document.querySelectorAll('#formRegistrarPersona input');
+const inputs_consulta = document.querySelectorAll('#formRegistrarConsultas input');
+
+
 
 const expresiones = {
 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
@@ -7,7 +10,8 @@ const expresiones = {
 	password: /^.{4,12}$/, // 4 a 12 digitos.
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{7,14}$/, // 7 a 14 numeros.
-	n_documento: /^\d{7,14}$/ // 7 a 14 numeros.
+	n_documento: /^\d{7,8}$/, // 7 a 14 numeros.
+	direccion:("^\\s\\d{2}\\s#\\d{2}-\\d{2}\\s[a-zA-Z\\s]+$")
 }
 
 const validarFormulario	 = (e) => {
@@ -26,6 +30,9 @@ const validarFormulario	 = (e) => {
 		break;
 		case "correo":
 			validarCampo(expresiones.correo, e.target,'correo');
+		break;
+		case "direccion":
+			validarCampo(expresiones.nombre, e.target,'direccion');
 		break;
 	}
 }
@@ -48,6 +55,12 @@ const validarCampo = (expresion, input, campo) => {
 }
  
 inputs.forEach((input) =>{
+	input.addEventListener('keyup', validarFormulario);
+	input.addEventListener('blur', validarFormulario);
+
+});
+
+inputs_consulta.forEach((input) =>{
 	input.addEventListener('keyup', validarFormulario);
 	input.addEventListener('blur', validarFormulario);
 
