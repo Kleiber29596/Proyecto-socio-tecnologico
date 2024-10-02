@@ -12,6 +12,25 @@ class ModeloBase extends DB {
     	$this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	}
 
+	public function exit($tabla, $datos){
+		try {
+			$llaves = array_keys($datos);
+		    $sql = "SELECT COUNT() FROM $tabla (".implode(", ", $llaves).") VALUES ( :".implode(", :",$llaves).")";
+		    $q = $this->db->prepare($sql);
+			$ejecutar = $q->execute($datos);
+			$ultimoId = $this->db->lastInsertId();
+
+			$datos = array(
+				"ejecutar"	=> $ejecutar,
+				"ultimo_id"	=> $ultimoId,
+			);
+
+		    return $datos;
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	public function insertar($tabla, $datos) {
 		try {
 			$llaves = array_keys($datos);

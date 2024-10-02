@@ -50,37 +50,37 @@ $update_parroquias = $objeto->selectParroquia();*/
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <div class="col-sm-12">
-                        <div class="form-group mt-3">
-                            <label class="formulario__label" for="tipo_documento">Especialidad</label>
-                            <select class="form-control" name="tipo_documento" id="tipo_documento">
-                                <option value="">Seleccione</option>
-                                <?php
-                                foreach ($update_especialidad  as  $update_especialidad) {
-                                ?>
-                                    <option value="<?= $update_especialidad['id_especialidad'] ?>"><?= $update_especialidad['nombre_especialidad'] ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
+                    <form action="" method="POST" id="formCalendarCita">
+                        <div class="col-sm-12">
+                            <div class="form-group mt-3">
+                                <label class="formulario__label" for="especialidad">Especialidad</label>
+                                <select class="form-control" name="especialidad" id="especialidad" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <?php
+                                    foreach ($update_especialidad  as  $update_especialidad) {
+                                    ?>
+                                        <option value="<?= $update_especialidad['id_especialidad'] ?>"><?= $update_especialidad['nombre_especialidad'] ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="formulario__label mt-4" for="doctor">Doctor</label>
+                                <select class="form-control" name="doctor" id="doctor" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                </select>
+                            </div>
+                            <div class="mt-3" id="DIVcalendar">
+                                
+                            </div>
+                            <!--<button class="btn btn-primary btn-circle mt-3" title="Agregar cita" data-toggle="modal" data-target="#modalAgregarCitas"><i class="fas fa-plus"> Agregar cita</i></button>-->
+
+                            <button type="submit" class="btn btn-primary btn-circle mt-3">
+                                <i class="fas fa-plus"> Agregar cita</i>
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label class="formulario__label mt-4" for="tipo_documento">Doctor</label>
-                            <select class="form-control" name="tipo_documento" id="tipo_documento">
-                                <option value="#">Seleccione</option>
-                                <option value="V">Venezolano</option>
-                                <option value="E">Extranjero</option>
-                                <option value="P">Pasaporte</option>
-                            </select>
-                        </div>
-                        <div class="mt-3" id="calendar">
-                            
-                        </div>
-                        <button title="Agregar Persona" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalAgregarCitas">
-                        <i class="fas fa-plus"> Agregar cita</i>
-                    </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -89,36 +89,23 @@ $update_parroquias = $objeto->selectParroquia();*/
 
 
 
-<!-- Modal Agregar Cita -->
+<!-- Modal Agregar Cita-->
 <div class="modal fade" id="modalAgregarCitas" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modalAgregarCitasLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalAgregarCitasLabel">Agregar Cita <i class=" fa fa-solid fa-clipboard-check"> </i></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form action="" id="formRegistrarCita">
                     <div class="row">
-                        <div class="col-sm-2" style="display: flex;
-                        justify-content: flex-start;
-                        align-items: flex-end;">
-                            <div class="form-group">
-                                <label for="">Tipo de documento </label>
-                                <select class="form-control" name="tipo_documento" id="tipo_documento_persona">
-                                    <option value="">Seleccione</option>
-                                    <option value="V">V</option>
-                                    <option value="E">E</option>
-                                    <option value="P">P</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-11">
                             <div class="form-group">
                                 <label for="n_documento">Número de documento</label>
-                                <input class="form-control" type="text" id="n_documento_persona" placeholder="Ingrese el número de documento del paciente">
+                                <input class="form-control" type="text" id="n_documento_persona" placeholder="Ingrese el número de documento del paciente" required>
                                 <input type="hidden" id="id_persona" value="">
                             </div>
                         </div>
@@ -128,8 +115,9 @@ $update_parroquias = $objeto->selectParroquia();*/
                             </div>
                         </div>
                     </div>
+
                     <div class="row" id="contenedor_datos_persona" style="display: none;">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 mt-3">
                             <p>Datos del Paciente</p>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover">
@@ -138,55 +126,53 @@ $update_parroquias = $objeto->selectParroquia();*/
                                         <th>Nombres/Apellidos</th>
                                         <th>Telefono</th>
                                         <th>Sexo</th>
-                                        <th>Fecha de Nacimiento</th>
-                                        <th>Dirección</th>  
+                                        <th>Edad</th>
+                                        <th>Dirección</th> 
+
                                     </tr>
                                     <tr>
                                         <td id="n_documento"></td>
                                         <td id="nombres_apellidos_persona"></td>
                                         <td id="tlf_persona"></td>
                                         <td id="sexo_persona"></td>
-                                        <td id="fecha_nac"></td>
+                                        <td id="edad"></td>
                                         <td id="direccion_persona"></td>
+                                        <input id="ID" type="hidden" name="ID" value="">
                                     </tr>
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div><br>
+
                     <div class="row">
                         <div class="col-sm-6">
-                            <label for="especialidad">Especialidad</label>
-                            <select class="form-control" name="especialidad" id="especialidad">
-                                <option value="">Seleccione</option>
-                                <?php
-                                foreach ($especialidad  as  $especialidad) {
-                                ?>
-                                    <option value="<?= $especialidad['id_especialidad'] ?>"><?= $especialidad['nombre_especialidad'] ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            <small id="emailHelp" class="form-text text-muted">Selecciona la especialidad</small>
+                            <label for="txt-especialidad">Especialidad</label>
+                            <input type="label" class="form-control" name="txt-especialidad" id="txt-especialidad" disabled>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="doctor">Doctor</label>
-                                <select class="form-control" name="doctor" id="doctor">
-
-                                </select>
-                                <small id="emailHelp" class="form-text text-muted">Selecciona el doctor </small>
+                                <label for="txt-doctor">Doctor</label>
+                                <input type="" class="form-control" name="txt-doctor" id="txt-doctor" disabled>
                             </div>
 
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Fecha de la cita</label>
-                                <input type="date" id="fecha_cita" class="form-control rounded" min="">
+                            <div class="form-group mt-3">
+                                <label for="fecha_cita">Fecha de la cita</label>
+                                <input type="date" id="fecha_cita" class="form-control rounded" disabled>
                             </div>
                         </div>
-                        <div class="col-sm-5" id="contenedor_citas_disponibles" style="display: none;">
+
+                        <div class="col-sm-6">
+                            <div class="form-group mt-3">
+                                <label for="observacion_cita">Observación</label>
+                                <textarea id="observacion_cita" class="form-control rounded" placeholder="Escriba aquí"></textarea>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-sm-5" id="contenedor_citas_disponibles" style="display: none;">
                             <div class="form-group">
                                 <table class="table table-bordered table-striped table-hover">
                                     <tr>
@@ -200,35 +186,37 @@ $update_parroquias = $objeto->selectParroquia();*/
 
                                 </table>
                             </div>
-                        </div>
-                        <div class="row" id="contenedor_estatus_observacion" style="display: none;">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="estatus">Estatus</label>
-                                    <select class="form-control" name="estatus_cita" id="estatus_cita">
-                                    <option value="0">Pendiente</option>
-                                        <option value="1">Finalizado</option>
-                                        <option value="2">Inasistente</option>
-                                    </select>
-                                    <small id="emailHelp" class="form-text text-muted">Selecciona el estatus </small>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Observaciòn</label>
-                                    <textarea class="form-control" id="observacion_cita" rows="3"></textarea>
-                                </div>
-                                <small>Ingresa una breve observaciòn</small>
-                            </div>
-                        </div>
+                        </div>-->
                     </div>
+                    <!--<div class="row" id="contenedor_estatus_observacion" style="display: none;">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="estatus">Estatus</label>
+                                <select class="form-control" name="estatus_cita" id="estatus_cita">
+                                <option value="0">Pendiente</option>
+                                    <option value="1">Finalizado</option>
+                                    <option value="2">Inasistente</option>
+                                </select>
+                                <small id="emailHelp" class="form-text text-muted">Selecciona el estatus </small>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Observaciòn</label>
+                                <textarea class="form-control" id="observacion_cita" rows="3"></textarea>
+                            </div>
+                            <small>Ingresa una breve observaciòn</small>
+                        </div>
+                    </div>-->
+                
                 </form>
+            </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="agregar_cita" title="Guardar cita"><i class="fas fa-save"></i> Guardar</button>
                 </div>
             </div>
-        </div>
+
     </div>
 </div>

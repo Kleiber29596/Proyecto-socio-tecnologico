@@ -61,6 +61,7 @@ if (!empty($page)) {
 		'consultarPaciente' => array('model' => 'PacientesModel', 'view' => 'consultarPaciente', 'controller' => 'CitasController'),
 		'updateConsultarPaciente' => array('model' => 'PacientesModel', 'view' => 'updateConsultarPaciente', 'controller' => 'CitasController'),
 		'obtenerCitasDisponibles' => array('model' => 'CitasModel', 'view' => 'obtenerCitasDisponibles', 'controller' => 'CitasController'),
+		'consultarEspeDoct' => array('model' => 'CitasModel', 'view' => 'consultarEspeDoct', 'controller' => 'CitasController'),
 		'registrarCita' => array('model' => 'CitasModel', 'view' => 'registrarCita', 'controller' => 'CitasController'),
 		'listarActualizacionCita' => array('model' => 'CitasModel', 'view' => 'listarActualizacionCita', 'controller' => 'CitasController'),
 		'modificarCita' => array ('model' => 'CitasModel', 'view' => 'modificarCita', 'controller' => 'CitasController'),
