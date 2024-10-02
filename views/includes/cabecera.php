@@ -71,6 +71,8 @@ if (session_status() === PHP_SESSION_ACTIVE) {
 
     <!-- Estilos de la validacion de formulario -->
     <link href="libs/css/validacion.css" rel="stylesheet">
+    <script src="libs/vendor/calendar/index.global.min.js"></script>
+    <script src="libs/vendor/calendar/es.js"></script>
 
 
 

@@ -43,15 +43,7 @@ $(document).ready(function () {
 });
 
 /* -------------- Modulo Usuario ------------------ */
-/* -------------- Citas / Caledario ------------------ */
 
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth'
-    });
-      calendar.render();
-  });
   
 /*----------------- Listar Usuarios -------------*/
 $(document).ready(function () {
@@ -344,6 +336,9 @@ $(document).ready(function () {
     },
   });
 });
+
+
+
 
 /* -------------- Ver Usuario ------------------ */
 function verUsuario(id) {
@@ -2820,6 +2815,9 @@ if (
   }
 }
 
+
+//--------------------select especialidad/doctor ----------------------//
+
 $(document).ready(function () {
   $("#especialidad").on("change", function () {
     $("#especialidad option:selected").each(function () {
@@ -2844,7 +2842,7 @@ $(document).ready(function () {
               var itemOption = document.createElement("option");
 
               //Contenido de los <option> del select municipios
-              var doctor = document.createTextNode(
+              var txt_doctor = document.createTextNode(
                 response.data.data[es].nombres +
                   " " +
                   response.data.data[es].apellidos +
@@ -2861,7 +2859,7 @@ $(document).ready(function () {
               itemOption.setAttributeNode(attValue);
 
               //Añadir contenido a los <option> creados
-              itemOption.appendChild(doctor);
+              itemOption.appendChild(txt_doctor);
 
               document.getElementById("doctor").appendChild(itemOption);
             }
@@ -2983,19 +2981,135 @@ $(document).ready(function () {
   });
 });
 
-/* -------------- Citas / Registrar Cita ------------------ */
 
-var agregar_cita;
-if ((agregar_cita = document.getElementById("agregar_cita"))) {
+
+
+
+/* -------------- Citas / Caledario ------------------ */
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  var calendarEl = document.getElementById('DIVcalendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'es',
+      selectable: true,
+
+      events: [
+        { 
+            title: 'No hay cita',
+            start: '2024-09-20',
+            end: '2024-09-20',
+            color: '#f1231a',
+        },
+
+        { 
+            title: 'No hay cita',
+            start: '2024-09-25',
+            end: '2024-09-25',
+            color: '#f1231a',
+        }
+      ],
+
+      slotMinTime: function() {
+        // Calcula la fecha de mañana a las 00:00 horas
+        var tomorrow = new Date();
+        //tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        return tomorrow;
+      },
+
+      dateClick: function(info) {
+        var f = info.dateStr;
+        const cadenaFecha = f;
+        var numeroDia = new Date(cadenaFecha).getDay();
+        
+        if (numeroDia == 5 || numeroDia == 6) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Este días no hay cosultas',
+          });
+        }else if(numeroDia == 3){ //----- esto es para filtrar los dias de trabajo del doctor-----//
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'El especialista no labora éste día.',
+          });
+        }else if (info.date < new Date()) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No puedes se puede realizar cita para esta fecha.',
+          });
+        }else {
+          // Aquí puedes agregar la lógica para crear un nuevo evento, etc.
+          //alert('Fecha seleccionada: ' + info.dateStr);
+          $('#fecha_cita').val(info.dateStr);
+        }
+      },
+
+      eventClick: function(info) {
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'No hay cupos disponibles para este día.',
+            });
+        info.el.style.borderColor = 'red';
+      },
+    });
+      calendar.render();
+  });
+
+
+/* -------------- Agregar Cita -------------------------- */
+
+$(document).ready(function(){
+  $("#formCalendarCita").submit(function(event){   
+
+    event.preventDefault();
+    var especialidad = $("#especialidad").val();
+    var doctor = $("#doctor").val();
+    
+    $.ajax({
+      url: "index.php?page=consultarEspeDoct",
+      type: "post",
+      dataType: "json",
+      data: {
+        especialidad: especialidad,
+        doctor: doctor,
+      },
+    })
+    .done(function (response) {
+         if (response.data.success == true) {
+            $("#txt-especialidad").val(response.data.nombre_especialidad);
+            $("#txt-doctor").val(response.data.nombre_doctor);
+            $("#modalAgregarCitas").modal('show');
+         }
+      })
+    .fail(function () {
+      console.log("error");
+    });
+
+  });
+});
+
+
+/* -------------- Citas / Guardar Cita ------------------ */
+
+/*var agregar_cita;
+if (agregar_cita = document.getElementById("agregar_cita")) {
   agregar_cita.addEventListener("click", agregarCita, false);
 
   function agregarCita() {
-    let id_paciente_cita = document.getElementById("id_paciente_cita").value;
+    let id_persona_cita = document.getElementById("id_persona").value;
     let fecha_cita = document.getElementById("fecha_cita").value;
     let observacion_cita = document.getElementById("observacion_cita").value;
-    let id_especialidad_cita = document.getElementById("especialidad").value;
-    let estatus_cita = document.getElementById("estatus_cita").value;
-    let id_doctor_cita = document.getElementById("doctor").value;
+    let id_especialidad_cita = document.getElementById("txt-especialidad").value;
+    //let estatus_cita = document.getElementById("estatus_cita").value;
+    let id_doctor_cita = document.getElementById("txt-doctor").value;
+
+    //console.log(fecha_cita);
 
     $.ajax({
       url: "index.php?page=registrarCita",
@@ -3037,7 +3151,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
         console.log("error");
       });
   }
-}
+}*/
 
 /* -------------- Listar datos para actualización ------------------ */
 
@@ -3925,6 +4039,8 @@ function consultarPersona() {
     "n_documento_persona"
   ).value;
  
+  //console.log(n_documento_persona);
+
   let contenedor_formulario_persona = document.getElementById(
     "Contenedor_formulario_persona"
   );
@@ -3975,10 +4091,10 @@ function consultarPersona() {
         });
       }
     })
-    .fail(function () {
-      console.log("error");
+    .fail(function (error) {
+      console.log(error);
     });
-}
+  }
   
 }
 
@@ -4447,52 +4563,74 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
   agregar_cita.addEventListener("click", agregarCita, false);
 
   function agregarCita() {
-    let id_paciente_cita = document.getElementById("id_paciente_cita").value;
+    var ID = $("#ID").val();
     let fecha_cita = document.getElementById("fecha_cita").value;
     let observacion_cita = document.getElementById("observacion_cita").value;
     let id_especialidad_cita = document.getElementById("especialidad").value;
-    let estatus_cita = document.getElementById("estatus_cita").value;
+    let estatus_cita = 0;
     let id_doctor_cita = document.getElementById("doctor").value;
 
-    $.ajax({
-      url: "index.php?page=registrarCita",
-      type: "post",
-      dataType: "json",
-      data: {
-        id_paciente_cita: id_paciente_cita,
-        id_doctor_cita: id_doctor_cita,
-        fecha_cita: fecha_cita,
-        observacion_cita: observacion_cita,
-        estatus_cita: estatus_cita,
-        id_especialidad_cita: id_especialidad_cita,
-      },
-    })
-      .done(function (response) {
-        if (response.data.success == true) {
-          document.getElementById("formRegistrarCita").reset();
+    /*console.log(ID);
+    console.log(fecha_cita);
+    console.log(observacion_cita);
+    console.log(id_especialidad_cita);
+    console.log(estatus_cita);
+    console.log(id_doctor_cita);*/
 
-          $("#modalAgregarCitas").modal("hide");
+   if (ID) {
+      $.ajax({
+          url: "index.php?page=registrarCita",
+          type: "post",
+          dataType: "json",
+          data: {
+            ID: ID,
+            id_doctor_cita: id_doctor_cita,
+            fecha_cita: fecha_cita,
+            observacion_cita: observacion_cita,
+            estatus_cita: estatus_cita,
+            id_especialidad_cita: id_especialidad_cita,
+          },
+        })
+          .done(function (response) {
+            if (response.data.success == true) {
+              document.getElementById("formRegistrarCita").reset();
 
-          Swal.fire({
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
+              $("#modalAgregarCitas").modal("hide");
+
+              Swal.fire({
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                title: response.data.message,
+                text: response.data.info,
+              });
+
+              $("#tabla_citas").DataTable().ajax.reload();
+            } else {
+              Swal.fire({
+                icon: "danger",
+                confirmButtonColor: "#3085d6",
+                title: response.data.message,
+                text: response.data.info,
+              });
+            }
+          })
+          .fail(function (e) {
+            console.log(e);
+            Swal.fire({
+                icon: "error",
+                confirmButtonColor: "#3085d6",
+                title: 'Error',
+                text: e.data.message,
+              });
           });
-
-          $("#tabla_citas").DataTable().ajax.reload();
-        } else {
+        }else{
           Swal.fire({
-            icon: "danger",
+            icon: "error",
             confirmButtonColor: "#3085d6",
-            title: response.data.message,
-            text: response.data.info,
+            title: 'Error',
+            text: 'Debe ingresar un numero de cedula.',
           });
         }
-      })
-      .fail(function () {
-        console.log("error");
-      });
   }
 }
 

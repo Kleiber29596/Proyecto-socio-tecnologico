@@ -338,13 +338,14 @@ public function verDatosPersona()
 		$n_documento_persona = $_POST['n_documento_persona'];
 		$modelPersonas = new PersonasModel();
 		$listar = $modelPersonas->consultarPersona($n_documento_persona);
-		
+
+		/*echo json_encode("andamos por aqui");
+		exit();*/
+
 		foreach ($listar as $lista) {
 			$id_persona				= $lista['id_persona'];
-			$tipo_documento_persona	= $lista['tipo_documento'];
 			$n_documento_persona 	= $lista['documento'];
 			$nombres_persona 		= $lista['nombres'];
-			$apellidos_persona 		= $lista['apellidos'];
 			$sexo_persona 		    = $lista['sexo'];
 			$fecha_nac  			= $lista['fecha_nacimiento'];
 			$tlf_persona 		    = $lista['telefono'];
@@ -362,11 +363,9 @@ public function verDatosPersona()
 					'message'           	 		=> 'Registro encontrado',
 					'info'              	 	    =>  '',
 					'id_persona'		   			=> $id_persona,
-					'tipo_documento_persona'   		=> $tipo_documento_persona,
 					'n_documento_persona' 			=> $n_documento_persona,
 					'fecha_nac' 		            => $fecha_nac,
 					'nombres_persona'				=> $nombres_persona,
-					'apellidos_persona'				=> $apellidos_persona,
 					'sexo_persona'			    	=> $sexo_persona,
 					'tlf_persona'			    	=> $tlf_persona,
 					'direccion'			 	        => $direccion,
@@ -374,10 +373,10 @@ public function verDatosPersona()
 				],
 				'code' => 0,
 			];
+
+			
 			echo json_encode($data);
-
 			exit();
-
 		}else {
 
 			$data = [
@@ -392,10 +391,74 @@ public function verDatosPersona()
 			exit();
 
 		}
-			
-		
 		
 	}
+
+	/*public function consultarPersonaCita()
+	{	
+		
+		$n_documento_persona = $_POST['n_documento_persona'];
+		$modelPersonas = new PersonasModel();
+		$listar = $modelPersonas->consultarPersonaCita($n_documento_persona);
+
+		echo json_encode($n_documento_persona);
+		exit();
+
+		foreach ($listar as $lista) {
+			$id_persona				= $lista->id_persona;
+			$n_documento_persona 	= $lista->documento;
+			$nombres_persona 		= $lista->nombres;
+			$fecha_nac  			= $lista->fecha_nacimiento;
+			$sexo_persona 		    = $lista->sexo;
+			$tlf_persona 		    = $lista->telefono;
+			$email					= $lista->correo;
+			$fecha_Reg 				= $lista->fecha_registro;
+			$direccion 				= $lista->direccion;
+		}
+
+		$edad_persona = obtener_edad($fecha_nac);
+
+		echo json_encode($direccion);
+		exit();
+			
+		if ($listar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_persona'		   			=> $id_persona,
+					'n_documento_persona' 			=> $n_documento_persona,
+					'fecha_nac' 		    		=> $fecha_nac,
+					'nombres_persona'				=> $nombres_persona,
+					'sexo_persona'			    	=> $sexo_persona,
+					'tlf_persona'			    	=> $tlf_persona,
+					'correo' 						=> $email,
+					'direccion' 					=> $direccion,
+					'edad'							=> $edad_persona,
+				],
+				'code' => 0,
+			];
+			
+			echo json_encode($edad_persona);
+			exit();
+		}else{
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'La persona no se encuentra registrada',
+					'info'               =>  'Debe registrar al Beneficiario'
+				],
+				'code' => 0,
+			];
+			echo json_encode($edad_persona);
+			exit();
+
+		}
+		
+	}*/
 
 	public function modificarPersona()
 	{
