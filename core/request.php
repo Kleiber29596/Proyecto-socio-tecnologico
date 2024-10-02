@@ -91,6 +91,7 @@ if (!empty($page)) {
 		'inicioConsultas' 	  => array('model' => 'ConsultasModel',   'view' => 'inicio', 		    	 'controller'      	=> 'ConsultasController'),
 		'listarConsultas' 	  => array('model' => 'ConsultasModel',   'view' => 'listarConsultas',  	 'controller'      	=> 'ConsultasController'),
 		'registrarConsulta'   => array('model' => 'ConsultasModel',   'view' => 'registrarConsulta',	 'controller'      	=> 'ConsultasController'),
+		'modificarConsulta'   => array('model' => 'ConsultasModel',   'view' => 'modificarConsulta',	 'controller'      	=> 'ConsultasController'),
 		'imprimirRecipe' 	  => array('model' => 'RecipeModel', 	  'view' => 'imprimirRecipe',   	 'controller' 	  	=> 'ConsultasController'),
 		'listarDatosConsulta' => array('model' => 'ConsultaModel', 	  'view' => 'listarDatosConsulta',   'controller' 		=> 'ConsultasController'),
 		'obtenerDatosReceta'  => array('model' => 'ConsultaModel', 	  'view' => 'obtenerDatosReceta',    'controller'  		=> 'ConsultasController'),

@@ -93,7 +93,7 @@
                                         <tr>
                                             <th>Nº documento</th>
                                             <th>Nombres</th>
-                                            <th>fecha_nacimiento</th>
+                                            <th>Edad</th>
                                             <th>Sexo</th>
                                             <th>Teléfono</th>
                                             <th>Dirección</th>
@@ -101,7 +101,7 @@
                                         <tr>
                                             <td id="n_documento"></td>
                                             <td id="nombres_apellidos_persona"></td>
-                                            <td id="fecha_nac"></td>
+                                            <td id="edad"></td>
                                             <td id="sexo_persona"></td>
                                             <td id="tlf_persona"></td>
                                             <td id="direccion_persona"></td>
@@ -325,7 +325,7 @@
                                 <input type="hidden" name="consulta_update" id="id_consulta_update">
                                 <label for="rango_edad">Tipo de consulta</label>
                                 <select class="select2-selection--single" name="tipo_consulta" id="update_tipo_consulta"
-                                    style="width:100%" disabled>
+                                    style="width:100%">
                                     <option value="">Seleccione</option>
                                     <?php foreach ($consultas_update as $consulta_update) { ?>
                                     <option value="<?= $consulta_update['id_tipo_consulta'] ?>">
@@ -347,7 +347,7 @@
                                 <div class="form-group">
                                     <label for="peso">Peso (kg)</label>
                                     <input class="form-control" type="number" id="update_peso" name="peso"
-                                        placeholder="Ingrese el peso" disabled>
+                                        placeholder="Ingrese el peso" >
                                 </div>
                             </div>
 
@@ -355,8 +355,8 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="altura">Altura (cm)</label>
-                                    <input class="form-control" type="number" id="update_altura" name="altura "
-                                        placeholder="Ingrese la altura" disabled>
+                                    <input class="form-control" type="float" id="update_altura" name="altura "
+                                        placeholder="Ingrese la altura" >
                                 </div>
                             </div>
 
@@ -365,7 +365,7 @@
                                 <div class="form-group">
                                     <label for="presion_arterial">Presión Arterial</label>
                                     <input class="form-control" type="text" id="update_presion_arterial"
-                                        name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)" disabled>
+                                        name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)" >
                                 </div>
                             </div>
 
@@ -376,15 +376,18 @@
                             <div class="form-group">
                                 <label for="instrucciones">Diagnóstico</label>
                                 <textarea class="form-control" id="update_diagnostico" name="diagnostico" rows="3"
-                                    placeholder="Ingrese el diagnóstico" disabled></textarea>
+                                    placeholder="Ingrese el diagnóstico" ></textarea>
                             </div>
 
                         </div>
                     </div>
+            </form>
                     <br>
                     <p>Medicamentos recetados</p>
+                    
 
                     <div id="contenedor-actualizar-receta" style="display:none;">
+                    <form id="form_update_receta">
                     <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
@@ -446,6 +449,7 @@
                                 <div class="form-group input-duracion">
                                     <select name="intervalo" id="intervalo_update" class="form-control"
                                         style="width: 100%; display: inline-block; margin-left: 10px;">
+                                        <option value="">Seleccione</option>
                                         <option value="días">Días</option>
                                         <option value="semanas">Semanas</option>
                                         <option value="meses">Meses</option>
@@ -456,8 +460,8 @@
                             <div class="col-sm-3" style="display: flex; align-items:center;">
                                 <div class="form-group">
                                     <button type="button" class="btn btn-danger btn-circle"
-                                        style="display: flex; margin-top:25px;" id="cancelar_especie_update"
-                                        onclick="cancelarEspecieUpdate()" title="Cancelar"><i
+                                        style="display: flex; margin-top:25px;" id="cancelar_receta_update"
+                                        onclick="cancelarRecetaUpdate()" title="Cancelar"><i
                                             class="fas fa-ban"></i></button>
                                 </div>
                                 <div class="form-group">
@@ -467,6 +471,8 @@
                                             class="fas fa-edit"></i></button>
                                 </div>
                             </div>
+
+                            </form>
                         </div>
                     </div>
                     
@@ -490,7 +496,7 @@
             <div class="modal-footer">
 
                         <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" onclick="modificarPersona()" title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
+                        <button type="button" class="btn btn-primary" id="modificar_consulta" title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
                     </div>
         </div>
 

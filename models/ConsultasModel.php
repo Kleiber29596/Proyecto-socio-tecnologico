@@ -38,4 +38,17 @@ class ConsultasModel extends ModeloBase {
 		return $resultado;
 	}
 
+
+		/*------------Método para modificar datos de una consulta --------*/
+		public function modificarConsulta($id, $datos)
+		{
+			$db = new ModeloBase();
+			try {
+				$editar = $db->editar('consultas', 'id_consulta', $id, $datos);
+				return $editar;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+			}
+		}
+
 }

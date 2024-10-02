@@ -308,34 +308,31 @@ public function listarConsultas()
 	}
 
 
-	public function modificarReceta()
+	public function modificarConsulta()
 	{	
 		$id_consulta_update = $_POST['id_consulta_update'];
-		$id_receta = $_POST['id_receta_update'];
-		$modelRecipes = new RecipeModel();
+
+
+		$modelConsultas = new ConsultasModel();
 
 		$datos = array(
-			'id_recipe_medicamento'		        => 	$id_receta,
-			'id_presentacion_medicamento'         	=> $_POST['medicamento_update'],
-			'dosis'    	  							=> $_POST['dosis_update'],
-			'frecuencia'  							=> $_POST['frecuencia_update'],
-			'cantidad'		    					=> $_POST['cantidad_update'],
-			'intervalo'		            			=> $_POST['intervalo_update'],
+			'id_tipo_consulta'         	            => $_POST['update_tipo_consulta'],
+			'peso'							        => $_POST['update_peso'],
+			'altura'							    => $_POST['update_altura'],
+			'presion_arterial'				        => $_POST['update_presion_arterial']
+		
 		);
 		
-		$modificar = $modelRecipes->modificarReceta($id_receta, $datos);
-		$recetas = $modelRecipes->consultarRecetaUpdate($id_consulta_update);
+		$modificar = $modelConsultas->modificarConsulta($id_consulta_update, $datos);
 
-		if ($recetas) {
+		if ($modificar) {
 			
 			$data = [
 				'data' => [
 					'success'           	 	  	=>  true,
-					'message'           	 		=> 'Receta modificada',
+					'message'           	 		=> 'Consulta modificada',
 					'info'              	 	    =>  '',
-					'recetas'   					=> $recetas
 					
-
 				],
 				'code' => 0,
 			];
@@ -348,8 +345,8 @@ public function listarConsultas()
 			$data = [
 				'data' => [
 					'success'            =>  false,
-					'message'            => 'Error al obtener datos de consulta',
-					'info'               =>  'Error al obtener datos de consulta'
+					'message'            => 'Error al modificar la consulta',
+					'info'               =>  ''
 				],
 				'code' => 0,
 			];
