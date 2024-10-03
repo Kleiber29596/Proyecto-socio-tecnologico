@@ -419,13 +419,14 @@ EOT;
 	public function registrarCita()
 	{
 
+
 		$modelCitas = new CitasModel();
 
 		$fecha = date("Y-m-d"); //obteniendo fecha del registro
 
 		//REGISTRAR CITA
 		$datos = array(
-			'id_paciente'   			  	=> $_POST['ID'],
+			'id_persona'   			  	    => $_POST['ID'],
 			'id_doctor'    					=> $_POST['id_doctor_cita'],
 			'id_especialidad'		    	=> $_POST['id_especialidad_cita'],
 			'observacion'					=> $_POST['observacion_cita'],

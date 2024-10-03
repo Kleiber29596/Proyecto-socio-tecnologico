@@ -72,7 +72,7 @@ ob_start();
     }
     </style>
 
-    <!-- Banner -->
+    <!-- Banner
     <div class="container" style="margin-top: 20px;">
         <table style="border: 0px">
             <tr style="border: 0px">
@@ -86,7 +86,7 @@ ob_start();
             </tr>
         </table><br><br>
     </div><br><br><br>
-
+ -->
 
 
     <div class="container">

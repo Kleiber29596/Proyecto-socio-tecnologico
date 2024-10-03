@@ -204,7 +204,7 @@ $update_parroquias = $objeto->selectParroquia();
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input id="id_persona" type="hidden" value="">
+                                <input id="ID" type="hidden" value="">
                             </div>
                         </div>
                     </div>

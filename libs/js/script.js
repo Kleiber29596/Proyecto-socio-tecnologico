@@ -1945,7 +1945,8 @@ if (document.getElementById("agregar_persona")) {
             text: response.data.info,
           });
 
-          $("#tbl_persona").DataTable().ajax.reload();
+          $("#tbl_personas").DataTable().ajax.reload();
+          
           contenedor_formulario_persona.setAttribute("style", "display: none;");
           contenedor_datos_persona.removeAttribute("style");
         } else {
@@ -4071,7 +4072,7 @@ function consultarPersona() {
         document.getElementById("tlf_persona").innerHTML =
           response.data.tlf_persona;
         document.getElementById("direccion_persona").innerHTML = response.data.direccion
-        document.getElementById("ID").setAttribute("value", response.data.id_persona);
+        document.getElementById("id_persona").setAttribute("value", response.data.id_persona);
         document.getElementById("edad").innerHTML = response.data.edad
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
@@ -5015,56 +5016,56 @@ function listarDatosConsulta(id) {
     });
 }
 
-function modificarPersona() {
+// function modificarPersona() {
 
-  let id_consulta           = document.getElementById("id_consulta_update").value;
-  let peso                  = document.getElementById("update_peso").value ;
-  let altura                = document.getElementById("update_altura").value
-  let presion_arterial      = document.getElementById("update_presion_arterial").value
-  let diagnostico           = document.getElementById("update_diagnostico").value
+//   let id_consulta           = document.getElementById("id_consulta_update").value;
+//   let peso                  = document.getElementById("update_peso").value ;
+//   let altura                = document.getElementById("update_altura").value
+//   let presion_arterial      = document.getElementById("update_presion_arterial").value
+//   let diagnostico           = document.getElementById("update_diagnostico").value
  
-  $.ajax({
-    url: "index.php?page=modificarPersona",
-    type: "post",
-    dataType: "json",
-    data: {
-      id_persona: id_persona,
-      tipo_documento: tipo_documento,
-      n_documento: n_documento,
-      nombres: nombres,
-      apellidos: apellidos,
-      sexo: sexo,
-      fecha_nac: fecha_nac,
-      telefono: telefono,
-      direccion: direccion,
-      correo: correo,
-    },
-  })
-    .done(function (response) {
-      if (response.data.success) {
-        $("#formActualizarPersonas")[0].reset();
-        $("#modalActualizarPersonas").modal("hide");
-        $("#tbl_personas").DataTable().ajax.reload();
+//   $.ajax({
+//     url: "index.php?page=modificarPersona",
+//     type: "post",
+//     dataType: "json",
+//     data: {
+//       id_persona: id_persona,
+//       tipo_documento: tipo_documento,
+//       n_documento: n_documento,
+//       nombres: nombres,
+//       apellidos: apellidos,
+//       sexo: sexo,
+//       fecha_nac: fecha_nac,
+//       telefono: telefono,
+//       direccion: direccion,
+//       correo: correo,
+//     },
+//   })
+//     .done(function (response) {
+//       if (response.data.success) {
+//         $("#formActualizarPersonas")[0].reset();
+//         $("#modalActualizarPersonas").modal("hide");
+//         $("#tbl_personas").DataTable().ajax.reload();
 
-        Swal.fire({
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-          title: response.data.message,
-          text: response.data.info,
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          confirmButtonColor: "#3085d6",
-          title: response.data.message,
-          text: response.data.info,
-        });
-      }
-    })
-    .fail(function () {
-      console.log("error");
-    });
-}
+//         Swal.fire({
+//           icon: "success",
+//           confirmButtonColor: "#3085d6",
+//           title: response.data.message,
+//           text: response.data.info,
+//         });
+//       } else {
+//         Swal.fire({
+//           icon: "error",
+//           confirmButtonColor: "#3085d6",
+//           title: response.data.message,
+//           text: response.data.info,
+//         });
+//       }
+//     })
+//     .fail(function () {
+//       console.log("error");
+//     });
+// }
 
 /* -------------- Obtener datos para actualizar receta médica ------------------ */
 function ModificarRecetaMedica(id) {
@@ -5194,7 +5195,7 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
           document.getElementById("multiples_medicamentos_update").innerHTML = "";
 
           document.getElementById("multiples_medicamentos_update").innerHTML =
-            "<tr><th>Medicamento</th><th>tratamiento</th><th>Acciones</th></tr>";
+            "<tr><th>Medicamento</th><th>Tratamiento</th><th>Acciones</th></tr>";
 
             response.data.recetas.forEach(function (medicamento, index) {
               contador = contador + 1;
@@ -5289,10 +5290,8 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
               icono_btn_update.setAttribute("data-id", "");
               btn_update.appendChild(icono_btn_update);
     
-              document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento;
-              document.getElementById(id_presentacion).innerHTML =
-                medicamento.presentacion;
-          
+              document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+              document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' '+medicamento.frecuencia+' '+medicamento.dosis+' '+medicamento.cantidad+' '+medicamento.intervalo;          
               document
                 .getElementById("contenedor_datos_medicamentos_update")
                 .removeAttribute("style");
