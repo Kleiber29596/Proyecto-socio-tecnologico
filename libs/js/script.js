@@ -4071,7 +4071,7 @@ function consultarPersona() {
         document.getElementById("tlf_persona").innerHTML =
           response.data.tlf_persona;
         document.getElementById("direccion_persona").innerHTML = response.data.direccion
-        document.getElementById("id_persona").setAttribute("value", response.data.id_persona);
+        document.getElementById("ID").setAttribute("value", response.data.id_persona);
         document.getElementById("edad").innerHTML = response.data.edad
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
@@ -4605,6 +4605,7 @@ if ((agregar_cita = document.getElementById("agregar_cita"))) {
               });
 
               $("#tabla_citas").DataTable().ajax.reload();
+              document.getElementById("formCalendarCita").reset();
             } else {
               Swal.fire({
                 icon: "danger",
