@@ -332,6 +332,7 @@ public function verDatosPersona()
 		exit();
 	}
 
+
 	public function consultarPersona()
 	{	
 		
@@ -341,6 +342,67 @@ public function verDatosPersona()
 
 		/*echo json_encode("andamos por aqui");
 		exit();*/
+
+		foreach ($listar as $lista) {
+			$id_persona				= $lista['id_persona'];
+			$n_documento_persona 	= $lista['documento'];
+			$nombres_persona 		= $lista['nombres'];
+			$sexo_persona 		    = $lista['sexo'];
+			$fecha_nac  			= $lista['fecha_nacimiento'];
+			$tlf_persona 		    = $lista['telefono'];
+			$direccion 				= $lista['direccion'];
+		}
+
+		$edad_persona = obtener_edad($fecha_nac);
+			
+		if ($listar) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Registro encontrado',
+					'info'              	 	    =>  '',
+					'id_persona'		   			=> $id_persona,
+					'n_documento_persona' 			=> $n_documento_persona,
+					'fecha_nac_persona' 		    => $fecha_nac,
+					'nombres_persona'				=> $nombres_persona,
+					'sexo_persona'			    	=> $sexo_persona,
+					'tlf_persona'			    	=> $tlf_persona,
+					'direccion'						=> $direccion,
+					'edad'							=> $edad_persona,
+				],
+				'code' => 0,
+			];
+
+			
+			echo json_encode($data);
+			exit();
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'La persona no se encuentra registrada',
+					'info'               =>  'Debe registrar al Beneficiario'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+		
+	}
+
+  /*public function consultarPersona()
+	{	
+		
+		$n_documento_persona = $_POST['n_documento_persona'];
+		$modelPersonas = new PersonasModel();
+		$listar = $modelPersonas->consultarPersona($n_documento_persona);
+
+		/*echo json_encode("andamos por aqui");
+		exit();
 
 		foreach ($listar as $lista) {
 			$id_persona				= $lista['id_persona'];
@@ -392,7 +454,7 @@ public function verDatosPersona()
 
 		}
 		
-	}
+	}*/
 
 	/*public function consultarPersonaCita()
 	{	

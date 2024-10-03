@@ -13,7 +13,7 @@ class CitasModel extends ModeloBase {
 		$db = new ModeloBase();
 		try {
 			
-			if (condition) {
+			if ($datos) {
 				$insertar = $db->insertar('citas', $datos);
 				return $insertar;
 			}
