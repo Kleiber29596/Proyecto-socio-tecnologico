@@ -109,8 +109,8 @@ $update_parroquias = $objeto->selectParroquia();
                                     name="n_documento" placeholder="numero de documento...">
                                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
-                            <p class="formulario__input-error">El numero de documento debe contener solo numeros y un 8
-                                digitos
+                            <p class="formulario__input-error">El numero de documento debe contener solo numeros y un mínimo de 7
+                                digitos y máximo 8.
                             </p>
                         </div>
                     </div>
@@ -172,8 +172,7 @@ $update_parroquias = $objeto->selectParroquia();
                                <input class="form-control formulario__validacion__input" type="text" id="direccion" name="direccion">
                                <i class="formulario__validacion-estado fas fa-times-circle"></i>
                             </div>
-                            <p class="formulario__input-error">El correo solo puede contener letras, numeros, puntos,
-                                guiones.
+                            <p class="formulario__input-error">La dirección puede contener solo letras, numeros, espacios, puntos, numerales y guiones.
                             </p>
                         </div>
                     </div>

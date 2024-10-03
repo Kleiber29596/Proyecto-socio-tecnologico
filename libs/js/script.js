@@ -5377,7 +5377,7 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
             text: response.data.info,
           });
             
-          /* Fin mostrar las especies de pescado para la actualizacion */
+          $("#modalActualizarConsultas").modal("show");
         } else {
           document
             .getElementById("cont-loader")

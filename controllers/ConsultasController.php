@@ -360,5 +360,60 @@ public function listarConsultas()
 	}
 
 
-}
 
+
+public function modificarReceta()
+	{	
+		$id_consulta_update = $_POST['id_consulta_update'];
+		$id_receta = $_POST['id_receta_update'];
+		$modelRecipes = new RecipeModel();
+
+		$datos = array(
+			'id_recipe_medicamento'		        => 	$id_receta,
+			'id_presentacion_medicamento'         	=> $_POST['medicamento_update'],
+			'dosis'    	  							=> $_POST['dosis_update'],
+			'frecuencia'  							=> $_POST['frecuencia_update'],
+			'cantidad'		    					=> $_POST['cantidad_update'],
+			'intervalo'		            			=> $_POST['intervalo_update'],
+		);
+		
+		$modificar = $modelRecipes->modificarReceta($id_receta, $datos);
+		$recetas = $modelRecipes->consultarRecetaUpdate($id_consulta_update);
+
+		if ($recetas) {
+			
+			$data = [
+				'data' => [
+					'success'           	 	  	=>  true,
+					'message'           	 		=> 'Receta modificada',
+					'info'              	 	    =>  '',
+					'recetas'   					=> $recetas
+					
+
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+
+			exit();
+
+		}else {
+
+			$data = [
+				'data' => [
+					'success'            =>  false,
+					'message'            => 'Error al obtener datos de consulta',
+					'info'               =>  'Error al obtener datos de consulta'
+				],
+				'code' => 0,
+			];
+			echo json_encode($data);
+			exit();
+
+		}
+			
+		
+		
+	}
+
+}
