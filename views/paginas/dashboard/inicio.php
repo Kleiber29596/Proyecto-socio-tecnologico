@@ -23,7 +23,27 @@ if (session_status() === PHP_SESSION_ACTIVE) {
   $rol           = $_SESSION['rol_usuario'];
 }
 
+$get_numeroCitas = $dashboardModel->numeroCitas();
 
+foreach ($get_numeroCitas as $citas ) {
+  $numeroCitas=$citas["numeroCitas"];
+}
+
+$get_numeroConsultas = $dashboardModel->numeroConsultas();
+
+foreach ($get_numeroConsultas as $consultas ) {
+  $numeroConsultas=$consultas["numeroConsultas"];
+}
+
+$get_numeroPacientesAt = $dashboardModel->pacientesAtendidos();
+
+foreach ($get_numeroPacientesAt as $pacientes ) {
+  $numeroPacientesAt=$pacientes["numeroPacientesAt"];
+}
+$get_pacientesAtendidosGeneral = $dashboardModel->pacientesAtendidosGeneral();
+foreach ($get_pacientesAtendidosGeneral as $general ) {
+  $generalAtendidos = $general["total_general"];
+}
 ?>
 <div class="pagetitle">
   <!-- <h1>MATRIZ OPERACIÓN "VENEZUELA COME PESCADO"</h1> -->
@@ -47,14 +67,16 @@ if (session_status() === PHP_SESSION_ACTIVE) {
           <div class="card info-card sales-card">
 
             <div class="card-body">
-              <h5 class="card-title">Total vendidos <span>| General</span></h5>
+              <h5 class="card-title">Total Citas <span>| General</span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="fas fa-cart-plus"></i>
+                  
+
+                  <i class="fas fa-calendar-alt"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>Kg</h6>
+                  <h6> <?php echo $numeroCitas;?></h6>
 
 
                 </div>
@@ -69,14 +91,15 @@ if (session_status() === PHP_SESSION_ACTIVE) {
           <div class="card info-card sales-card">
 
             <div class="card-body">
-              <h5 class="card-title">Total Distribuido <span>| General</span></h5>
+              <h5 class="card-title">Numero de Consultas<span>| General</span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="fas fa-fish"></i>
+                  
+                  <i class="fas fa-stethoscope"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>Kg</h6>
+                  <h6><?php echo $numeroConsultas;?></h6>
 
 
                 </div>
@@ -91,14 +114,14 @@ if (session_status() === PHP_SESSION_ACTIVE) {
           <div class="card info-card revenue-card">
 
             <div class="card-body">
-              <h5 class="card-title">Total equiv $ <span>| Total vendidos equiv USD</span></h5>
+              <h5 class="card-title">Pacientes Atendidos <span>| Por Citas</span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-currency-dollar"></i>
+                <i class="fas fa-hospital-user"></i>
                 </div>
                 <div class="ps-3">
-                  <h6></h6>
+                  <h6><?php echo $numeroPacientesAt;?></h6>
                 </div>
               </div>
             </div>
@@ -111,14 +134,15 @@ if (session_status() === PHP_SESSION_ACTIVE) {
           <div class="card info-card revenue-card">
 
             <div class="card-body">
-              <h5 class="card-title">Total Bs <span>| Total vendidos equiv BS</span></h5>
+              <h5 class="card-title">Total Atendidos <span>| General</span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="fas fa-money-bill-wave-alt"></i>
+                <i class="fas fa-user-check"></i>  
+                
                 </div>
                 <div class="ps-3">
-                  <h6> Bs</h6>
+                  <h6> <?php echo $generalAtendidos;?></h6>
                 </div>
               </div>
             </div>
