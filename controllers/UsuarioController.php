@@ -41,7 +41,7 @@ class UsuarioController
 
 		foreach ($resultados as $resultado) {
 		
-			$id_bd 				= $resultado['id'];
+			$id_bd 				= $resultado['id_usuario'];
 			$usuario_bd 		= $resultado['usuario'];
 			$foto_bd 			= $resultado['foto'];
 			$contrasena_bd 		= $resultado['contrasena'];

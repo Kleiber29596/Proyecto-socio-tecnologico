@@ -5,6 +5,7 @@ $id = intval($_GET['id']);
 $objeto = new ConsultasController();
 
 $recetas = $objeto->datosReceta($id);
+$medicamentos = $objeto->datosReceta($id);
 
 ?>
 
@@ -87,17 +88,31 @@ ob_start();
         </table><br><br>
     </div><br><br><br>
  -->
-
+    <?php
+				foreach ($recetas as $receta){
+                    $autor      = $receta['autor'];
+                    $paciente   = $receta['paciente'];
+                }
+                    
+					?>
 
     <div class="container">
         <table style="background:#e2e3e5;">
             <thead>
                 <tr style="border: 0px">
-                    <th>
-                        <p style="margin: 0px;">FECHA: <?php echo date("d/m/Y") ?></p>
+                    <th style="text-align: left;">
+                        <p style="margin: 0px;">Fecha: <?php echo date("d/m/Y") ?></p>
                     </th>
-                    <th>
-                        <p style="margin: 0px;">HORA: <?php echo date("h:i a") ?></p>
+                    <th style="text-align: left;">
+                        <p style="margin: 0px;">Hora: <?php echo date("h:i a") ?></p>
+                    </th>
+                </tr>
+                <tr style="border: 0px">
+                    <th style="text-align: left;">
+                        <p style="margin: 0px;">Doctor: <?php echo $autor ?></p>
+                    </th>
+                    <th style="text-align: left;">
+                        <p style="margin: 0px;">Paciente: <?php echo $paciente ?></p>
                     </th>
                 </tr>
 
@@ -119,16 +134,17 @@ ob_start();
         </tr>
 
         <?php
-			if(!empty($recetas)){
-				foreach ($recetas as $receta){
-                    $instrucciones = $receta['instrucciones'];
-                    $doctor = $receta['doctor'];
+			if(!empty($medicamentos)){
+				foreach ($medicamentos as $m){
+                    $instrucciones = $m['instrucciones'];
+                    
 					?>
         <tr>
-            <td><?=$receta['nombre_medicamento']." ".$receta['presentacion'];?></td>
-            <td><?=$receta['dosis']." ".$receta['unidad_medida'];?></td>
-            <td><?=$receta['frecuencia'];?></td>
-            <td><?=$receta['duracion'];?></td>
+            <td><?=$m['nombre_medicamento']." ".$m['presentacion'];?></td>
+            <td><?=
+            $m['dosis']." ".$m['unidad_medida'];?></td>
+            <td><?='cada '.$m['frecuencia'].' horas';?></td>
+            <td><?='por '.$m['duracion'];?></td>
         </tr>
         <?php
 				}
@@ -149,9 +165,6 @@ ob_start();
                 <td>
                     <p><?=$instrucciones;?></p>
                 </td>
-            </tr>
-            <tr>
-                <td><strong>Doctor:</strong> <?=$doctor;?></td>
             </tr>
         </tbody>
     </table>
