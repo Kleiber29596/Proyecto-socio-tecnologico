@@ -39,13 +39,14 @@ if (!empty($page)) {
 		'inactivarEspecialidad' => array('model' => 'EspecialidadModel', 'view' => 'inactivarEspecialidad', 'controller' => 'EspecialidadController'),
 		
 		/* Modulo Personas*/
-		'llenarSelectEstado' 		=> array('model' => 'PersonasModel', 'view' => 'llenarSelectEstado', 'controller' => 'PersonasController'),
-		'llenarSelectParroquia' 	=> array('model' => 'PersonasModel', 'view' => 'llenarSelectParroquia', 'controller' => 'PersonasController'),
-		'registrarPersona' 			=> array('model' => 'PersonasModel', 'view' => 'RegistrarPersona', 'controller' => 'PersonasController'),
-		'listarDatosPersona'		=> array('model' => 'PersonasModel', 'view' => 'listarDatosPersona', 'controller' => 'PersonasController'),
-		'verDatosPersona'			=> array('model' => 'PersonasModel', 'view' => 'verDatosPersona', 'controller' => 'PersonasController'),
-		'listarPersonas'   			=> array('model' => 'PersonasModel', 'view' => 'listarPersonas', 'controller' => 'PersonasController'),
-		'modificarPersona' 			=> array('model' => 'PersonasModel', 'view' => 'modificarPersona', 'controller' => 'PersonasController'),
+		'llenarSelectEstado' 		=> array('model'   => 'PersonasModel', 'view'   => 'llenarSelectEstado',    'controller'     => 'PersonasController'),
+		'llenarSelectParroquia' 	=> array('model'   => 'PersonasModel', 'view'   => 'llenarSelectParroquia', 'controller'     => 'PersonasController'),
+		'registrarPersona' 			=> array('model'   => 'PersonasModel', 'view'   => 'RegistrarPersona',      'controller'     => 'PersonasController'),
+		'listarDatosPersona'		=> array('model'   => 'PersonasModel', 'view'   => 'listarDatosPersona',    'controller'     => 'PersonasController'),
+		'verDatosPersona'			=> array('model'   => 'PersonasModel', 'view'   => 'verDatosPersona',       'controller'     => 'PersonasController'),
+		'listarPersonas'   			=> array('model'   => 'PersonasModel', 'view'   => 'listarPersonas', 'controller'        => 'PersonasController'),
+		'modificarPersona' 			=> array('model'   => 'PersonasModel', 'view'   => 'modificarPersona', 'controller'      => 'PersonasController'),
+		'verificarDocumento'        => array('model'   => 'PersonasModel', 'view'   => 'verificarDocumento', 'controller'    => 'PersonasController'),
 		/* Modulo Doctor*/
 		'inicioDoctor' 				=> array('model' => 'DoctorModel',   'view' => 'inicioDoctor', 'controller' => 'DoctorController'),
 		'listarDoctores' 			=> array('model' => 'DoctorModel', 'view'   => 'listarDoctores', 'controller' => 'DoctorController'),
