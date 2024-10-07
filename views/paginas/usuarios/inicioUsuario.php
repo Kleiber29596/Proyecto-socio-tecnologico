@@ -38,8 +38,6 @@
 <body>
     <main>
         <div class="center">
-            <form class="row g-3 needs-validation" novalidate>
-
                 <div class="flex">
                     <img src="libs/img/logo-caritas.jpg" style="width: 68%;">
                 </div>
@@ -54,7 +52,8 @@
                         <span></span>
                         <label>Contraseña</label>
                     </div>
-                    <input id="iniciar_sesion" type="submit" value="Entrar">
+                    <!-- <input id="iniciar_sesion" type="submit" value="Entrar"> -->
+                    <button id="iniciar_sesion" type="button">Entrar</button>
 
                     <div class="signup_link">
 

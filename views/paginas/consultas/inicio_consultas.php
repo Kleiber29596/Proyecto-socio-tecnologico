@@ -74,7 +74,7 @@
                                     <label for="n_documento_persona">Número de documento</label>
                                     <input class="form-control" type="text" id="n_documento_persona"
                                         placeholder="Numero de documento">
-                                    <input type="hidden" id="id_persona" value="">
+                                    <input type="hidden" id="ID" value="">
                                 </div>
                             </div>
                             <div class="col-sm-1"
@@ -211,8 +211,13 @@
                                     <label for="dosis">Unidad de medida</label>
                                     <select class="form-control" name="medicamento" id="unidad_medida">
                                         <option value="">Seleccione</option>
-                                        <option value="unidad">Unidad</option>
-                                        <option value="pastilla">pastilla</option>
+
+                                        <option value="pastilla">Pastilla</option>
+                                        <option value="ml">Mililitro (ml)</option>
+                                        <option value="mg">Miligramo (mg)</option>
+                                        <option value="gotas">Gotas</option>
+                                        <option value="cucharada">Cucharada</option>
+                                        <option value="ampolla">Ampolla</option>
 
                                     </select>
                                 </div>
@@ -337,58 +342,58 @@
                     </div>
                     <br>
                     <div class="row">
-                            <!-- Campo oculto para la edad -->
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" id="edad" placeholder="Edad">
-                            </div>
-
-                            <!-- Campo para el peso del paciente -->
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="peso">Peso (kg)</label>
-                                    <input class="form-control" type="number" id="update_peso" name="peso"
-                                        placeholder="Ingrese el peso" >
-                                </div>
-                            </div>
-
-                            <!-- Campo para la altura del paciente -->
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="altura">Altura (cm)</label>
-                                    <input class="form-control" type="float" id="update_altura" name="altura "
-                                        placeholder="Ingrese la altura" >
-                                </div>
-                            </div>
-
-                            <!-- Campo para la presión arterial del paciente -->
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="presion_arterial">Presión Arterial</label>
-                                    <input class="form-control" type="text" id="update_presion_arterial"
-                                        name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)" >
-                                </div>
-                            </div>
-
+                        <!-- Campo oculto para la edad -->
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" id="edad" placeholder="Edad">
                         </div>
-                        <br>
+
+                        <!-- Campo para el peso del paciente -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="peso">Peso (kg)</label>
+                                <input class="form-control" type="number" id="update_peso" name="peso"
+                                    placeholder="Ingrese el peso">
+                            </div>
+                        </div>
+
+                        <!-- Campo para la altura del paciente -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="altura">Altura (cm)</label>
+                                <input class="form-control" type="float" id="update_altura" name="altura "
+                                    placeholder="Ingrese la altura">
+                            </div>
+                        </div>
+
+                        <!-- Campo para la presión arterial del paciente -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="presion_arterial">Presión Arterial</label>
+                                <input class="form-control" type="text" id="update_presion_arterial"
+                                    name="presion_arterial" placeholder="Ingrese la presión arterial (ej: 120/80)">
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="instrucciones">Diagnóstico</label>
                                 <textarea class="form-control" id="update_diagnostico" name="diagnostico" rows="3"
-                                    placeholder="Ingrese el diagnóstico" ></textarea>
+                                    placeholder="Ingrese el diagnóstico"></textarea>
                             </div>
 
                         </div>
                     </div>
-            </form>
-                    <br>
-                    <p>Medicamentos recetados</p>
-                    
+                </form>
+                <br>
+                <p>Medicamentos recetados</p>
 
-                    <div id="contenedor-actualizar-receta" style="display:none;">
+
+                <div id="contenedor-actualizar-receta" style="display:none;">
                     <form id="form_update_receta">
-                    <div class="row">
+                        <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="medicamento">Medicamento</label>
@@ -417,8 +422,12 @@
                                     <label for="dosis">Unidad de medida</label>
                                     <select class="form-control" name="medicamento" id="unidad_medida_update">
                                         <option value="">Seleccione</option>
-                                        <option value="unidad">Unidad</option>
-                                        <option value="pastilla">pastilla</option>
+                                        <option value="pastilla">Pastilla</option>
+                                        <option value="ml">Mililitro (ml)</option>
+                                        <option value="mg">Miligramo (mg)</option>
+                                        <option value="gotas">Gotas</option>
+                                        <option value="cucharada">Cucharada</option>
+                                        <option value="ampolla">Ampolla</option>
 
                                     </select>
                                 </div>
@@ -439,8 +448,8 @@
                             <div class="col-sm-3">
                                 <label for="duracion">Duración</label>
                                 <div class="form-group input-duracion">
-                                    <input type="number" id="cantidad_update" class="form-control" name="cantidad_duracion"
-                                        min="1" step="1" placeholder="ingrese la duración">
+                                    <input type="number" id="cantidad_update" class="form-control"
+                                        name="cantidad_duracion" min="1" step="1" placeholder="ingrese la duración">
                                 </div>
                             </div>
 
@@ -466,42 +475,43 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-success btn-circle "
-                                        style="display: flex; margin-top:25px; margin-left:10px;"
-                                        id="modificar_receta" onclick="modificarReceta()" title="Modificar"><i
+                                        style="display: flex; margin-top:25px; margin-left:10px;" id="modificar_receta"
+                                        onclick="modificarReceta()" title="Modificar"><i
                                             class="fas fa-edit"></i></button>
                                 </div>
                             </div>
 
-                            </form>
-                        </div>
-                    </div>
-                    
-
-                    <br>
-
-                    <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
-                        <div class="col-sm-12 table-responsive">
-
-                            <table
-                                class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
-                                id="multiples_medicamentos_update">
-
-                            </table>    
-
-                        </div>
-                    </div>
-
-                
+                    </form>
+                </div>
             </div>
-            <div class="modal-footer">
 
-                        <button type="button" class="btn btn-secondary" title="Cerrar el modal" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="modificar_consulta" title="Guardar cambios"><i class="fas fa-save"></i> Guardar</button>
-                    </div>
+
+            <br>
+
+            <div class="row" id="contenedor_datos_medicamentos_update" style="display: none;">
+                <div class="col-sm-12 table-responsive">
+
+                    <table class="table table-bordered table-secondary table-striped table-hover tbl_medicamentos"
+                        id="multiples_medicamentos_update">
+
+                    </table>
+
+                </div>
+            </div>
+
+
         </div>
+        <div class="modal-footer">
 
-
+            <button type="button" class="btn btn-secondary" title="Cerrar el modal"
+                data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" id="modificar_consulta" title="Guardar cambios"><i
+                    class="fas fa-save"></i> Guardar</button>
+        </div>
     </div>
+
+
+</div>
 </div>
 
 </form>
@@ -530,7 +540,7 @@ function showStep(step) {
 
 function nextPrev(n) {
     var steps = document.getElementsByClassName("step");
-    
+
     // Eliminamos la validación completamente
     steps[currentStep - 1].style.display = "none";
     currentStep += n;
@@ -539,9 +549,7 @@ function nextPrev(n) {
         document.getElementById("formRegistrarConsultas").submit();
         return false;
     }
-    
+
     showStep(currentStep);
 }
-
-
 </script>

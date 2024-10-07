@@ -1,3 +1,80 @@
+/* -------------- Citas / Caledario ------------------ */
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  var calendarEl = document.getElementById('DIVcalendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'es',
+      selectable: true,
+
+      events: [
+        { 
+            title: 'No hay cita',
+            start: '2024-09-20',
+            end: '2024-09-20',
+            color: '#f1231a',
+        },
+
+        { 
+            title: 'No hay cita',
+            start: '2024-09-25',
+            end: '2024-09-25',
+            color: '#f1231a',
+        }
+      ],
+
+      slotMinTime: function() {
+        // Calcula la fecha de mañana a las 00:00 horas
+        var tomorrow = new Date();
+        //tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        return tomorrow;
+      },
+
+      dateClick: function(info) {
+        var f = info.dateStr;
+        const cadenaFecha = f;
+        var numeroDia = new Date(cadenaFecha).getDay();
+        
+        if (numeroDia == 5 || numeroDia == 6) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Este días no hay cosultas',
+          });
+        }else if(numeroDia == 3){ //----- esto es para filtrar los dias de trabajo del doctor-----//
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'El especialista no labora éste día.',
+          });
+        }else if (info.date < new Date()) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No puedes se puede realizar cita para esta fecha.',
+          });
+        }else {
+          // Aquí puedes agregar la lógica para crear un nuevo evento, etc.
+          //alert('Fecha seleccionada: ' + info.dateStr);
+          $('#fecha_cita').val(info.dateStr);
+        }
+      },
+
+      eventClick: function(info) {
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'No hay cupos disponibles para este día.',
+            });
+        info.el.style.borderColor = 'red';
+      },
+    });
+      calendar.render();
+  });
+
+
 let contador = 0;
 
 function mayus(e) {
@@ -1905,6 +1982,7 @@ if (document.getElementById("agregar_persona")) {
   agregar_persona.addEventListener("click", agregarPersona, false);
 
   function agregarPersona() {
+
     let nombres         = document.getElementById("nombres").value;
     let apellidos       = document.getElementById("apellidos").value;
     let tipo_documento  = document.getElementById("tipo_documento").value;
@@ -1964,6 +2042,47 @@ if (document.getElementById("agregar_persona")) {
   }
 }
 
+// document.getElementById("fecha_nac").addEventListener("blur", function () {
+//   // Obtener el valor del campo de fecha
+//   let fecha_nac = document.getElementById("fecha_nac").value;
+  
+//   console.log(fecha_nac);
+  
+// });
+
+/* Validacion si persona ya existe */
+
+document.getElementById("n_documento").addEventListener("blur", function () {
+  let n_documento = document.getElementById("n_documento").value;
+
+  if (n_documento) {
+      $.ajax({
+          url: "index.php?page=verificarDocumento",
+          type: "post",
+          dataType: "json",
+          data: { n_documento: n_documento },
+      })
+      .done(function (response) {
+          if (response.success == false) {
+            Swal.fire({
+              icon: "warning",
+              confirmButtonColor: "#3085d6",
+              title: "Atención",
+              text: "El número de documento ingresado ya está registrado.",
+          });
+
+              // Bloquear el botón de guardar si el documento ya existe
+              document.getElementById("agregar_persona").disabled = true;
+          } else {
+              // Desbloquear el botón si el documento está disponible
+              document.getElementById("agregar_persona").disabled = false;
+          }
+      })
+      .fail(function () {
+          console.log("error en la verificación");
+      });
+  }
+});
 
 
 /* -------------- Listar datos para actualización ------------------ */
@@ -2986,81 +3105,6 @@ $(document).ready(function () {
 
 
 
-/* -------------- Citas / Caledario ------------------ */
-
-document.addEventListener('DOMContentLoaded', function() {
-
-  var calendarEl = document.getElementById('DIVcalendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      locale: 'es',
-      selectable: true,
-
-      events: [
-        { 
-            title: 'No hay cita',
-            start: '2024-09-20',
-            end: '2024-09-20',
-            color: '#f1231a',
-        },
-
-        { 
-            title: 'No hay cita',
-            start: '2024-09-25',
-            end: '2024-09-25',
-            color: '#f1231a',
-        }
-      ],
-
-      slotMinTime: function() {
-        // Calcula la fecha de mañana a las 00:00 horas
-        var tomorrow = new Date();
-        //tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        return tomorrow;
-      },
-
-      dateClick: function(info) {
-        var f = info.dateStr;
-        const cadenaFecha = f;
-        var numeroDia = new Date(cadenaFecha).getDay();
-        
-        if (numeroDia == 5 || numeroDia == 6) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'Este días no hay cosultas',
-          });
-        }else if(numeroDia == 3){ //----- esto es para filtrar los dias de trabajo del doctor-----//
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'El especialista no labora éste día.',
-          });
-        }else if (info.date < new Date()) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'No puedes se puede realizar cita para esta fecha.',
-          });
-        }else {
-          // Aquí puedes agregar la lógica para crear un nuevo evento, etc.
-          //alert('Fecha seleccionada: ' + info.dateStr);
-          $('#fecha_cita').val(info.dateStr);
-        }
-      },
-
-      eventClick: function(info) {
-        Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'No hay cupos disponibles para este día.',
-            });
-        info.el.style.borderColor = 'red';
-      },
-    });
-      calendar.render();
-  });
 
 
 /* -------------- Agregar Cita -------------------------- */
@@ -4072,7 +4116,7 @@ function consultarPersona() {
         document.getElementById("tlf_persona").innerHTML =
           response.data.tlf_persona;
         document.getElementById("direccion_persona").innerHTML = response.data.direccion
-        document.getElementById("id_persona").setAttribute("value", response.data.id_persona);
+        document.getElementById("ID").setAttribute("value", response.data.id_persona);
         document.getElementById("edad").innerHTML = response.data.edad
         contenedor_datos_persona.removeAttribute("style");
         Swal.fire({
@@ -4413,65 +4457,6 @@ let id_medicamento = id;
     });
 
 }
-
-/* -------------- Citas / Remover estudio ------------------ */
-function verTratamiento(id)
-{
-
-  
-let id_medicamento = id;
-
-
-    $.ajax({
-        url: "index.php?page=verTratamiento",
-        type: 'post',
-        dataType: 'json',
-        data: {
-          
-              id_medicamento : id_medicamento
-        }
-    })
-    .done(function(response) {
-        if (response.data.success == true) 
-        {
-
-    const tratamiento = `
-     
-      
-      <p><strong>Tratamiento:</strong>
-      <ul style="text-align: left;">
-
-      <li>${response.data.tratamiento}</li>  
-
-    </ul>
-
-    `;
-    Swal.fire({
-        title: "Estas seguro de guardar los datos?",
-        html: tratamiento, // Use HTML for better formatting
-        icon: "warning",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "De acuerdo!"
-    });
-
-        }
-        else
-        {
-    Swal.fire({
-      icon: 'error',
-      title: response.data.message,
-      confirmButtonColor: '#0d6efd',
-      text: response.data.info
-    });
-        }
-    })
-    .fail(function() {
-
-        console.log("error");
-    });
-
-}
-
 
 
 $('#medicamento').select2({
@@ -4998,9 +4983,20 @@ function listarDatosConsulta(id) {
           icono_btn_update.setAttribute("data-id", "");
           btn_update.appendChild(icono_btn_update);
 
-          document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento;
-          document.getElementById(id_presentacion).innerHTML =
-            medicamento.presentacion;
+          if(medicamento.dosis > 1 & medicamento.frecuencia > 1) {
+            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;          
+          } else if (medicamento.dosis > 1 & medicamento.frecuencia == 1) {
+            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;            
+          } else if (medicamento.dosis == 1 & medicamento.frecuencia > 1) {
+            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;            
+          } else {
+            document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+            document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;          
+          }
+         
       
           document
             .getElementById("contenedor_datos_medicamentos_update")
@@ -5016,56 +5012,6 @@ function listarDatosConsulta(id) {
     });
 }
 
-// function modificarPersona() {
-
-//   let id_consulta           = document.getElementById("id_consulta_update").value;
-//   let peso                  = document.getElementById("update_peso").value ;
-//   let altura                = document.getElementById("update_altura").value
-//   let presion_arterial      = document.getElementById("update_presion_arterial").value
-//   let diagnostico           = document.getElementById("update_diagnostico").value
- 
-//   $.ajax({
-//     url: "index.php?page=modificarPersona",
-//     type: "post",
-//     dataType: "json",
-//     data: {
-//       id_persona: id_persona,
-//       tipo_documento: tipo_documento,
-//       n_documento: n_documento,
-//       nombres: nombres,
-//       apellidos: apellidos,
-//       sexo: sexo,
-//       fecha_nac: fecha_nac,
-//       telefono: telefono,
-//       direccion: direccion,
-//       correo: correo,
-//     },
-//   })
-//     .done(function (response) {
-//       if (response.data.success) {
-//         $("#formActualizarPersonas")[0].reset();
-//         $("#modalActualizarPersonas").modal("hide");
-//         $("#tbl_personas").DataTable().ajax.reload();
-
-//         Swal.fire({
-//           icon: "success",
-//           confirmButtonColor: "#3085d6",
-//           title: response.data.message,
-//           text: response.data.info,
-//         });
-//       } else {
-//         Swal.fire({
-//           icon: "error",
-//           confirmButtonColor: "#3085d6",
-//           title: response.data.message,
-//           text: response.data.info,
-//         });
-//       }
-//     })
-//     .fail(function () {
-//       console.log("error");
-//     });
-// }
 
 /* -------------- Obtener datos para actualizar receta médica ------------------ */
 function ModificarRecetaMedica(id) {
@@ -5290,8 +5236,20 @@ document.getElementById("contenedor-actualizar-receta").removeAttribute("style")
               icono_btn_update.setAttribute("data-id", "");
               btn_update.appendChild(icono_btn_update);
     
-              document.getElementById(id_medicamento).innerHTML = medicamento.nombre_medicamento+' '+medicamento.presentacion;
-              document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' '+medicamento.frecuencia+' '+medicamento.dosis+' '+medicamento.cantidad+' '+medicamento.intervalo;          
+              if(medicamento.dosis > 1 & medicamento.frecuencia > 1) {
+                document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;          
+              } else if (medicamento.dosis > 1 & medicamento.frecuencia == 1) {
+                document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+'s cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;            
+              } else if (medicamento.dosis == 1 & medicamento.frecuencia > 1) {
+                document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  horas por '+medicamento.duracion;            
+              } else {
+                document.getElementById(id_medicamento).innerHTML  = medicamento.nombre_medicamento+' '+medicamento.presentacion;
+                document.getElementById(id_presentacion).innerHTML = medicamento.dosis+' '+medicamento.unidad_medida+' cada '+medicamento.frecuencia+'  hora por '+medicamento.duracion;          
+              }
+              
               document
                 .getElementById("contenedor_datos_medicamentos_update")
                 .removeAttribute("style");
